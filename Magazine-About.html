@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f1ea">
+<title>Aurora Magazine | درباره ما</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Vazirmatn','Inter',-apple-system,sans-serif;
+  background:#f5f1ea;
+  color:#1c1815;
+  min-height:100vh;min-height:100dvh;
+  position:relative;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+
+/* ============================================================
+   THEMES (Editorial Palettes)
+   ============================================================ */
+:root{
+  --paper:#f5f1ea;
+  --paper-2:#ebe4d8;
+  --paper-3:#d9cfbc;
+  --ink:#1c1815;
+  --ink-2:#4a4038;
+  --ink-3:#786d61;
+  --ink-4:#a89c8e;
+  --line:#d4c8b4;
+  --line-2:#bfb098;
+  --accent:#8b3a1e;
+  --accent-2:#c75a35;
+  --accent-soft:#f0e4d4;
+  --gold:#a67c52;
+}
+
+[data-palette="terracotta"]{
+  --paper:#f5f1ea;--paper-2:#ebe4d8;--paper-3:#d9cfbc;
+  --ink:#1c1815;--ink-2:#4a4038;--ink-3:#786d61;--ink-4:#a89c8e;
+  --line:#d4c8b4;--line-2:#bfb098;
+  --accent:#8b3a1e;--accent-2:#c75a35;--accent-soft:#f0e4d4;--gold:#a67c52;
+}
+[data-palette="forest"]{
+  --paper:#f0f2ed;--paper-2:#e2e6dd;--paper-3:#c9d0c2;
+  --ink:#141a16;--ink-2:#3d4a40;--ink-3:#68776c;--ink-4:#98a89c;
+  --line:#cbd4c7;--line-2:#a9b5a4;
+  --accent:#2f4f3a;--accent-2:#4a7d5c;--accent-soft:#dfe9df;--gold:#8a9a7d;
+}
+[data-palette="ink"]{
+  --paper:#f0efec;--paper-2:#e0ddd7;--paper-3:#c8c4bb;
+  --ink:#0a0a0a;--ink-2:#2d2d2d;--ink-3:#666666;--ink-4:#a3a3a3;
+  --line:#c9c9c9;--line-2:#a8a8a8;
+  --accent:#0a0a0a;--accent-2:#3d3d3d;--accent-soft:#e5e5e5;--gold:#666666;
+}
+[data-palette="burgundy"]{
+  --paper:#f5eff0;--paper-2:#ebdde0;--paper-3:#d4bcc0;
+  --ink:#1c1015;--ink-2:#4a2d38;--ink-3:#7a5560;--ink-4:#a88a92;
+  --line:#d4bcc0;--line-2:#b8959d;
+  --accent:#6d1f35;--accent-2:#9e3a55;--accent-soft:#eedbe0;--gold:#8b5a6b;
+}
+[data-palette="midnight"]{
+  --paper:#161821;--paper-2:#1e212c;--paper-3:#2a2e3c;
+  --ink:#f0eee8;--ink-2:#c5c2b8;--ink-3:#8a8880;--ink-4:#5a5854;
+  --line:#2e3240;--line-2:#3d4252;
+  --accent:#e8c07d;--accent-2:#f4d299;--accent-soft:#2a2418;--gold:#d4a860;
+}
+[data-palette="cream"]{
+  --paper:#faf7f0;--paper-2:#f0ead9;--paper-3:#ddd4bd;
+  --ink:#2a2418;--ink-2:#5a5140;--ink-3:#8a7d68;--ink-4:#b3a68c;
+  --line:#e0d6be;--line-2:#c7b89a;
+  --accent:#a86a2c;--accent-2:#d18a48;--accent-soft:#f5e8d0;--gold:#c9a063;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  background:var(--paper);
+  color:var(--ink);
+  transition:background .5s ease,color .5s ease;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line-2) transparent;
+}
+.page::-webkit-scrollbar{width:10px}
+.page::-webkit-scrollbar-track{background:var(--paper-2)}
+.page::-webkit-scrollbar-thumb{background:var(--line-2);border:2px solid var(--paper-2)}
+.page::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+
+/* ============================================================
+   MASTHEAD (Magazine header)
+   ============================================================ */
+.masthead{
+  position:sticky;top:0;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  z-index:100;
+  transition:all .3s ease;
+}
+.masthead-top{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 40px;
+  border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.masthead-nav{display:flex;gap:20px}
+.masthead-nav-btn{
+  background:none;border:none;
+  color:var(--ink-3);
+  font-family:inherit;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:4px 0;
+  transition:color .3s ease;
+}
+.masthead-nav-btn:hover{color:var(--accent)}
+
+.masthead-main{
+  padding:24px 40px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:32px;
+  align-items:center;
+}
+.masthead-left,.masthead-right{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.masthead-right{text-align:left}
+html[dir="ltr"] .masthead-right{text-align:right}
+
+.masthead-title{
+  font-family:'Fraunces',serif;
+  font-size:44px;
+  font-weight:400;
+  font-style:italic;
+  letter-spacing:-.02em;
+  line-height:1;
+  text-align:center;
+  color:var(--ink);
+  white-space:nowrap;
+}
+.masthead-title em{font-style:normal;font-weight:600;color:var(--accent)}
+
+.masthead-links{
+  display:flex;
+  gap:0;
+  padding:0 40px 16px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.masthead-links::-webkit-scrollbar{display:none}
+.masthead-link{
+  flex-shrink:0;
+  background:none;border:none;
+  padding:8px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-2);
+  cursor:pointer;
+  transition:all .3s ease;
+  position:relative;
+  display:flex;align-items:center;gap:8px;
+}
+.masthead-link:not(:last-child)::after{
+  content:'◆';
+  position:absolute;
+  left:0;
+  color:var(--line-2);
+  font-size:6px;
+}
+html[dir="ltr"] .masthead-link:not(:last-child)::after{left:auto;right:0}
+.masthead-link:hover{color:var(--accent)}
+.masthead-link.active{color:var(--accent);font-weight:500}
+.masthead-link-num{
+  font-size:9px;
+  color:var(--ink-4);
+}
+
+/* ============================================================
+   COVER (Hero as magazine cover)
+   ============================================================ */
+.cover{
+  min-height:calc(100vh - 130px);
+  min-height:calc(100dvh - 130px);
+  padding:60px 40px 80px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  align-items:end;
+  border-bottom:1px solid var(--line);
+  position:relative;
+}
+
+.cover-left{max-width:640px}
+.cover-issue{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:6px 14px;
+  border:1px solid var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:40px;
+}
+.cover-issue-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:coverDot 2s ease-in-out infinite;
+}
+@keyframes coverDot{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.3);opacity:.6}
+}
+
+.cover-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(72px, 11vw, 180px);
+  font-weight:300;
+  line-height:.9;
+  letter-spacing:-.05em;
+  color:var(--ink);
+  margin-bottom:40px;
+}
+html[dir="rtl"] .cover-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:100;
+  line-height:1.05;
+  letter-spacing:-.04em;
+}
+.cover-title em{
+  font-style:italic;
+  font-weight:600;
+  color:var(--accent);
+  font-family:'Fraunces',serif;
+}
+html[dir="rtl"] .cover-title em{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:800;
+}
+.cover-title .small{
+  display:block;
+  font-size:.5em;
+  font-weight:400;
+  font-style:italic;
+  color:var(--ink-3);
+  margin-top:.15em;
+  letter-spacing:-.01em;
+}
+html[dir="rtl"] .cover-title .small{
+  font-style:normal;
+  font-weight:300;
+}
+
+.cover-lede{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-weight:400;
+  font-style:italic;
+  line-height:1.4;
+  color:var(--ink-2);
+  border-top:1px solid var(--ink);
+  padding-top:24px;
+  max-width:560px;
+}
+html[dir="rtl"] .cover-lede{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:300;
+  font-size:20px;
+  line-height:1.7;
+}
+
+.cover-right{
+  position:relative;
+  aspect-ratio:3/4;
+  overflow:hidden;
+  border:1px solid var(--ink);
+}
+.cover-image{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--paper-3) 0%,var(--paper-2) 40%,var(--accent-soft) 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.cover-image::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0,transparent 20px,rgba(0,0,0,.02) 20px,rgba(0,0,0,.02) 21px),
+    repeating-linear-gradient(-45deg,transparent 0,transparent 20px,rgba(0,0,0,.02) 20px,rgba(0,0,0,.02) 21px);
+}
+.cover-image-letter{
+  font-family:'Fraunces',serif;
+  font-size:clamp(180px, 30vw, 420px);
+  font-weight:300;
+  font-style:italic;
+  line-height:.8;
+  color:var(--accent);
+  opacity:.9;
+  letter-spacing:-.06em;
+  position:relative;
+  z-index:1;
+  animation:coverLetter 15s ease-in-out infinite;
+}
+@keyframes coverLetter{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-20px) rotate(-2deg)}
+}
+.cover-badge{
+  position:absolute;
+  top:20px;left:20px;
+  padding:6px 12px;
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  z-index:3;
+}
+.cover-caption{
+  position:absolute;
+  bottom:20px;left:20px;right:20px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+  font-style:italic;
+  line-height:1.4;
+  color:var(--ink);
+  padding:14px 16px;
+  background:var(--paper);
+  z-index:3;
+}
+html[dir="rtl"] .cover-caption{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.cover-footer{
+  position:absolute;
+  bottom:20px;
+  left:40px;
+  right:40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+.cover-footer-scroll{
+  display:inline-flex;align-items:center;gap:10px;
+  cursor:pointer;
+  transition:color .3s ease;
+}
+.cover-footer-scroll:hover{color:var(--accent)}
+.cover-footer-scroll svg{
+  width:12px;height:12px;
+  stroke:currentColor;fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+  animation:arrowDown 1.8s ease-in-out infinite;
+}
+@keyframes arrowDown{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(4px)}
+}
+
+/* ============================================================
+   SECTION — Editorial
+   ============================================================ */
+.section{
+  padding:100px 40px;
+  border-bottom:1px solid var(--line);
+  position:relative;
+}
+.section-inner{max-width:1440px;margin:0 auto}
+
+/* Section header — Editorial style */
+.ed-header{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:80px;
+  margin-bottom:100px;
+  align-items:start;
+}
+html[dir="rtl"] .ed-header{grid-template-columns:1fr 200px}
+
+.ed-chapter{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  padding-top:16px;
+  position:sticky;
+  top:200px;
+}
+html[dir="rtl"] .ed-chapter{order:2;text-align:left}
+.ed-chapter-num{
+  display:block;
+  font-family:'Fraunces',serif;
+  font-size:56px;
+  font-weight:300;
+  font-style:italic;
+  line-height:1;
+  color:var(--accent);
+  margin-bottom:12px;
+  letter-spacing:-.03em;
+}
+
+.ed-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(42px, 5.5vw, 84px);
+  font-weight:300;
+  line-height:1;
+  letter-spacing:-.04em;
+  color:var(--ink);
+  max-width:900px;
+  margin-bottom:32px;
+}
+html[dir="rtl"] .ed-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+  line-height:1.15;
+  letter-spacing:-.03em;
+}
+.ed-title em{
+  font-style:italic;
+  font-weight:600;
+  color:var(--accent);
+  font-family:'Fraunces',serif;
+}
+html[dir="rtl"] .ed-title em{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:800;
+}
+
+.ed-lede{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;
+  font-style:italic;
+  line-height:1.5;
+  color:var(--ink-2);
+  max-width:680px;
+  padding-top:24px;
+  border-top:1px solid var(--ink);
+}
+html[dir="rtl"] .ed-lede{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:300;
+  font-size:18px;
+  line-height:1.8;
+}
+
+/* ============================================================
+   STORY — Editorial 2-col with drop cap
+   ============================================================ */
+.story-ed{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:48px;
+  align-items:start;
+}
+.story-col-main{grid-column:1/3}
+.story-col-side{grid-column:3}
+html[dir="rtl"] .story-col-main{grid-column:3/4}
+html[dir="rtl"] .story-col-side{grid-column:1/2}
+
+.story-text p{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink-2);
+  margin-bottom:22px;
+}
+html[dir="rtl"] .story-text p{
+  font-family:'Vazirmatn',sans-serif;
+  font-size:15.5px;
+  line-height:1.95;
+  font-weight:400;
+}
+.story-text p:first-of-type::first-letter{
+  font-family:'Fraunces',serif;
+  font-size:88px;
+  font-weight:300;
+  font-style:italic;
+  float:right;
+  line-height:.85;
+  margin-left:14px;
+  margin-top:8px;
+  color:var(--accent);
+}
+html[dir="ltr"] .story-text p:first-of-type::first-letter{
+  float:left;
+  margin-right:14px;
+  margin-left:0;
+}
+
+/* Pull quote */
+.pull-quote{
+  padding:28px 0;
+  border-top:2px solid var(--ink);
+  border-bottom:2px solid var(--ink);
+  margin:32px 0;
+}
+.pull-quote p{
+  font-family:'Fraunces',serif !important;
+  font-size:26px !important;
+  font-weight:400;
+  font-style:italic;
+  line-height:1.35 !important;
+  color:var(--ink) !important;
+  letter-spacing:-.02em;
+}
+html[dir="rtl"] .pull-quote p{
+  font-family:'Vazirmatn',sans-serif !important;
+  font-style:normal;
+  font-weight:600;
+  font-size:22px !important;
+  line-height:1.5 !important;
+}
+.pull-quote-author{
+  display:block;
+  margin-top:16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+
+/* Side column */
+.story-aside{
+  padding:24px;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+}
+.story-aside-title{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:20px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
+.story-aside-stat{
+  margin-bottom:24px;
+}
+.story-aside-stat:last-child{margin-bottom:0}
+.story-aside-num{
+  font-family:'Fraunces',serif;
+  font-size:44px;
+  font-weight:300;
+  line-height:1;
+  color:var(--ink);
+  letter-spacing:-.03em;
+  margin-bottom:6px;
+}
+html[dir="rtl"] .story-aside-num{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+}
+.story-aside-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;
+  font-style:italic;
+  color:var(--ink-3);
+  line-height:1.4;
+}
+html[dir="rtl"] .story-aside-label{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:12.5px;
+}
+
+/* ============================================================
+   MANIFESTO — Big statement
+   ============================================================ */
+.manifesto{
+  background:var(--ink);
+  color:var(--paper);
+  padding:120px 40px;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+  transition:background .5s ease,color .5s ease;
+}
+.manifesto-inner{max-width:1100px;margin:0 auto}
+.manifesto-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:40px;
+}
+.manifesto-text{
+  font-family:'Fraunces',serif;
+  font-size:clamp(32px, 4.5vw, 64px);
+  font-weight:300;
+  line-height:1.1;
+  letter-spacing:-.03em;
+  color:var(--paper);
+  margin-bottom:40px;
+}
+html[dir="rtl"] .manifesto-text{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+  line-height:1.3;
+}
+.manifesto-text em{
+  font-style:italic;
+  font-weight:600;
+  color:var(--accent);
+  font-family:'Fraunces',serif;
+}
+html[dir="rtl"] .manifesto-text em{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:800;
+}
+.manifesto-signature{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  opacity:.6;
+}
+
+/* ============================================================
+   VALUES — Editorial Table
+   ============================================================ */
+.values-table{
+  border-top:1px solid var(--ink);
+}
+.value-row{
+  display:grid;
+  grid-template-columns:80px 1fr 1.5fr auto;
+  gap:40px;
+  padding:40px 0;
+  border-bottom:1px solid var(--line);
+  align-items:center;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+  position:relative;
+}
+.value-row:hover{
+  padding-inline:24px;
+  background:var(--paper-2);
+}
+.value-num{
+  font-family:'Fraunces',serif;
+  font-size:32px;
+  font-weight:300;
+  font-style:italic;
+  color:var(--accent);
+  line-height:1;
+  letter-spacing:-.03em;
+}
+.value-title{
+  font-family:'Fraunces',serif;
+  font-size:32px;
+  font-weight:400;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  line-height:1.1;
+}
+html[dir="rtl"] .value-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:600;
+  font-size:26px;
+}
+.value-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;
+  font-style:italic;
+  line-height:1.5;
+  color:var(--ink-3);
+}
+html[dir="rtl"] .value-desc{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:14px;
+  line-height:1.75;
+}
+.value-mark{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:1px;
+  color:var(--ink-4);
+}
+
+/* ============================================================
+   TIMELINE — Editorial
+   ============================================================ */
+.timeline-ed{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:0;
+  position:relative;
+}
+.tl-ed-item{
+  padding:32px 20px;
+  border-right:1px solid var(--line);
+  border-top:1px solid var(--ink);
+  position:relative;
+  transition:background .3s ease;
+  cursor:pointer;
+  min-height:340px;
+  display:flex;
+  flex-direction:column;
+}
+html[dir="rtl"] .tl-ed-item{border-right:none;border-left:1px solid var(--line)}
+.tl-ed-item:last-child{border-right:none;border-left:none}
+html[dir="rtl"] .tl-ed-item:last-child{border-left:none}
+.tl-ed-item:hover{background:var(--paper-2)}
+
+.tl-ed-year{
+  font-family:'Fraunces',serif;
+  font-size:36px;
+  font-weight:300;
+  font-style:italic;
+  color:var(--accent);
+  line-height:1;
+  letter-spacing:-.03em;
+  margin-bottom:24px;
+}
+.tl-ed-title{
+  font-family:'Fraunces',serif;
+  font-size:20px;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--ink);
+  line-height:1.25;
+  margin-bottom:14px;
+}
+html[dir="rtl"] .tl-ed-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:17px;
+}
+.tl-ed-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+  font-style:italic;
+  line-height:1.55;
+  color:var(--ink-3);
+  flex:1;
+}
+html[dir="rtl"] .tl-ed-desc{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:12.5px;
+  line-height:1.7;
+}
+.tl-ed-index{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--ink-4);
+  margin-top:auto;
+  padding-top:20px;
+}
+
+/* ============================================================
+   TEAM — Editorial Grid
+   ============================================================ */
+.team-ed{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border-top:1px solid var(--ink);
+}
+.member-ed{
+  padding:32px 24px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  transition:background .3s ease;
+  position:relative;
+}
+html[dir="rtl"] .member-ed{border-right:none;border-left:1px solid var(--line)}
+.member-ed:last-child{border-right:none}
+html[dir="rtl"] .member-ed:last-child{border-left:none}
+.member-ed:hover{background:var(--paper-2)}
+
+.member-ed-photo{
+  aspect-ratio:3/4;
+  background:var(--paper-3);
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  transition:all .5s cubic-bezier(.16,1,.3,1);
+}
+.member-ed-photo::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.5));
+  z-index:1;
+}
+.member-ed-photo::after{
+  content:'';
+  position:absolute;inset:0;
+  background:var(--accent);
+  transform:scaleY(0);
+  transform-origin:bottom;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+  z-index:2;
+}
+.member-ed:hover .member-ed-photo::after{transform:scaleY(1)}
+
+.member-ed-letter{
+  position:absolute;
+  inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;
+  font-size:96px;
+  font-weight:300;
+  font-style:italic;
+  color:var(--paper);
+  letter-spacing:-.05em;
+  z-index:3;
+  mix-blend-mode:overlay;
+  transition:color .5s ease;
+}
+html[dir="rtl"] .member-ed-letter{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:800;
+}
+
+.member-ed-index{
+  position:absolute;
+  top:16px;right:16px;
+  z-index:4;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  color:var(--paper);
+  mix-blend-mode:difference;
+}
+html[dir="rtl"] .member-ed-index{right:auto;left:16px}
+
+.member-ed-name{
+  font-family:'Fraunces',serif;
+  font-size:22px;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--ink);
+  margin-bottom:4px;
+  line-height:1.2;
+}
+html[dir="rtl"] .member-ed-name{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:18px;
+}
+.member-ed-role{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+}
+.member-ed-bio{
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px;
+  font-style:italic;
+  line-height:1.55;
+  color:var(--ink-3);
+  padding-top:14px;
+  border-top:1px solid var(--line);
+}
+html[dir="rtl"] .member-ed-bio{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:12px;
+  line-height:1.65;
+}
+
+/* ============================================================
+   AWARDS — Editorial List
+   ============================================================ */
+.awards-ed{
+  border-top:1px solid var(--ink);
+  counter-reset:award;
+}
+.award-ed{
+  display:grid;
+  grid-template-columns:60px 100px 1fr auto;
+  gap:40px;
+  padding:36px 0;
+  border-bottom:1px solid var(--line);
+  align-items:center;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+}
+.award-ed:hover{
+  padding-inline:24px;
+  background:var(--paper-2);
+}
+.award-ed-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:1.5px;
+  color:var(--ink-4);
+}
+.award-ed-year{
+  font-family:'Fraunces',serif;
+  font-size:32px;
+  font-weight:300;
+  font-style:italic;
+  color:var(--accent);
+  line-height:1;
+  letter-spacing:-.03em;
+}
+.award-ed-content h3{
+  font-family:'Fraunces',serif;
+  font-size:24px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:6px;
+  line-height:1.2;
+  letter-spacing:-.01em;
+}
+html[dir="rtl"] .award-ed-content h3{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:600;
+  font-size:20px;
+}
+.award-ed-content p{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;
+  font-style:italic;
+  color:var(--ink-3);
+}
+html[dir="rtl"] .award-ed-content p{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:13px;
+}
+.award-ed-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--paper);
+  background:var(--ink);
+  padding:8px 14px;
+}
+
+/* ============================================================
+   OFFICES — Editorial Map
+   ============================================================ */
+.offices-ed{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border-top:1px solid var(--ink);
+}
+.office-ed{
+  padding:40px 28px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+  transition:background .3s ease;
+  position:relative;
+  min-height:280px;
+  display:flex;
+  flex-direction:column;
+}
+html[dir="rtl"] .office-ed{border-right:none;border-left:1px solid var(--line)}
+.office-ed:last-child{border-right:none}
+html[dir="rtl"] .office-ed:last-child{border-left:none}
+.office-ed:hover{background:var(--paper-2)}
+
+.office-ed-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  color:var(--accent);
+  margin-bottom:20px;
+}
+.office-ed-flag{
+  font-size:36px;
+  margin-bottom:16px;
+  filter:saturate(.8);
+}
+.office-ed-city{
+  font-family:'Fraunces',serif;
+  font-size:32px;
+  font-weight:400;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  line-height:1;
+  margin-bottom:6px;
+}
+html[dir="rtl"] .office-ed-city{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:26px;
+}
+.office-ed-country{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin-bottom:auto;
+  padding-bottom:20px;
+}
+.office-ed-address{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+  font-style:italic;
+  line-height:1.5;
+  color:var(--ink-2);
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+html[dir="rtl"] .office-ed-address{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:12.5px;
+  line-height:1.7;
+}
+
+/* ============================================================
+   CTA — Editorial
+   ============================================================ */
+.cta-ed{
+  padding:140px 40px;
+  text-align:center;
+  background:var(--paper-2);
+  border-bottom:1px solid var(--line);
+}
+.cta-ed-inner{max-width:1000px;margin:0 auto}
+.cta-ed-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:32px;
+}
+.cta-ed-title{
+  font-family:'Fraunces',serif;
+  font-size:clamp(44px, 7vw, 108px);
+  font-weight:300;
+  line-height:.95;
+  letter-spacing:-.05em;
+  color:var(--ink);
+  margin-bottom:32px;
+}
+html[dir="rtl"] .cta-ed-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:100;
+  line-height:1.1;
+  letter-spacing:-.04em;
+}
+.cta-ed-title em{
+  font-style:italic;
+  font-weight:600;
+  color:var(--accent);
+}
+html[dir="rtl"] .cta-ed-title em{
+  font-style:normal;
+  font-weight:800;
+}
+.cta-ed-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;
+  font-style:italic;
+  line-height:1.5;
+  color:var(--ink-2);
+  max-width:600px;
+  margin:0 auto 48px;
+}
+html[dir="rtl"] .cta-ed-desc{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-weight:300;
+  font-size:17px;
+  line-height:1.8;
+}
+.cta-ed-buttons{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.cta-ed-btn{
+  padding:18px 40px;
+  border:1px solid var(--ink);
+  background:transparent;
+  color:var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  display:inline-flex;align-items:center;gap:12px;
+  position:relative;
+  overflow:hidden;
+}
+.cta-ed-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--ink);
+  transform:translateY(101%);
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  z-index:0;
+}
+.cta-ed-btn:hover::before{transform:translateY(0)}
+.cta-ed-btn:hover{color:var(--paper)}
+.cta-ed-btn > *{position:relative;z-index:1}
+.cta-ed-btn svg{
+  width:14px;height:14px;
+  stroke:currentColor;fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+  transition:transform .3s ease;
+}
+.cta-ed-btn:hover svg{transform:translateX(-3px)}
+html[dir="ltr"] .cta-ed-btn:hover svg{transform:translateX(3px)}
+
+.cta-ed-btn.primary{
+  background:var(--ink);
+  color:var(--paper);
+}
+.cta-ed-btn.primary::before{background:var(--accent)}
+.cta-ed-btn.primary:hover{color:#fff}
+
+/* ============================================================
+   FOOTER — Editorial Colophon
+   ============================================================ */
+.footer-ed{
+  background:var(--paper);
+  border-top:1px solid var(--ink);
+  padding:80px 40px 40px;
+}
+.footer-ed-inner{max-width:1440px;margin:0 auto}
+
+.footer-ed-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:60px;
+  padding-bottom:60px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:40px;
+}
+.footer-ed-brand{
+  font-family:'Fraunces',serif;
+  font-size:52px;
+  font-weight:300;
+  font-style:italic;
+  letter-spacing:-.03em;
+  color:var(--ink);
+  line-height:1;
+  margin-bottom:20px;
+}
+.footer-ed-brand em{font-style:normal;font-weight:600;color:var(--accent)}
+.footer-ed-desc{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;
+  font-style:italic;
+  line-height:1.6;
+  color:var(--ink-3);
+  max-width:340px;
+}
+html[dir="rtl"] .footer-ed-desc{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:13.5px;
+  line-height:1.8;
+}
+
+.footer-ed-col-title{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:20px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
+.footer-ed-links{display:flex;flex-direction:column;gap:14px}
+.footer-ed-link{
+  background:none;border:none;
+  color:var(--ink-2);
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;
+  cursor:pointer;
+  text-align:inherit;
+  padding:0;
+  transition:color .3s ease;
+  display:inline-flex;align-items:center;gap:8px;
+  width:fit-content;
+  font-style:italic;
+}
+html[dir="rtl"] .footer-ed-link{
+  font-family:'Vazirmatn',sans-serif;
+  font-style:normal;
+  font-size:14px;
+}
+.footer-ed-link:hover{color:var(--accent)}
+.footer-ed-link::before{
+  content:'→';
+  font-family:'JetBrains Mono',monospace;
+  font-style:normal;
+  font-size:12px;
+  opacity:0;
+  transition:all .3s ease;
+  transform:translateX(4px);
+}
+html[dir="rtl"] .footer-ed-link::before{
+  content:'←';
+  transform:translateX(-4px);
+}
+.footer-ed-link:hover::before{opacity:1;transform:translateX(0)}
+
+.footer-ed-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:32px;
+  border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:1.5px;
+  color:var(--ink-3);
+}
+.footer-ed-bottom-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-ed-bottom-link{
+  background:none;border:none;
+  color:var(--ink-3);
+  font-family:inherit;
+  font-size:10.5px;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  padding:0;
+  transition:color .3s ease;
+}
+.footer-ed-bottom-link:hover{color:var(--accent)}
+
+.footer-ed-mark{
+  font-family:'Fraunces',serif;
+  font-size:clamp(100px, 20vw, 280px);
+  font-weight:300;
+  font-style:italic;
+  line-height:.8;
+  letter-spacing:-.05em;
+  color:var(--ink);
+  opacity:.04;
+  text-align:center;
+  margin-top:40px;
+  user-select:none;
+  pointer-events:none;
+}
+
+/* ============================================================
+   PALETTE SWITCHER
+   ============================================================ */
+.palette-switcher{
+  position:fixed;
+  bottom:24px;
+  left:24px;
+  z-index:200;
+  display:flex;
+  gap:8px;
+  padding:10px 14px;
+  background:var(--paper);
+  border:1px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  transition:all .3s ease;
+}
+.palette-dot{
+  width:22px;height:22px;
+  border-radius:50%;
+  border:1px solid var(--ink);
+  cursor:pointer;
+  padding:0;
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.palette-dot:hover{transform:scale(1.15)}
+.palette-dot.on{
+  box-shadow:inset 0 0 0 3px var(--paper);
+  transform:scale(1.1);
+}
+.palette-dot[data-p="terracotta"]{background:#8b3a1e}
+.palette-dot[data-p="forest"]{background:#2f4f3a}
+.palette-dot[data-p="ink"]{background:#0a0a0a}
+.palette-dot[data-p="burgundy"]{background:#6d1f35}
+.palette-dot[data-p="midnight"]{background:#161821}
+.palette-dot[data-p="cream"]{background:#faf7f0}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%) translateY(150px);
+  padding:14px 24px;
+  background:var(--ink);
+  color:var(--paper);
+  border:1px solid var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  transition:all .5s cubic-bezier(.16,1,.3,1);
+  z-index:1000;
+  pointer-events:none;
+  box-shadow:4px 4px 0 var(--accent);
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-icon{
+  width:16px;height:16px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.toast-icon svg{
+  width:100%;height:100%;
+  stroke:currentColor;fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in-view{opacity:1;transform:translateY(0)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1100px){
+  .cover{grid-template-columns:1fr;gap:40px;min-height:auto;padding:40px}
+  .cover-right{aspect-ratio:16/10;order:-1;max-height:400px}
+  .story-ed{grid-template-columns:1fr;gap:32px}
+  .story-col-main,.story-col-side{grid-column:auto !important}
+  .timeline-ed{grid-template-columns:repeat(3,1fr)}
+  .tl-ed-item:nth-child(3){border-right:none}
+  html[dir="rtl"] .tl-ed-item:nth-child(3){border-left:none}
+  .team-ed{grid-template-columns:repeat(2,1fr)}
+  .member-ed:nth-child(2){border-right:none}
+  html[dir="rtl"] .member-ed:nth-child(2){border-left:none}
+  .offices-ed{grid-template-columns:repeat(2,1fr)}
+  .office-ed:nth-child(2){border-right:none}
+  html[dir="rtl"] .office-ed:nth-child(2){border-left:none}
+  .footer-ed-top{grid-template-columns:1fr 1fr;gap:40px}
+}
+
+@media(max-width:768px){
+  .masthead-top{padding:8px 20px;font-size:9px}
+  .masthead-nav{display:none}
+  .masthead-main{padding:16px 20px;grid-template-columns:1fr;gap:12px;text-align:center}
+  .masthead-left,.masthead-right{display:none}
+  .masthead-title{font-size:32px}
+  .masthead-links{padding:0 20px 12px}
+  .masthead-link{padding:6px 12px;font-size:10px}
+
+  .cover{padding:32px 20px 60px}
+  .cover-title{font-size:64px}
+  .cover-issue{margin-bottom:24px;padding:5px 12px;font-size:9px}
+  .cover-lede{font-size:15px;padding-top:20px;line-height:1.7}
+
+  .section{padding:60px 20px}
+  .ed-header{grid-template-columns:1fr !important;gap:16px;margin-bottom:60px}
+  .ed-chapter{order:0 !important;text-align:inherit !important;position:static !important;padding-top:0}
+  .ed-chapter-num{font-size:36px;margin-bottom:8px}
+  .ed-title{font-size:36px;margin-bottom:20px}
+  .ed-lede{font-size:15px;padding-top:16px;line-height:1.75}
+
+  .pull-quote p{font-size:20px !important;line-height:1.35 !important}
+  html[dir="rtl"] .pull-quote p{font-size:18px !important;line-height:1.5 !important}
+  .story-aside{padding:20px}
+  .story-aside-num{font-size:32px}
+
+  .manifesto{padding:80px 20px}
+  .manifesto-text{font-size:28px;line-height:1.2}
+  html[dir="rtl"] .manifesto-text{font-size:24px;line-height:1.35}
+
+  .value-row{
+    grid-template-columns:60px 1fr;
+    gap:16px;
+    padding:24px 0;
+  }
+  .value-desc{grid-column:1/-1;padding-top:8px}
+  .value-mark{display:none}
+  .value-title{font-size:20px}
+  html[dir="rtl"] .value-title{font-size:18px}
+  .value-num{font-size:24px}
+
+  .timeline-ed{grid-template-columns:1fr 1fr}
+  .tl-ed-item{border-left:none !important;border-right:none !important;border-top:1px solid var(--ink);padding:24px 16px;min-height:auto}
+  .tl-ed-item:nth-child(odd){border-right:1px solid var(--line) !important}
+  html[dir="rtl"] .tl-ed-item:nth-child(odd){border-right:none !important;border-left:1px solid var(--line) !important}
+
+  .team-ed{grid-template-columns:1fr 1fr}
+  .member-ed{padding:24px 16px}
+  .member-ed-name{font-size:16px}
+  .member-ed-letter{font-size:64px}
+
+  .award-ed{grid-template-columns:1fr;gap:12px;padding:24px 0}
+  .award-ed:hover{padding-inline:16px}
+  .award-ed-year{font-size:24px}
+  .award-ed-content h3{font-size:17px}
+  .award-ed-badge{align-self:flex-start}
+
+  .offices-ed{grid-template-columns:1fr}
+  .office-ed{border-left:none !important;border-right:none !important;min-height:auto;padding:28px 20px}
+  .office-ed-city{font-size:22px}
+
+  .cta-ed{padding:80px 24px}
+  .cta-ed-title{font-size:40px}
+  html[dir="rtl"] .cta-ed-title{font-size:32px}
+  .cta-ed-desc{font-size:15px}
+  html[dir="rtl"] .cta-ed-desc{font-size:14px}
+  .cta-ed-btn{padding:14px 28px;font-size:10px}
+
+  .footer-ed{padding:60px 20px 30px}
+  .footer-ed-top{grid-template-columns:1fr;gap:32px}
+  .footer-ed-brand{font-size:36px}
+  .footer-ed-bottom{flex-direction:column;gap:16px;text-align:center}
+
+  .palette-switcher{bottom:16px;left:16px;padding:8px 12px}
+  .palette-dot{width:18px;height:18px}
+}
+
+@media(max-width:480px){
+  .cover-title{font-size:52px}
+  .cover-image-letter{font-size:160px}
+  .ed-title{font-size:28px}
+  html[dir="rtl"] .ed-title{font-size:26px}
+  .manifesto-text{font-size:22px}
+  html[dir="rtl"] .manifesto-text{font-size:20px}
+  .cta-ed-title{font-size:32px}
+  html[dir="rtl"] .cta-ed-title{font-size:26px}
+  .timeline-ed{grid-template-columns:1fr}
+  .tl-ed-item{border-right:none !important;border-left:none !important}
+  html[dir="rtl"] .tl-ed-item{border-right:none !important;border-left:none !important}
+  .team-ed{grid-template-columns:1fr}
+  .member-ed{border-left:none !important;border-right:none !important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-palette="terracotta">
+
+<div class="page" id="page">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="masthead-nav">
+        <button class="masthead-nav-btn" data-fa="شماره ۱۲" data-en="Issue 12">شماره ۱۲</button>
+        <button class="masthead-nav-btn" data-fa="بهار ۱۴۰۴" data-en="Spring 2025">بهار ۱۴۰۴</button>
+      </div>
+      <div>
+        <span data-fa="کرونیکل شرکت" data-en="The Company Chronicle">کرونیکل شرکت</span>
+      </div>
+    </div>
+
+    <div class="masthead-main">
+      <div class="masthead-left">
+        <span data-fa="تأسیس ۱۳۹۷" data-en="Est. 2018">تأسیس ۱۳۹۷</span>
+      </div>
+      <h1 class="masthead-title">Aurora<em>.</em></h1>
+      <div class="masthead-right">
+        <button class="masthead-nav-btn" onclick="toggleLang()" id="langBtn">EN</button>
+      </div>
+    </div>
+
+    <nav class="masthead-links">
+      <button class="masthead-link active" onclick="scrollToId('story')">
+        <span class="masthead-link-num">01</span>
+        <span data-fa="داستان" data-en="Story">داستان</span>
+      </button>
+      <button class="masthead-link" onclick="scrollToId('values')">
+        <span class="masthead-link-num">02</span>
+        <span data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</span>
+      </button>
+      <button class="masthead-link" onclick="scrollToId('timeline')">
+        <span class="masthead-link-num">03</span>
+        <span data-fa="تاریخچه" data-en="History">تاریخچه</span>
+      </button>
+      <button class="masthead-link" onclick="scrollToId('team')">
+        <span class="masthead-link-num">04</span>
+        <span data-fa="تیم" data-en="Team">تیم</span>
+      </button>
+      <button class="masthead-link" onclick="scrollToId('awards')">
+        <span class="masthead-link-num">05</span>
+        <span data-fa="جوایز" data-en="Awards">جوایز</span>
+      </button>
+      <button class="masthead-link" onclick="scrollToId('offices')">
+        <span class="masthead-link-num">06</span>
+        <span data-fa="دفاتر" data-en="Offices">دفاتر</span>
+      </button>
+      <button class="masthead-link" onclick="scrollToId('contact')">
+        <span class="masthead-link-num">07</span>
+        <span data-fa="تماس" data-en="Contact">تماس</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ============ COVER ============ -->
+  <section class="cover">
+    <div class="cover-left">
+      <div class="cover-issue">
+        <span class="cover-issue-dot"></span>
+        <span data-fa="شماره ویژه — داستان Aurora" data-en="Special Issue — The Aurora Story">شماره ویژه — داستان Aurora</span>
+      </div>
+
+      <h2 class="cover-title">
+        <span data-fa="ما چیزهایی می‌سازیم که <em>ماندگار</em> هستند" data-en="We build things that <em>last</em>">ما چیزهایی می‌سازیم که <em>ماندگار</em> هستند</span>
+        <span class="small" data-fa="روایتی از هفت سال ساختن، یادگیری، و رشد" data-en="A story of seven years building, learning, and growing">روایتی از هفت سال ساختن، یادگیری، و رشد</span>
+      </h2>
+
+      <p class="cover-lede" data-fa="در این شماره، داستان Aurora را روایت می‌کنیم — از ایده اولیه چهار جوان در تهران تا تیمی ۲۴۷ نفره در چهار قاره. این داستان درباره فناوری نیست؛ درباره آدم‌هاست." data-en="In this issue, we tell the story of Aurora — from the initial idea of four young people in Tehran to a 247-person team across four continents. This isn't a story about technology; it's about people.">
+        در این شماره، داستان Aurora را روایت می‌کنیم — از ایده اولیه چهار جوان در تهران تا تیمی ۲۴۷ نفره در چهار قاره. این داستان درباره فناوری نیست؛ درباره آدم‌هاست.
+      </p>
+    </div>
+
+    <div class="cover-right">
+      <div class="cover-badge" data-fa="جلد" data-en="Cover">جلد</div>
+      <div class="cover-image">
+        <span class="cover-image-letter">A</span>
+      </div>
+      <div class="cover-caption" data-fa="Aurora — پرتره‌ای از یک شرکت که با باور به سادگی ساخته شد." data-en="Aurora — a portrait of a company built on the belief in simplicity.">
+        Aurora — پرتره‌ای از یک شرکت که با باور به سادگی ساخته شد.
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <div>
+        <span data-fa="۰۱ — ۰۷" data-en="01 — 07">۰۱ — ۰۷</span>
+      </div>
+      <div class="cover-footer-scroll" onclick="scrollToId('story')">
+        <span data-fa="ادامه در صفحه بعد" data-en="Continued on next page">ادامه در صفحه بعد</span>
+        <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div>
+        <span data-fa="بهار ۱۴۰۴" data-en="Spring 2025">بهار ۱۴۰۴</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="section" id="story">
+    <div class="section-inner">
+      <div class="ed-header reveal">
+        <div class="ed-chapter">
+          <span class="ed-chapter-num">01</span>
+          <span data-fa="فصل اول" data-en="Chapter One">فصل اول</span>
+        </div>
+        <div>
+          <h2 class="ed-title" data-fa="از یک ایده <em>ساده</em>، تا یک واقعیت پیچیده" data-en="From a <em>simple</em> idea to a complex reality">از یک ایده <em>ساده</em>، تا یک واقعیت پیچیده</h2>
+          <p class="ed-lede" data-fa="چگونه چهار نفر، یک باور مشترک، و یک اتاق کوچک، پایه‌گذار شرکتی شدند که امروز میلیون‌ها کاربر دارد." data-en="How four people, one shared belief, and a small room founded a company that now serves millions.">
+            چگونه چهار نفر، یک باور مشترک، و یک اتاق کوچک، پایه‌گذار شرکتی شدند که امروز میلیون‌ها کاربر دارد.
+          </p>
+        </div>
+      </div>
+
+      <div class="story-ed reveal">
+        <div class="story-col-main">
+          <div class="story-text">
+            <p data-fa="سال ۱۳۹۷، در آپارتمانی کوچک در تهران، چهار متخصص فناوری تصمیم گرفتند چیزی بسازند که تا آن زمان وجود نداشت: زیرساخت امنیتی که هم امن باشد و هم زیبا. آن روزها، کاربران مجبور بودند بین این دو یکی را انتخاب کنند." data-en="In 2018, in a small apartment in Tehran, four technology specialists decided to build something that didn't exist at the time: a security infrastructure that was both secure and beautiful. Back then, users had to choose between the two.">
+              سال ۱۳۹۷، در آپارتمانی کوچک در تهران، چهار متخصص فناوری تصمیم گرفتند چیزی بسازند که تا آن زمان وجود نداشت: زیرساخت امنیتی که هم امن باشد و هم زیبا. آن روزها، کاربران مجبور بودند بین این دو یکی را انتخاب کنند.
+            </p>
+
+            <p data-fa="اولین نسخه محصول، تنها در ۹۰ روز نوشته شد. اما آن ۹۰ روز، شامل ۹۰ شب بی‌خوابی بود. هر روز یک تصمیم جدید، هر شب یک نسخه جدید. تیم کوچک ما نمی‌دانست آینده چه می‌شود، اما مطمئن بود که مسیر درست است." data-en="The first version of the product was written in only 90 days. But those 90 days included 90 sleepless nights. Every day a new decision, every night a new version. Our small team didn't know the future, but was certain the path was right.">
+              اولین نسخه محصول، تنها در ۹۰ روز نوشته شد. اما آن ۹۰ روز، شامل ۹۰ شب بی‌خوابی بود. هر روز یک تصمیم جدید، هر شب یک نسخه جدید. تیم کوچک ما نمی‌دانست آینده چه می‌شود، اما مطمئن بود که مسیر درست است.
+            </p>
+
+            <div class="pull-quote">
+              <p data-fa="«ما نمی‌خواستیم بزرگ‌ترین باشیم. می‌خواستیم بهترین باشیم. تفاوت این دو، در همه تصمیمات ما جاری است.»" data-en="«We didn't want to be the biggest. We wanted to be the best. The difference between the two runs through all our decisions.»">
+                «ما نمی‌خواستیم بزرگ‌ترین باشیم. می‌خواستیم بهترین باشیم. تفاوت این دو، در همه تصمیمات ما جاری است.»
+              </p>
+              <span class="pull-quote-author" data-fa="علی رضایی — بنیان‌گذار" data-en="Ali Rezaei — Founder">علی رضایی — بنیان‌گذار</span>
+            </div>
+
+            <p data-fa="امروز، پس از هفت سال، بیش از ۱.۲ میلیون کاربر به Aurora اعتماد می‌کنند. تیم ما از ۴ نفر به ۲۴۷ نفر رسیده. دفاتر ما در تهران، دبی، لندن، و نیویورک فعال هستند. اما فلسفه ما همان است که در روز اول بود." data-en="Today, after seven years, more than 1.2 million users trust Aurora. Our team has grown from 4 to 247. Our offices are active in Tehran, Dubai, London, and New York. But our philosophy is the same as day one.">
+              امروز، پس از هفت سال، بیش از ۱.۲ میلیون کاربر به Aurora اعتماد می‌کنند. تیم ما از ۴ نفر به ۲۴۷ نفر رسیده. دفاتر ما در تهران، دبی، لندن، و نیویورک فعال هستند. اما فلسفه ما همان است که در روز اول بود.
+            </p>
+          </div>
+        </div>
+
+        <aside class="story-col-side">
+          <div class="story-aside">
+            <div class="story-aside-title" data-fa="اعداد کلیدی" data-en="Key Numbers">اعداد کلیدی</div>
+
+            <div class="story-aside-stat">
+              <div class="story-aside-num" data-counter="1250000">0</div>
+              <div class="story-aside-label" data-fa="کاربر فعال در سراسر جهان" data-en="Active users worldwide">کاربر فعال در سراسر جهان</div>
+            </div>
+
+            <div class="story-aside-stat">
+              <div class="story-aside-num" data-counter="45">0</div>
+              <div class="story-aside-label" data-fa="کشور در چهار قاره" data-en="Countries on four continents">کشور در چهار قاره</div>
+            </div>
+
+            <div class="story-aside-stat">
+              <div class="story-aside-num" data-counter="247">0</div>
+              <div class="story-aside-label" data-fa="عضو تیم در سراسر جهان" data-en="Team members worldwide">عضو تیم در سراسر جهان</div>
+            </div>
+
+            <div class="story-aside-stat">
+              <div class="story-aside-num">۷</div>
+              <div class="story-aside-label" data-fa="سال از تأسیس" data-en="Years since founding">سال از تأسیس</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MANIFESTO ============ -->
+  <section class="manifesto">
+    <div class="manifesto-inner reveal">
+      <div class="manifesto-label" data-fa="مانیفست Aurora" data-en="The Aurora Manifesto">مانیفست Aurora</div>
+      <p class="manifesto-text" data-fa="ما باور داریم فناوری باید زندگی را <em>ساده‌تر</em> کند، نه پیچیده‌تر. امنیت نباید قربانی زیبایی شود، و زیبایی نباید قربانی امنیت." data-en="We believe technology should make life <em>simpler</em>, not more complex. Security should not sacrifice beauty, and beauty should not sacrifice security.">
+        ما باور داریم فناوری باید زندگی را <em>ساده‌تر</em> کند، نه پیچیده‌تر. امنیت نباید قربانی زیبایی شود، و زیبایی نباید قربانی امنیت.
+      </p>
+      <div class="manifesto-signature" data-fa="— تیم Aurora، بهار ۱۴۰۴" data-en="— The Aurora Team, Spring 2025">— تیم Aurora، بهار ۱۴۰۴</div>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="section" id="values">
+    <div class="section-inner">
+      <div class="ed-header reveal">
+        <div class="ed-chapter">
+          <span class="ed-chapter-num">02</span>
+          <span data-fa="فصل دوم" data-en="Chapter Two">فصل دوم</span>
+        </div>
+        <div>
+          <h2 class="ed-title" data-fa="پنج اصلی که هر <em>تصمیم</em> ما را شکل می‌دهند" data-en="Five principles that shape every <em>decision</em>">پنج اصلی که هر <em>تصمیم</em> ما را شکل می‌دهند</h2>
+          <p class="ed-lede" data-fa="این اصول، فقط شعار نیستند. آن‌ها راهنمای روزانه ما در هر کاری هستند که انجام می‌دهیم." data-en="These principles aren't just slogans. They are our daily guide in everything we do.">
+            این اصول، فقط شعار نیستند. آن‌ها راهنمای روزانه ما در هر کاری هستند که انجام می‌دهیم.
+          </p>
+        </div>
+      </div>
+
+      <div class="values-table reveal">
+        <div class="value-row">
+          <span class="value-num">۰۱</span>
+          <h3 class="value-title" data-fa="کیفیت" data-en="Quality">کیفیت</h3>
+          <p class="value-desc" data-fa="ما هرگز کیفیت را قربانی سرعت نمی‌کنیم. اگر لازم باشد دیر تحویل بدهیم، اما درست تحویل بدهیم." data-en="We never sacrifice quality for speed. If we have to deliver late, we deliver right.">ما هرگز کیفیت را قربانی سرعت نمی‌کنیم. اگر لازم باشد دیر تحویل بدهیم، اما درست تحویل بدهیم.</p>
+          <span class="value-mark">Quality</span>
+        </div>
+
+        <div class="value-row">
+          <span class="value-num">۰۲</span>
+          <h3 class="value-title" data-fa="سادگی" data-en="Simplicity">سادگی</h3>
+          <p class="value-desc" data-fa="هر خط کدی که می‌نویسیم، هر تصمیم طراحی که می‌گیریم، با پرسش «آیا این ساده‌تر می‌کند؟» آغاز می‌شود." data-en="Every line of code we write, every design decision we make, starts with the question 'does this make it simpler?'">هر خط کدی که می‌نویسیم، هر تصمیم طراحی که می‌گیریم، با پرسش «آیا این ساده‌تر می‌کند؟» آغاز می‌شود.</p>
+          <span class="value-mark">Simplicity</span>
+        </div>
+
+        <div class="value-row">
+          <span class="value-num">۰۳</span>
+          <h3 class="value-title" data-fa="امنیت" data-en="Security">امنیت</h3>
+          <p class="value-desc" data-fa="امنیت کاربران، خط سرخ ماست. هیچ راحتی و سرعتی، ارزش قربانی کردن امنیت را ندارد." data-en="User security is our red line. No convenience or speed is worth sacrificing security.">امنیت کاربران، خط سرخ ماست. هیچ راحتی و سرعتی، ارزش قربانی کردن امنیت را ندارد.</p>
+          <span class="value-mark">Security</span>
+        </div>
+
+        <div class="value-row">
+          <span class="value-num">۰۴</span>
+          <h3 class="value-title" data-fa="شفافیت" data-en="Transparency">شفافیت</h3>
+          <p class="value-desc" data-fa="با کاربران، همکاران، و شریکان خود کاملاً شفاف هستیم. هیچ چیز پنهانی در Aurora وجود ندارد." data-en="We are fully transparent with users, colleagues, and partners. Nothing is hidden at Aurora.">با کاربران، همکاران، و شریکان خود کاملاً شفاف هستیم. هیچ چیز پنهانی در Aurora وجود ندارد.</p>
+          <span class="value-mark">Transparency</span>
+        </div>
+
+        <div class="value-row">
+          <span class="value-num">۰۵</span>
+          <h3 class="value-title" data-fa="احترام" data-en="Respect">احترام</h3>
+          <p class="value-desc" data-fa="با هر کاربر، هر همکار، و هر شریک، با احترام کامل رفتار می‌کنیم. بدون استثنا." data-en="We treat every user, colleague, and partner with full respect. Without exception.">با هر کاربر، هر همکار، و هر شریک، با احترام کامل رفتار می‌کنیم. بدون استثنا.</p>
+          <span class="value-mark">Respect</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline">
+    <div class="section-inner">
+      <div class="ed-header reveal">
+        <div class="ed-chapter">
+          <span class="ed-chapter-num">03</span>
+          <span data-fa="فصل سوم" data-en="Chapter Three">فصل سوم</span>
+        </div>
+        <div>
+          <h2 class="ed-title" data-fa="هفت سال، <em>هفت</em> نقطه عطف" data-en="Seven years, <em>seven</em> milestones">هفت سال، <em>هفت</em> نقطه عطف</h2>
+          <p class="ed-lede" data-fa="هر سال، یک داستان جدید. هر داستان، یک قدم به جلو. این نقشه راه ماست." data-en="Every year, a new story. Every story, a step forward. This is our roadmap.">
+            هر سال، یک جدید. هر داستان، یک قدم به جلو. این نقشه راه ماست.
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline-ed reveal">
+        <div class="tl-ed-item">
+          <div class="tl-ed-year">۱۳۹۷</div>
+          <div class="tl-ed-title" data-fa="تأسیس Aurora" data-en="Aurora Founded">تأسیس Aurora</div>
+          <div class="tl-ed-desc" data-fa="چهار نفر، یک اتاق، یک ایده بزرگ." data-en="Four people, one room, one big idea.">چهار نفر، یک اتاق، یک ایده بزرگ.</div>
+          <div class="tl-ed-index">2018</div>
+        </div>
+
+        <div class="tl-ed-item">
+          <div class="tl-ed-year">۱۳۹۸</div>
+          <div class="tl-ed-title" data-fa="اولین مشتری" data-en="First Customer">اولین مشتری</div>
+          <div class="tl-ed-desc" data-fa="اولین شرکت که به ما اعتماد کرد." data-en="The first company that trusted us.">اولین شرکت که به ما اعتماد کرد.</div>
+          <div class="tl-ed-index">2019</div>
+        </div>
+
+        <div class="tl-ed-item">
+          <div class="tl-ed-year">۱۴۰۰</div>
+          <div class="tl-ed-title" data-fa="دفتر دبی" data-en="Dubai Office">دفتر دبی</div>
+          <div class="tl-ed-desc" data-fa="ورود به بازار خاورمیانه." data-en="Entering the Middle East market.">ورود به بازار خاورمیانه.</div>
+          <div class="tl-ed-index">2021</div>
+        </div>
+
+        <div class="tl-ed-item">
+          <div class="tl-ed-year">۱۴۰۱</div>
+          <div class="tl-ed-title" data-fa="دفتر لندن" data-en="London Office">دفتر لندن</div>
+          <div class="tl-ed-desc" data-fa="گسترش به اروپا." data-en="Expansion to Europe.">گسترش به اروپا.</div>
+          <div class="tl-ed-index">2022</div>
+        </div>
+
+        <div class="tl-ed-item">
+          <div class="tl-ed-year">۱۴۰۲</div>
+          <div class="tl-ed-title" data-fa="یک میلیون کاربر" data-en="One Million Users">یک میلیون کاربر</div>
+          <div class="tl-ed-desc" data-fa="مهم‌ترین نقطه عطف تا این لحظه." data-en="The most important milestone so far.">مهم‌ترین نقطه عطف تا این لحظه.</div>
+          <div class="tl-ed-index">2023</div>
+        </div>
+
+        <div class="tl-ed-item">
+          <div class="tl-ed-year">۱۴۰۴</div>
+          <div class="tl-ed-title" data-fa="Aurora 4.0" data-en="Aurora 4.0">Aurora 4.0</div>
+          <div class="tl-ed-desc" data-fa="نسخه چهارم با هوش مصنوعی." data-en="Fourth generation with AI.">نسخه چهارم با هوش مصنوعی.</div>
+          <div class="tl-ed-index">2025</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section" id="team">
+    <div class="section-inner">
+      <div class="ed-header reveal">
+        <div class="ed-chapter">
+          <span class="ed-chapter-num">04</span>
+          <span data-fa="فصل چهارم" data-en="Chapter Four">فصل چهارم</span>
+        </div>
+        <div>
+          <h2 class="ed-title" data-fa="چهار <em>پرتره</em> از تیمی که Aurora را می‌سازد" data-en="Four <em>portraits</em> from the team building Aurora">چهار <em>پرتره</em> از تیمی که Aurora را می‌سازد</h2>
+          <p class="ed-lede" data-fa="تیم رهبری Aurora، از چهار متخصص با دهه‌ها تجربه در شرکت‌های معتبر فناوری." data-en="Aurora's leadership team, from four specialists with decades of experience in leading tech companies.">
+            تیم رهبری Aurora، از چهار متخصص با دهه‌ها تجربه در شرکت‌های معتبر فناوری.
+          </p>
+        </div>
+      </div>
+
+      <div class="team-ed reveal">
+        <div class="member-ed">
+          <div class="member-ed-index">01</div>
+          <div class="member-ed-photo">
+            <span class="member-ed-letter">A</span>
+          </div>
+          <h3 class="member-ed-name" data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</h3>
+          <div class="member-ed-role" data-fa="بنیان‌گذار و مدیرعامل" data-en="Founder & CEO">بنیان‌گذار و مدیرعامل</div>
+          <p class="member-ed-bio" data-fa="۱۵ سال تجربه در صنعت فناوری. مسئول استراتژی کلی شرکت." data-en="15 years in tech. Responsible for overall company strategy.">۱۵ سال تجربه در صنعت فناوری. مسئول استراتژی کلی شرکت.</p>
+        </div>
+
+        <div class="member-ed">
+          <div class="member-ed-index">02</div>
+          <div class="member-ed-photo">
+            <span class="member-ed-letter">S</span>
+          </div>
+          <h3 class="member-ed-name" data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</h3>
+          <div class="member-ed-role" data-fa="مدیر فنی" data-en="CTO">مدیر فنی</div>
+          <p class="member-ed-bio" data-fa="متخصص معماری سیستم‌های توزیع‌شده. مسئول زیرساخت فنی." data-en="Expert in distributed systems. Responsible for technical infrastructure.">متخصص معماری سیستم‌های توزیع‌شده. مسئول زیرساخت فنی.</p>
+        </div>
+
+        <div class="member-ed">
+          <div class="member-ed-index">03</div>
+          <div class="member-ed-photo">
+            <span class="member-ed-letter">R</span>
+          </div>
+          <h3 class="member-ed-name" data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</h3>
+          <div class="member-ed-role" data-fa="مدیر طراحی" data-en="Design Director">مدیر طراحی</div>
+          <p class="member-ed-bio" data-fa="طراح ارشد با تخصص در تجربه کاربری و هویت برند." data-en="Senior designer specializing in UX and brand identity.">طراح ارشد با تخصص در تجربه کاربری و هویت برند.</p>
+        </div>
+
+        <div class="member-ed">
+          <div class="member-ed-index">04</div>
+          <div class="member-ed-photo">
+            <span class="member-ed-letter">M</span>
+          </div>
+          <h3 class="member-ed-name" data-fa="مریم تهرانی" data-en="Maryam Tehrani">مریم تهرانی</h3>
+          <div class="member-ed-role" data-fa="مدیر محصول" data-en="Product Lead">مدیر محصول</div>
+          <p class="member-ed-bio" data-fa="مسئول استراتژی محصول و توسعه بازارهای بین‌المللی." data-en="Responsible for product strategy and international markets.">مسئول استراتژی محصول و توسعه بازارهای بین‌المللی.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section class="section" id="awards">
+    <div class="section-inner">
+      <div class="ed-header reveal">
+        <div class="ed-chapter">
+          <span class="ed-chapter-num">05</span>
+          <span data-fa="فصل پنجم" data-en="Chapter Five">فصل پنجم</span>
+        </div>
+        <div>
+          <h2 class="ed-title" data-fa="افتخاراتی که به <em>سختی</em> به دست آمده‌اند" data-en="Honors that were <em>hard</em> earned">افتخاراتی که به <em>سختی</em> به دست آمده‌اند</h2>
+          <p class="ed-lede" data-fa="هیچ‌کدام از این جوایز، شانسی نبوده. هر کدام، حاصل سال‌ها تلاش تیم Aurora است." data-en="None of these awards were by chance. Each was the result of years of effort by the Aurora team.">
+            هیچ‌کدام از این جوایز، شانسی نبوده. هر کدام، حاصل سال‌ها تلاش تیم Aurora است.
+          </p>
+        </div>
+      </div>
+
+      <div class="awards-ed reveal">
+        <div class="award-ed">
+          <span class="award-ed-num">01</span>
+          <span class="award-ed-year">۱۴۰۰</span>
+          <div class="award-ed-content">
+            <h3 data-fa="بهترین استارتاپ فناوری سال" data-en="Best Tech Startup of the Year">بهترین استارتاپ فناوری سال</h3>
+            <p data-fa="جایزه ملی فناوری اطلاعات ایران" data-en="National IT Award of Iran">جایزه ملی فناوری اطلاعات ایران</p>
+          </div>
+          <span class="award-ed-badge" data-fa="برنده" data-en="Winner">برنده</span>
+        </div>
+
+        <div class="award-ed">
+          <span class="award-ed-num">02</span>
+          <span class="award-ed-year">۱۴۰۱</span>
+          <div class="award-ed-content">
+            <h3 data-fa="جایزه نوآوری در امنیت سایبری" data-en="Cybersecurity Innovation Award">جایزه نوآوری در امنیت سایبری</h3>
+            <p data-fa="انجمن امنیت دیجیتال خاورمیانه" data-en="Middle East Digital Security Association">انجمن امنیت دیجیتال خاورمیانه</p>
+          </div>
+          <span class="award-ed-badge" data-fa="برنده" data-en="Winner">برنده</span>
+        </div>
+
+        <div class="award-ed">
+          <span class="award-ed-num">03</span>
+          <span class="award-ed-year">۱۴۰۲</span>
+          <div class="award-ed-content">
+            <h3 data-fa="بهترین تجربه کاربری سال" data-en="Best User Experience of the Year">بهترین تجربه کاربری سال</h3>
+            <p data-fa="فستیوال طراحی تهران" data-en="Tehran Design Festival">فستیوال طراحی تهران</p>
+          </div>
+          <span class="award-ed-badge" data-fa="برنده" data-en="Winner">برنده</span>
+        </div>
+
+        <div class="award-ed">
+          <span class="award-ed-num">04</span>
+          <span class="award-ed-year">۱۴۰۳</span>
+          <div class="award-ed-content">
+            <h3 data-fa="شرکت برگزیده فناوری منطقه" data-en="Regional Tech Company of Choice">شرکت برگزیده فناوری منطقه</h3>
+            <p data-fa="مجمع جهانی فناوری دبی" data-en="Dubai Global Tech Forum">مجمع جهانی فناوری دبی</p>
+          </div>
+          <span class="award-ed-badge" data-fa="برنده" data-en="Winner">برنده</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICES ============ -->
+  <section class="section" id="offices">
+    <div class="section-inner">
+      <div class="ed-header reveal">
+        <div class="ed-chapter">
+          <span class="ed-chapter-num">06</span>
+          <span data-fa="فصل ششم" data-en="Chapter Six">فصل ششم</span>
+        </div>
+        <div>
+          <h2 class="ed-title" data-fa="چهار دفتر، چهار <em>قاره</em>" data-en="Four offices, four <em>continents</em>">چهار دفتر، چهار <em>قاره</em></h2>
+          <p class="ed-lede" data-fa="با دفاتر در تهران، دبی، لندن، و نیویورک، ما همواره نزدیک به مشتریان خود هستیم." data-en="With offices in Tehran, Dubai, London, and New York, we're always close to our clients.">
+            با دفاتر در تهران، دبی، لندن، و نیویورک، ما همواره نزدیک به مشتریان خود هستیم.
+          </p>
+        </div>
+      </div>
+
+      <div class="offices-ed reveal">
+        <div class="office-ed">
+          <div class="office-ed-num">۰۱</div>
+          <span class="office-ed-flag">🇮🇷</span>
+          <div class="office-ed-city" data-fa="تهران" data-en="Tehran">تهران</div>
+          <div class="office-ed-country" data-fa="دفتر مرکزی — ایران" data-en="HQ — Iran">دفتر مرکزی — ایران</div>
+          <div class="office-ed-address" data-fa="خیابان ولیعصر، برج آرورا، طبقه ۱۵" data-en="Valiasr St, Aurora Tower, Floor 15">خیابان ولیعصر، برج آرورا، طبقه ۱۵</div>
+        </div>
+
+        <div class="office-ed">
+          <div class="office-ed-num">۰۲</div>
+          <span class="office-ed-flag">🇦🇪</span>
+          <div class="office-ed-city" data-fa="دبی" data-en="Dubai">دبی</div>
+          <div class="office-ed-country" data-fa="خاورمیانه — امارات" data-en="Middle East — UAE">خاورمیانه — امارات</div>
+          <div class="office-ed-address" data-fa="مرکز DIFC، برج ۴، واحد ۲۱۰" data-en="DIFC, Tower 4, Unit 210">مرکز DIFC، برج ۴، واحد ۲۱۰</div>
+        </div>
+
+        <div class="office-ed">
+          <div class="office-ed-num">۰۳</div>
+          <span class="office-ed-flag">🇬🇧</span>
+          <div class="office-ed-city" data-fa="لندن" data-en="London">لندن</div>
+          <div class="office-ed-country" data-fa="اروپا — بریتانیا" data-en="Europe — UK">اروپا — بریتانیا</div>
+          <div class="office-ed-address" data-fa="کاناری وارف، واحد ۱۲، طبقه ۵" data-en="Canary Wharf, Unit 12, Floor 5">کاناری وارف، واحد ۱۲، طبقه ۵</div>
+        </div>
+
+        <div class="office-ed">
+          <div class="office-ed-num">۰۴</div>
+          <span class="office-ed-flag">🇺🇸</span>
+          <div class="office-ed-city" data-fa="نیویورک" data-en="New York">نیویورک</div>
+          <div class="office-ed-country" data-fa="آمریکا" data-en="USA">آمریکا</div>
+          <div class="office-ed-address" data-fa="منهتن، خیابان پنجم، برج ۵۰، طبقه ۳۰" data-en="Manhattan, 5th Ave, Tower 50, Floor 30">منهتن، خیابان پنجم، برج ۵۰، طبقه ۳۰</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-ed" id="contact">
+    <div class="cta-ed-inner reveal">
+      <div class="cta-ed-label" data-fa="صفحه آخر" data-en="Final Page">صفحه آخر</div>
+      <h2 class="cta-ed-title" data-fa="داستان شما، صفحه <em>بعدی</em> ماست" data-en="Your story is our <em>next</em> page">داستان شما، صفحه <em>بعدی</em> ماست</h2>
+      <p class="cta-ed-desc" data-fa="اگر می‌خواهید بخشی از داستان Aurora باشید، یا اگر به دنبال شریکی معتبر برای پروژه فناوری بعدی خود هستید، با ما در تماس باشید." data-en="If you want to be part of the Aurora story, or if you're looking for a trusted partner for your next technology project, get in touch.">
+        اگر می‌خواهید بخشی از داستان Aurora باشید، یا اگر به دنبال شریکی معتبر برای پروژه فناوری بعدی خود هستید، با ما در تماس باشید.
+      </p>
+
+      <div class="cta-ed-buttons">
+        <button class="cta-ed-btn primary" onclick="contactUs()">
+          <span data-fa="تماس با ما" data-en="Get in touch">تماس با ما</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="cta-ed-btn" onclick="viewCareers()">
+          <span data-fa="فرصت‌های شغلی" data-en="View careers">فرصت‌های شغلی</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer-ed">
+    <div class="footer-ed-inner">
+      <div class="footer-ed-top">
+        <div>
+          <div class="footer-ed-brand">Aurora<em>.</em></div>
+          <p class="footer-ed-desc" data-fa="استودیوی فناوری مستقل، ساخته‌شده در تهران. از ۱۳۹۷ در حال ساختن محصولات دیجیتال برای کاربران سراسر جهان." data-en="Independent technology studio, built in Tehran. Since 2018 crafting digital products for users worldwide.">
+            استودیوی فناوری مستقل، ساخته‌شده در تهران. از ۱۳۹۷ در حال ساختن محصولات دیجیتال برای کاربران سراسر جهان.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-ed-col-title" data-fa="کرونیکل" data-en="Chronicle">کرونیکل</div>
+          <div class="footer-ed-links">
+            <button class="footer-ed-link" onclick="scrollToId('story')" data-fa="داستان ما" data-en="Our Story">داستان ما</button>
+            <button class="footer-ed-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="History">تاریخچه</button>
+            <button class="footer-ed-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+            <button class="footer-ed-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-ed-col-title" data-fa="محصولات" data-en="Products">محصولات</div>
+          <div class="footer-ed-links">
+            <button class="footer-ed-link" onclick="toast('Aurora Auth')">Aurora Auth</button>
+            <button class="footer-ed-link" onclick="toast('Aurora Cloud')">Aurora Cloud</button>
+            <button class="footer-ed-link" onclick="toast('Aurora API')">Aurora API</button>
+            <button class="footer-ed-link" onclick="toast('Enterprise')" data-fa="راه‌حل سازمانی" data-en="Enterprise">راه‌حل سازمانی</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-ed-col-title" data-fa="ارتباط" data-en="Connect">ارتباط</div>
+          <div class="footer-ed-links">
+            <button class="footer-ed-link" onclick="contactUs()" data-fa="تماس" data-en="Contact">تماس</button>
+            <button class="footer-ed-link" onclick="viewCareers()" data-fa="استخدام" data-en="Careers">استخدام</button>
+            <button class="footer-ed-link" onclick="toast('Blog')" data-fa="وبلاگ" data-en="Blog">وبلاگ</button>
+            <button class="footer-ed-link" onclick="toast('Press')" data-fa="مطبوعات" data-en="Press">مطبوعات</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-ed-bottom">
+        <div>© 2025 Aurora Studio · <span data-fa="تمام حقوق محفوظ است" data-en="All rights reserved">تمام حقوق محفوظ است</span></div>
+        <div class="footer-ed-bottom-links">
+          <button class="footer-ed-bottom-link" onclick="toast('Privacy')" data-fa="حریم خصوصی" data-en="Privacy">حریم خصوصی</button>
+          <button class="footer-ed-bottom-link" onclick="toast('Terms')" data-fa="شرایط" data-en="Terms">شرایط</button>
+          <button class="footer-ed-bottom-link" onclick="toast('Cookies')" data-fa="کوکی‌ها" data-en="Cookies">کوکی‌ها</button>
+          <button class="footer-ed-bottom-link" onclick="toast('Sitemap')" data-fa="نقشه سایت" data-en="Sitemap">نقشه سایت</button>
+        </div>
+      </div>
+
+      <div class="footer-ed-mark">Aurora.</div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============ PALETTE SWITCHER ============ -->
+<div class="palette-switcher" role="group" aria-label="Palette">
+  <button class="palette-dot on" data-p="terracotta" onclick="setPalette('terracotta')" aria-label="Terracotta"></button>
+  <button class="palette-dot" data-p="forest" onclick="setPalette('forest')" aria-label="Forest"></button>
+  <button class="palette-dot" data-p="ink" onclick="setPalette('ink')" aria-label="Ink"></button>
+  <button class="palette-dot" data-p="burgundy" onclick="setPalette('burgundy')" aria-label="Burgundy"></button>
+  <button class="palette-dot" data-p="midnight" onclick="setPalette('midnight')" aria-label="Midnight"></button>
+  <button class="palette-dot" data-p="cream" onclick="setPalette('cream')" aria-label="Cream"></button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast-icon" id="toastIcon">
+    <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 8"/></svg>
+  </div>
+  <div id="toastMsg"></div>
+</div>
+
+<script>
+const S = { lang: 'fa', palette: 'terracotta' };
+
+/* ============ LANGUAGE ============ */
+function toggleLang(){ S.lang = S.lang === 'fa' ? 'en' : 'fa'; applyLang(); }
+function applyLang(){
+  const h = document.documentElement;
+  const btn = document.getElementById('langBtn');
+  if(S.lang === 'fa'){ h.setAttribute('lang','fa'); h.setAttribute('dir','rtl'); btn.textContent = 'EN'; }
+  else { h.setAttribute('lang','en'); h.setAttribute('dir','ltr'); btn.textContent = 'FA'; }
+
+  document.querySelectorAll('[data-fa]').forEach(e => {
+    const t = S.lang === 'fa' ? e.dataset.fa : e.dataset.en;
+    if(!t) return;
+    if(t.includes('<em>') || t.includes('<strong>')) e.innerHTML = t;
+    else e.textContent = t;
+  });
+
+  localStorage.setItem('mag_lang', S.lang);
+  updateCounters();
+}
+
+/* ============ PALETTE ============ */
+function setPalette(p){
+  S.palette = p;
+  document.body.setAttribute('data-palette', p);
+  document.querySelectorAll('.palette-dot').forEach(d => d.classList.toggle('on', d.dataset.p === p));
+  localStorage.setItem('mag_palette', p);
+}
+document.querySelectorAll('.palette-dot').forEach(d => {
+  d.addEventListener('click', () => setPalette(d.dataset.p));
+});
+
+/* ============ SCROLL ============ */
+function scrollToTop(){
+  document.getElementById('page').scrollTo({top:0, behavior:'smooth'});
+}
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const top = el.offsetTop - 140;
+  document.getElementById('page').scrollTo({top, behavior:'smooth'});
+}
+
+/* ============ NAV ACTIVE ============ */
+(function(){
+  const page = document.getElementById('page');
+  const sections = ['story','values','timeline','team','awards','offices','contact'];
+
+  page.addEventListener('scroll', () => {
+    const scrollY = page.scrollTop + 200;
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      const link = document.querySelector(`.masthead-link[onclick*="${id}"]`);
+      if(!link) return;
+      const top = el.offsetTop;
+      const bottom = top + el.offsetHeight;
+      if(scrollY >= top && scrollY < bottom){
+        document.querySelectorAll('.masthead-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, {passive:true});
+})();
+
+/* ============ REVEAL ============ */
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        entry.target.querySelectorAll('[data-counter]').forEach(animateCounter);
+      }
+    });
+  }, {threshold:0.12, root:document.getElementById('page')});
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+/* ============ COUNTERS ============ */
+const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function toFa(n){ return String(n).replace(/\d/g, d => faDigits[d]) }
+
+function animateCounter(el){
+  if(el.dataset.animated === 'true') return;
+  el.dataset.animated = 'true';
+
+  const target = parseInt(el.dataset.counter);
+  const duration = 2200;
+  const start = performance.now();
+
+  function format(n){
+    let s;
+    if(target >= 1000000) s = (n/1000000).toFixed(1) + 'M';
+    else if(target >= 1000) s = n.toLocaleString('en-US');
+    else s = String(n);
+    return S.lang === 'fa' ? toFa(s) : s;
+  }
+
+  function tick(now){
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const current = Math.floor(target * eased);
+    el.textContent = format(current);
+    if(p < 1) requestAnimationFrame(tick);
+    else {
+      if(target >= 1000000) el.textContent = (S.lang==='fa'?toFa('1.2'):'1.2') + 'M+';
+      else el.textContent = S.lang==='fa' ? toFa(target) + '+' : target + '+';
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+function updateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.animated === 'true') return;
+    const t = parseInt(el.dataset.counter);
+    if(t >= 1000000) el.textContent = S.lang === 'fa' ? toFa('1.2') + 'M+' : '1.2M+';
+    else el.textContent = S.lang === 'fa' ? toFa(t) + '+' : t + '+';
+  });
+}
+
+/* ============ ACTIONS ============ */
+function contactUs(){ toast(S.lang === 'fa' ? 'باز کردن صفحه تماس...' : 'Opening contact page...'); }
+function viewCareers(){ toast(S.lang === 'fa' ? 'باز کردن فرصت‌های شغلی...' : 'Opening careers...'); }
+
+/* ============ TOAST ============ */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  const msgEl = document.getElementById('toastMsg');
+  msgEl.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 3000);
+}
+
+/* ============ INIT ============ */
+(function(){
+  const lg = localStorage.getItem('mag_lang');
+  const pl = localStorage.getItem('mag_palette');
+  if(lg) S.lang = lg;
+  if(pl) S.palette = pl;
+  setPalette(S.palette);
+  applyLang();
+  updateCounters();
+})();
+</script>
+</body>
+</html>
