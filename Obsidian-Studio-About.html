@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0d">
+<title>OBSIDIAN | درباره ما</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Vazirmatn','Inter',-apple-system,sans-serif;
+  background:#0b0b0d;
+  color:#f5f5f5;
+  min-height:100vh;min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+  font-weight:400;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* ============================================================
+   TOKENS — Brutalist Editorial
+   ============================================================ */
+:root{
+  --bg:#0b0b0d;
+  --bg-2:#141416;
+  --bg-3:#1c1c1f;
+  --bg-4:#25252a;
+
+  --ink:#f5f5f5;
+  --ink-2:#a8a8ad;
+  --ink-3:#6b6b72;
+  --ink-4:#3d3d44;
+
+  --line:#2a2a30;
+  --line-2:#3a3a44;
+
+  --neon:#e6ff00;
+  --neon-2:#c9e000;
+  --blood:#ff2b47;
+  --ice:#00d9ff;
+
+  --font-display:'Bebas Neue','Anton','Vazirmatn',sans-serif;
+  --font-body:'Vazirmatn','Inter',sans-serif;
+  --font-mono:'JetBrains Mono','Vazirmatn',monospace;
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  background:var(--bg);
+  position:relative;
+  scrollbar-width:thin;
+  scrollbar-color:var(--neon) var(--bg-2);
+}
+.page::-webkit-scrollbar{width:8px}
+.page::-webkit-scrollbar-track{background:var(--bg-2)}
+.page::-webkit-scrollbar-thumb{
+  background:var(--neon);
+}
+
+/* ============================================================
+   BACKGROUND GRID LINES
+   ============================================================ */
+.bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.5;
+}
+.bg-grid::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:80px 80px;
+}
+.bg-grid::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%,rgba(230,255,0,.04),transparent 70%),
+    radial-gradient(ellipse 50% 40% at 100% 100%,rgba(255,43,71,.04),transparent 70%);
+}
+
+.bg-noise{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:.4;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Cursor crosshair */
+.crosshair{
+  position:fixed;
+  z-index:1000;
+  pointer-events:none;
+  font-family:var(--font-mono);
+  font-size:10px;
+  font-weight:600;
+  color:var(--neon);
+  letter-spacing:1px;
+  display:none;
+}
+@media(min-width:1024px){
+  .crosshair{display:block}
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  padding:0 32px;
+  background:rgba(11,11,13,.92);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  transition:all .3s ease;
+}
+.nav-inner{
+  max-width:1600px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:stretch;
+  gap:24px;
+  height:68px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  padding-inline-end:24px;
+  border-inline-end:1px solid var(--line);
+}
+.logo-mark{
+  width:34px;height:34px;
+  background:var(--neon);
+  color:#0b0b0d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Anton','Vazirmatn',sans-serif;
+  font-size:20px;
+  font-weight:400;
+  line-height:1;
+}
+.logo-text{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:2px;
+  color:var(--ink);
+  line-height:1;
+}
+html[dir="rtl"] .logo-text{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  letter-spacing:0;
+  font-size:19px;
+}
+
+.nav-links{
+  display:flex;
+  align-items:stretch;
+  flex:1;
+}
+.nav-link{
+  background:transparent;
+  border:none;
+  border-inline-start:1px solid var(--line);
+  color:var(--ink-3);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:0 20px;
+  transition:all .25s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  position:relative;
+}
+html[dir="rtl"] .nav-link{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13px;
+}
+.nav-link-num{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--ink-4);
+}
+.nav-link:hover{
+  color:var(--ink);
+  background:var(--bg-2);
+}
+.nav-link.active{
+  color:var(--neon);
+  background:var(--bg-2);
+}
+.nav-link.active::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;
+  inset-inline:0;
+  height:2px;
+  background:var(--neon);
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:0;
+  padding-inline-start:24px;
+  border-inline-start:1px solid var(--line);
+}
+.nav-lang{
+  background:transparent;
+  border:none;
+  color:var(--ink-3);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  padding:0 16px;
+  height:100%;
+  transition:all .25s ease;
+}
+.nav-lang:hover{color:var(--neon)}
+
+.nav-cta{
+  background:var(--neon);
+  border:none;
+  color:#0b0b0d;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:0 22px;
+  height:100%;
+  transition:all .25s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+html[dir="rtl"] .nav-cta{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.nav-cta:hover{
+  background:#fff;
+  color:#0b0b0d;
+}
+.nav-cta svg{
+  width:12px;height:12px;
+  stroke:currentColor;fill:none;stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.menu-btn{
+  display:none;
+  background:transparent;
+  border:none;
+  color:var(--ink);
+  cursor:pointer;
+  padding:0 16px;
+  height:100%;
+  border-inline-start:1px solid var(--line);
+}
+.menu-btn svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding:80px 32px 100px;
+  max-width:1600px;
+  margin:0 auto;
+  position:relative;
+  z-index:5;
+}
+
+.hero-meta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line);
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin-bottom:60px;
+}
+.hero-meta-left{display:flex;gap:32px;align-items:center}
+.hero-meta-dot{
+  display:inline-block;
+  width:8px;height:8px;
+  background:var(--neon);
+  animation:blink 1.5s steps(2) infinite;
+}
+@keyframes blink{
+  0%,50%{opacity:1}
+  51%,100%{opacity:0}
+}
+
+.hero-title{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(64px, 14vw, 220px);
+  font-weight:400;
+  line-height:.82;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin-bottom:40px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .hero-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.04em;
+  font-size:clamp(48px, 10vw, 160px);
+  text-transform:none;
+}
+.hero-title .row{display:block;overflow:hidden}
+.hero-title .row > span{
+  display:inline-block;
+  animation:slideUp 1.1s cubic-bezier(.16,1,.3,1) both;
+}
+.hero-title .row:nth-child(2) > span{animation-delay:.15s}
+.hero-title .row:nth-child(3) > span{animation-delay:.3s}
+@keyframes slideUp{
+  from{transform:translateY(110%);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+.hero-title .fill{
+  color:transparent;
+  -webkit-text-stroke:2px var(--neon);
+  font-style:italic;
+}
+html[dir="rtl"] .hero-title .fill{
+  -webkit-text-stroke:2px var(--neon);
+  color:transparent;
+}
+.hero-title .solid{
+  background:var(--neon);
+  color:#0b0b0d;
+  padding:0 20px;
+  display:inline-block;
+}
+
+.hero-bottom{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr;
+  gap:0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.hero-cell{
+  padding:32px 24px;
+  border-inline-start:1px solid var(--line);
+  position:relative;
+}
+.hero-cell:first-child{
+  border-inline-start:none;
+  padding-inline-start:0;
+}
+.hero-cell-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin-bottom:12px;
+}
+.hero-cell-value{
+  font-family:'Anton',sans-serif;
+  font-size:42px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-.02em;
+  color:var(--ink);
+}
+html[dir="rtl"] .hero-cell-value{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  font-size:34px;
+}
+.hero-cell-value .accent{color:var(--neon)}
+.hero-desc{
+  font-size:15px;
+  line-height:1.75;
+  color:var(--ink-2);
+  font-weight:400;
+  max-width:520px;
+}
+.hero-desc strong{color:var(--neon);font-weight:600}
+
+.hero-actions{
+  display:flex;
+  gap:0;
+  margin-top:40px;
+  border:1px solid var(--line);
+}
+.btn{
+  background:transparent;
+  border:none;
+  color:var(--ink);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:20px 32px;
+  transition:all .25s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  border-inline-start:1px solid var(--line);
+  position:relative;
+}
+.btn:first-child{border-inline-start:none}
+html[dir="rtl"] .btn{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13.5px;
+  font-weight:600;
+}
+.btn.primary{
+  background:var(--neon);
+  color:#0b0b0d;
+}
+.btn.primary:hover{
+  background:#fff;
+}
+.btn.secondary:hover{
+  background:var(--bg-2);
+  color:var(--neon);
+}
+.btn svg{
+  width:14px;height:14px;
+  stroke:currentColor;fill:none;stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{
+  padding:100px 32px;
+  position:relative;
+  z-index:5;
+  max-width:1600px;
+  margin:0 auto;
+}
+.section-inner{max-width:100%;margin:0 auto}
+
+.section-marker{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:48px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.section-marker-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:44px;
+  height:28px;
+  background:var(--neon);
+  color:#0b0b0d;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0;
+  padding:0 8px;
+}
+.section-marker-line{
+  flex:1;
+  height:1px;
+  background:var(--line);
+}
+
+.section-title{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(40px, 6vw, 96px);
+  font-weight:400;
+  line-height:.95;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin-bottom:24px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .section-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  line-height:1.1;
+  letter-spacing:-.03em;
+  font-size:clamp(32px, 4.5vw, 72px);
+  text-transform:none;
+}
+.section-title .fill{
+  color:transparent;
+  -webkit-text-stroke:2px var(--neon);
+}
+.section-title .accent{color:var(--neon)}
+
+.section-desc{
+  font-size:16px;
+  line-height:1.75;
+  color:var(--ink-2);
+  font-weight:400;
+  max-width:640px;
+  margin-bottom:64px;
+}
+
+/* ============================================================
+   STORY
+   ============================================================ */
+.story-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:0;
+  border:1px solid var(--line);
+}
+.story-main{
+  padding:56px 48px;
+  border-inline-end:1px solid var(--line);
+}
+.story-main p{
+  font-size:16px;
+  line-height:1.9;
+  color:var(--ink-2);
+  margin-bottom:24px;
+  font-weight:400;
+}
+.story-main p:first-of-type::first-letter{
+  font-family:'Anton',sans-serif;
+  font-size:88px;
+  font-weight:400;
+  float:right;
+  line-height:.85;
+  margin-inline-end:16px;
+  margin-top:6px;
+  color:var(--neon);
+}
+html[dir="ltr"] .story-main p:first-of-type::first-letter{
+  float:left;
+  margin-inline-end:0;
+  margin-inline-start:16px;
+}
+.story-main p strong{color:var(--ink);font-weight:600}
+.story-main p em{color:var(--neon);font-style:normal;font-weight:600}
+
+.story-quote{
+  margin-top:40px;
+  padding:32px 0 32px 32px;
+  border-inline-start:2px solid var(--neon);
+}
+html[dir="rtl"] .story-quote{
+  padding:32px 32px 32px 0;
+}
+.story-quote p{
+  font-family:'Space Grotesk','Vazirmatn',sans-serif;
+  font-size:24px;
+  font-weight:500;
+  line-height:1.35;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin:0;
+}
+html[dir="rtl"] .story-quote p{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:600;
+  font-size:20px;
+  line-height:1.55;
+}
+.story-quote-author{
+  display:block;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--neon);
+}
+html[dir="rtl"] .story-quote-author{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+
+.story-side{
+  display:flex;
+  flex-direction:column;
+}
+.side-block{
+  padding:32px 32px;
+  border-bottom:1px solid var(--line);
+  transition:background .3s ease;
+  cursor:pointer;
+  position:relative;
+}
+.side-block:last-child{border-bottom:none}
+.side-block:hover{background:var(--bg-2)}
+.side-block:hover .side-block-arrow{
+  transform:translateX(-6px);
+  color:var(--neon);
+}
+.side-block-num{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  color:var(--ink-3);
+  margin-bottom:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.side-block-arrow{
+  font-size:16px;
+  transition:all .3s ease;
+  color:var(--ink-4);
+}
+.side-block-value{
+  font-family:'Anton',sans-serif;
+  font-size:56px;
+  font-weight:400;
+  line-height:.95;
+  letter-spacing:-.03em;
+  color:var(--ink);
+  margin-bottom:8px;
+}
+html[dir="rtl"] .side-block-value{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  font-size:44px;
+}
+.side-block-value .accent{color:var(--neon)}
+.side-block-text{
+  font-size:13.5px;
+  line-height:1.6;
+  color:var(--ink-3);
+  font-weight:400;
+}
+
+/* ============================================================
+   STATS BAND
+   ============================================================ */
+.stats-band{
+  background:var(--neon);
+  color:#0b0b0d;
+  padding:0;
+  margin:0 -32px;
+  position:relative;
+  z-index:5;
+  overflow:hidden;
+}
+.stats-band-inner{
+  max-width:1600px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+.band-cell{
+  padding:48px 32px;
+  border-inline-start:2px solid #0b0b0d;
+  position:relative;
+}
+.band-cell:first-child{border-inline-start:none}
+.band-value{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(56px, 7vw, 96px);
+  font-weight:400;
+  line-height:.9;
+  letter-spacing:-.02em;
+  margin-bottom:12px;
+  color:#0b0b0d;
+}
+html[dir="rtl"] .band-value{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+}
+.band-value .unit{
+  font-size:.4em;
+  vertical-align:super;
+  margin-inline-start:4px;
+}
+.band-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#0b0b0d;
+  opacity:.75;
+  line-height:1.5;
+}
+html[dir="rtl"] .band-label{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13px;
+}
+
+/* ============================================================
+   VALUES — Numbered List
+   ============================================================ */
+.values-list{
+  border-top:1px solid var(--line);
+}
+.value-item{
+  display:grid;
+  grid-template-columns:80px 1fr 2fr 200px;
+  gap:32px;
+  padding:36px 0;
+  border-bottom:1px solid var(--line);
+  align-items:start;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+  position:relative;
+}
+.value-item::before{
+  content:'';
+  position:absolute;
+  inset-inline-start:0;
+  top:0;
+  width:0;
+  height:100%;
+  background:var(--bg-2);
+  z-index:-1;
+  transition:width .45s cubic-bezier(.16,1,.3,1);
+}
+.value-item:hover::before{width:100%}
+.value-item:hover .value-item-num{color:var(--neon)}
+.value-item:hover .value-item-title{transform:translateX(-8px)}
+html[dir="ltr"] .value-item:hover .value-item-title{transform:translateX(8px)}
+
+.value-item-num{
+  font-family:'Anton',sans-serif;
+  font-size:48px;
+  font-weight:400;
+  line-height:1;
+  color:var(--ink-4);
+  transition:color .3s ease;
+  letter-spacing:-.02em;
+}
+html[dir="rtl"] .value-item-num{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+}
+.value-item-title{
+  font-family:'Anton',sans-serif;
+  font-size:28px;
+  font-weight:400;
+  line-height:1.1;
+  color:var(--ink);
+  text-transform:uppercase;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+html[dir="rtl"] .value-item-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  font-size:22px;
+  text-transform:none;
+  line-height:1.3;
+}
+.value-item-desc{
+  font-size:14.5px;
+  line-height:1.75;
+  color:var(--ink-3);
+  font-weight:400;
+}
+.value-item-tag{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink-4);
+  padding:6px 12px;
+  border:1px solid var(--line-2);
+  justify-self:end;
+  align-self:start;
+}
+.value-item:hover .value-item-tag{
+  color:var(--neon);
+  border-color:var(--neon);
+}
+
+/* ============================================================
+   TIMELINE — Vertical brutalist
+   ============================================================ */
+.timeline-brutal{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:0;
+  border:1px solid var(--line);
+}
+.tl-block{
+  padding:32px 28px;
+  border-inline-start:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  position:relative;
+  transition:background .3s ease;
+  min-height:260px;
+  display:flex;
+  flex-direction:column;
+}
+.tl-block:hover{background:var(--bg-2)}
+.tl-block:nth-child(1){border-inline-start:none}
+.tl-block::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:0;height:3px;
+  background:var(--neon);
+  transition:width .5s cubic-bezier(.16,1,.3,1);
+}
+.tl-block:hover::before{width:100%}
+.tl-block-year{
+  font-family:'Anton',sans-serif;
+  font-size:44px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin-bottom:20px;
+}
+html[dir="rtl"] .tl-block-year{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+}
+.tl-block-title{
+  font-family:var(--font-body);
+  font-size:16px;
+  font-weight:700;
+  line-height:1.3;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+.tl-block-desc{
+  font-size:13px;
+  line-height:1.7;
+  color:var(--ink-3);
+  margin-top:auto;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.tl-block-num{
+  position:absolute;
+  top:16px;
+  inset-inline-end:20px;
+  font-family:var(--font-mono);
+  font-size:10px;
+  font-weight:600;
+  color:var(--ink-4);
+  letter-spacing:1px;
+}
+
+/* ============================================================
+   TEAM — Photo blocks
+   ============================================================ */
+.team-blocks{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+.member-block{
+  background:var(--bg);
+  padding:36px 28px;
+  position:relative;
+  overflow:hidden;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+}
+.member-block:hover{
+  background:var(--neon);
+}
+.member-block:hover .member-block-name,
+.member-block:hover .member-block-role,
+.member-block:hover .member-block-idx{
+  color:#0b0b0d;
+}
+.member-block:hover .member-block-avatar{
+  border-color:#0b0b0d;
+  color:#0b0b0d;
+}
+.member-block-idx{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  color:var(--ink-3);
+  margin-bottom:24px;
+  transition:color .3s ease;
+}
+.member-block-avatar{
+  width:88px;
+  height:88px;
+  border:2px solid var(--line-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Anton',sans-serif;
+  font-size:44px;
+  font-weight:400;
+  line-height:1;
+  color:var(--ink-2);
+  margin-bottom:28px;
+  transition:all .4s ease;
+}
+html[dir="rtl"] .member-block-avatar{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+}
+.member-block-name{
+  font-family:'Anton',sans-serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:-.01em;
+  color:var(--ink);
+  margin-bottom:8px;
+  line-height:1.15;
+  transition:color .3s ease;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .member-block-name{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  font-size:19px;
+  text-transform:none;
+}
+.member-block-role{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--neon);
+  transition:color .3s ease;
+}
+html[dir="rtl"] .member-block-role{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+
+/* ============================================================
+   AWARDS — Vertical list
+   ============================================================ */
+.awards-brutal{
+  border-top:1px solid var(--line);
+}
+.award-line{
+  display:grid;
+  grid-template-columns:120px 1fr auto auto;
+  gap:32px;
+  align-items:center;
+  padding:28px 0;
+  border-bottom:1px solid var(--line);
+  transition:all .3s ease;
+  cursor:pointer;
+  position:relative;
+}
+.award-line:hover{
+  padding-inline-start:24px;
+  background:var(--bg-2);
+}
+.award-line:hover .award-line-year{color:var(--neon)}
+.award-line:hover .award-line-badge{background:var(--neon);color:#0b0b0d}
+.award-line-year{
+  font-family:'Anton',sans-serif;
+  font-size:36px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  transition:color .3s ease;
+}
+html[dir="rtl"] .award-line-year{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+}
+.award-line-title{
+  font-family:var(--font-body);
+  font-size:17px;
+  font-weight:600;
+  color:var(--ink);
+  line-height:1.35;
+}
+.award-line-issuer{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:1px;
+  color:var(--ink-3);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .award-line-issuer{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.award-line-badge{
+  width:52px;height:52px;
+  border:2px solid var(--line-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  transition:all .3s ease;
+  flex-shrink:0;
+}
+
+/* ============================================================
+   OFFICES
+   ============================================================ */
+.offices-brutal{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);
+}
+.office-brutal{
+  padding:36px 28px;
+  border-inline-start:1px solid var(--line);
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  min-height:240px;
+}
+.office-brutal:first-child{border-inline-start:none}
+.office-brutal:hover{
+  background:var(--bg-2);
+}
+.office-brutal:hover .office-brutal-city{
+  color:var(--neon);
+}
+.office-brutal-num{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  color:var(--ink-4);
+  margin-bottom:20px;
+}
+.office-brutal-flag{
+  font-size:32px;
+  display:block;
+  margin-bottom:20px;
+  filter:grayscale(1);
+  transition:filter .4s ease;
+}
+.office-brutal:hover .office-brutal-flag{filter:grayscale(0)}
+.office-brutal-city{
+  font-family:'Anton',sans-serif;
+  font-size:34px;
+  font-weight:400;
+  line-height:.95;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin-bottom:10px;
+  transition:color .3s ease;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .office-brutal-city{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  font-size:28px;
+  text-transform:none;
+}
+.office-brutal-country{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  color:var(--ink-3);
+  text-transform:uppercase;
+  margin-bottom:24px;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--line);
+}
+html[dir="rtl"] .office-brutal-country{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.office-brutal-address{
+  font-size:13px;
+  line-height:1.7;
+  color:var(--ink-3);
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta-brutal{
+  padding:0 32px;
+  position:relative;
+  z-index:5;
+  max-width:1600px;
+  margin:0 auto;
+}
+.cta-inner{
+  border:2px solid var(--neon);
+  padding:80px 60px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:48px;
+  align-items:center;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.cta-inner::before{
+  content:'';
+  position:absolute;
+  top:-100%;left:-100%;
+  width:200%;height:200%;
+  background:conic-gradient(from 0deg,
+    transparent 0deg,
+    rgba(230,255,0,.06) 90deg,
+    transparent 180deg,
+    rgba(230,255,0,.06) 270deg,
+    transparent 360deg);
+  animation:rotateHue 20s linear infinite;
+  pointer-events:none;
+}
+@keyframes rotateHue{
+  to{transform:rotate(360deg)}
+}
+.cta-label{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--neon);
+  margin-bottom:24px;
+  padding:6px 14px;
+  border:1px solid var(--neon);
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .cta-label{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.cta-title{
+  font-family:'Anton',sans-serif;
+  font-size:clamp(44px, 6vw, 96px);
+  font-weight:400;
+  line-height:.92;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  text-transform:uppercase;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .cta-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-.03em;
+  font-size:clamp(34px, 4.5vw, 68px);
+  text-transform:none;
+}
+.cta-title .accent{color:var(--neon)}
+.cta-title .fill{
+  color:transparent;
+  -webkit-text-stroke:2px var(--ink);
+}
+.cta-actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+  z-index:1;
+}
+.cta-actions .btn{
+  border:2px solid var(--line-2);
+  padding:22px 32px;
+  justify-content:flex-start;
+  min-width:220px;
+}
+.cta-actions .btn.primary{
+  background:var(--neon);
+  border-color:var(--neon);
+  color:#0b0b0d;
+}
+.cta-actions .btn.primary:hover{background:#fff;border-color:#fff}
+.cta-actions .btn.secondary:hover{
+  background:var(--neon);
+  border-color:var(--neon);
+  color:#0b0b0d;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background:var(--bg-2);
+  border-top:1px solid var(--line);
+  padding:64px 32px 32px;
+  position:relative;
+  z-index:5;
+  margin-top:80px;
+}
+.footer-inner{max-width:1600px;margin:0 auto}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;
+  padding-bottom:48px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:32px;
+}
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+.footer-logo{
+  width:36px;height:36px;
+  background:var(--neon);
+  color:#0b0b0d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Anton','Vazirmatn',sans-serif;
+  font-size:20px;
+  font-weight:400;
+  line-height:1;
+}
+.footer-brand-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:2px;
+  color:var(--ink);
+}
+html[dir="rtl"] .footer-brand-name{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  letter-spacing:0;
+  font-size:19px;
+}
+.footer-desc{
+  font-size:14px;
+  line-height:1.8;
+  color:var(--ink-3);
+  font-weight:400;
+  max-width:340px;
+}
+.footer-col-title{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--neon);
+  margin-bottom:20px;
+}
+html[dir="rtl"] .footer-col-title{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-link{
+  background:none;border:none;
+  color:var(--ink-3);
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:400;
+  cursor:pointer;
+  text-align:inherit;
+  padding:0;
+  transition:color .25s ease;
+  width:fit-content;
+}
+.footer-link:hover{color:var(--neon)}
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:1.5px;
+  color:var(--ink-4);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .footer-bottom{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.footer-bottom-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-bottom-link{
+  background:none;border:none;
+  color:var(--ink-4);
+  font-family:inherit;
+  font-size:inherit;
+  cursor:pointer;
+  transition:color .3s ease;
+  padding:0;
+}
+.footer-bottom-link:hover{color:var(--neon)}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in-view{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+.mobile-menu{
+  position:fixed;
+  inset:68px 0 auto 0;
+  background:var(--bg);
+  border-bottom:2px solid var(--neon);
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  z-index:99;
+  transform:translateY(-100%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+}
+.mobile-menu.on{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.mobile-link{
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:22px 24px;
+  text-align:inherit;
+  cursor:pointer;
+  transition:all .25s ease;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+html[dir="rtl"] .mobile-link{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:15px;
+  font-weight:600;
+}
+.mobile-link::after{
+  content:'→';
+  color:var(--neon);
+  font-size:16px;
+  font-family:var(--font-mono);
+}
+.mobile-link:hover{
+  background:var(--neon);
+  color:#0b0b0d;
+}
+.mobile-link:hover::after{color:#0b0b0d}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:32px;
+  left:32px;
+  padding:16px 24px;
+  background:var(--neon);
+  color:#0b0b0d;
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  opacity:0;
+  transform:translateY(200px);
+  transition:all .45s cubic-bezier(.68,-.55,.265,1.55);
+  z-index:1000;
+  pointer-events:none;
+  max-width:90vw;
+  border:2px solid #0b0b0d;
+  box-shadow:6px 6px 0 #0b0b0d;
+}
+html[dir="rtl"] .toast{
+  left:auto;
+  right:32px;
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:14px;
+}
+.toast.on{
+  opacity:1;
+  transform:translateY(0);
+}
+.toast-icon{
+  width:22px;height:22px;
+  background:#0b0b0d;
+  color:var(--neon);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-size:12px;
+  font-weight:800;
+}
+.toast-icon svg{
+  width:12px;height:12px;
+  stroke:var(--neon);fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1200px){
+  .hero-bottom{grid-template-columns:1fr 1fr 1fr 1fr}
+  .story-grid{grid-template-columns:1fr}
+  .story-main{border-inline-end:none;border-bottom:1px solid var(--line)}
+  .value-item{grid-template-columns:60px 1fr 2fr;gap:20px}
+  .value-item-tag{grid-column:1 / -1;justify-self:start;margin-top:8px}
+  .team-blocks{grid-template-columns:repeat(2,1fr)}
+  .offices-brutal{grid-template-columns:repeat(2,1fr)}
+  .office-brutal:nth-child(3){border-inline-start:none}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+
+@media(max-width:768px){
+  .nav{padding:0 16px}
+  .nav-inner{height:56px;gap:12px}
+  .nav-links{display:none}
+  .nav-lang{display:none}
+  .nav-cta{padding:0 14px;font-size:11.5px}
+  .nav-cta span{display:none}
+  .nav-cta::after{content:'→';font-size:14px}
+  .menu-btn{display:flex;padding:0 12px}
+  .logo{padding-inline-end:12px;border:none}
+  .nav-actions{padding-inline-start:0;border:none}
+  .mobile-menu{inset:56px 0 auto 0}
+
+  .hero{padding:40px 16px 60px}
+  .hero-meta{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:32px;font-size:10px}
+  .hero-meta-left{flex-wrap:wrap;gap:16px}
+  .hero-title{font-size:44px;line-height:1}
+  .hero-title .solid{padding:0 12px}
+  .hero-bottom{grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+  .hero-cell{padding:20px 16px}
+  .hero-cell:first-child{padding-inline-start:16px;grid-column:1 / -1;border-inline-start:none;border-bottom:1px solid var(--line)}
+  .hero-cell-value{font-size:26px}
+  .hero-desc{font-size:14px}
+  .hero-actions{flex-direction:column;margin-top:24px}
+  .btn{justify-content:center;width:100%}
+  .btn + .btn{border-inline-start:none;border-top:1px solid var(--line)}
+
+  .section{padding:56px 16px}
+  .section-marker{margin-bottom:32px;font-size:10px}
+  .section-title{font-size:28px}
+  .section-desc{font-size:14.5px;margin-bottom:40px}
+
+  .story-main{padding:32px 22px}
+  .story-main p{font-size:14.5px}
+  .story-main p:first-of-type::first-letter{font-size:64px}
+  .story-quote{padding:20px 0 20px 20px}
+  html[dir="rtl"] .story-quote{padding:20px 20px 20px 0}
+  .story-quote p{font-size:16px}
+  .side-block{padding:24px 22px}
+  .side-block-value{font-size:38px}
+
+  .stats-band{margin:0 -16px}
+  .stats-band-inner{grid-template-columns:1fr 1fr}
+  .band-cell{padding:28px 20px;border-bottom:2px solid #0b0b0d}
+  .band-cell:nth-child(odd){border-inline-start:none}
+  .band-cell:nth-child(3),.band-cell:nth-child(4){border-bottom:none}
+  .band-value{font-size:44px}
+
+  .value-item{grid-template-columns:44px 1fr;gap:16px;padding:24px 0}
+  .value-item-num{font-size:32px}
+  .value-item-title{font-size:16px}
+  .value-item-desc{grid-column:2;font-size:13.5px}
+  .value-item-tag{grid-column:2;justify-self:start}
+
+  .timeline-brutal{grid-template-columns:1fr 1fr}
+  .tl-block{min-height:200px;padding:24px 20px}
+  .tl-block:nth-child(3){border-inline-start:none}
+  .tl-block-year{font-size:32px}
+  .tl-block-title{font-size:14.5px}
+
+  .team-blocks{grid-template-columns:1fr 1fr;gap:1px}
+  .member-block{padding:24px 20px}
+  .member-block-avatar{width:64px;height:64px;font-size:32px;margin-bottom:20px}
+  .member-block-name{font-size:15px}
+  .member-block-role{font-size:11px}
+
+  .award-line{grid-template-columns:80px 1fr auto;gap:16px;padding:20px 0}
+  .award-line-issuer{display:none}
+  .award-line-year{font-size:26px}
+  .award-line-title{font-size:14.5px}
+  .award-line-badge{width:40px;height:40px;font-size:18px}
+
+  .offices-brutal{grid-template-columns:1fr}
+  .office-brutal{border-inline-start:none;border-bottom:1px solid var(--line);min-height:auto;padding:28px 22px}
+  .office-brutal:last-child{border-bottom:none}
+  .office-brutal-city{font-size:24px}
+
+  .cta-brutal{padding:0 16px}
+  .cta-inner{padding:48px 24px;grid-template-columns:1fr;gap:32px;border-width:2px}
+  .cta-title{font-size:30px}
+  .cta-actions .btn{min-width:auto}
+
+  .footer{padding:48px 16px 24px;margin-top:56px}
+  .footer-top{grid-template-columns:1fr;gap:28px;padding-bottom:32px}
+  .footer-bottom{flex-direction:column;gap:14px;align-items:flex-start}
+  .footer-bottom-links{justify-content:flex-start;flex-wrap:wrap;gap:16px}
+
+  .toast{left:16px;right:16px;bottom:16px}
+  html[dir="rtl"] .toast{right:16px;left:16px}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:34px}
+  .section-title{font-size:24px}
+  .stats-band-inner{grid-template-columns:1fr}
+  .band-cell{border-inline-start:none !important;border-bottom:2px solid #0b0b0d}
+  .band-cell:last-child{border-bottom:none}
+  .team-blocks{grid-template-columns:1fr}
+  .timeline-brutal{grid-template-columns:1fr}
+  .tl-block{border-inline-start:none !important}
+  .cta-title{font-size:24px}
+  .hero-cell-value{font-size:22px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="scrollToTop()">
+        <div class="logo-mark">O</div>
+        <span class="logo-text">OBSIDIAN</span>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-link active" onclick="scrollToId('story')">
+          <span class="nav-link-num">01</span>
+          <span data-fa="داستان" data-en="Story">داستان</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('values')">
+          <span class="nav-link-num">02</span>
+          <span data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('timeline')">
+          <span class="nav-link-num">03</span>
+          <span data-fa="تاریخچه" data-en="Timeline">تاریخچه</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('team')">
+          <span class="nav-link-num">04</span>
+          <span data-fa="تیم" data-en="Team">تیم</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('awards')">
+          <span class="nav-link-num">05</span>
+          <span data-fa="جوایز" data-en="Awards">جوایز</span>
+        </button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-lang" onclick="toggleLang()"><span id="langBtn">EN</span></button>
+        <button class="nav-cta" onclick="contactUs()">
+          <span data-fa="تماس" data-en="Contact">تماس</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="scrollToId('story')" data-fa="داستان" data-en="Story">داستان</button>
+    <button class="mobile-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+    <button class="mobile-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="Timeline">تاریخچه</button>
+    <button class="mobile-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+    <button class="mobile-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+    <button class="mobile-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="Offices">دفاتر</button>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-meta">
+      <div class="hero-meta-left">
+        <span><span class="hero-meta-dot"></span> STUDIO ACTIVE</span>
+        <span>EST. 2018</span>
+        <span>VOL. IV / 2025</span>
+      </div>
+      <div class="hero-meta-right">
+        <span data-fa="تهران · دبی · برلین · SF" data-en="Tehran · Dubai · Berlin · SF">تهران · دبی · برلین · SF</span>
+      </div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="row"><span data-fa="ما" data-en="WE">ما</span></span>
+      <span class="row"><span class="fill" data-fa="فناوری" data-en="ENGINEER">فناوری</span></span>
+      <span class="row"><span class="solid" data-fa="می‌سازیم" data-en="BUILD">می‌سازیم</span></span>
+    </h1>
+
+    <div class="hero-bottom">
+      <div class="hero-cell">
+        <div class="hero-cell-label" data-fa="درباره ما" data-en="About Us">درباره ما</div>
+        <p class="hero-desc" data-fa="<strong>OBSIDIAN</strong> یک استودیوی مهندسی و طراحی است که از سال ۱۳۹۷ با تکیه بر معماری نرم‌افزار پیشرفته، هوش مصنوعی، و وسواس بی‌نقص در جزئیات، برای بیش از یک میلیون کاربر در سراسر جهان محصول می‌سازد." data-en="<strong>OBSIDIAN</strong> is an engineering and design studio that since 2018 has been building products for over a million users worldwide, powered by advanced software architecture, AI, and an obsession with detail.">
+          <strong>OBSIDIAN</strong> یک استودیوی مهندسی و طراحی است که از سال ۱۳۹۷ با تکیه بر معماری نرم‌افزار پیشرفته، هوش مصنوعی، و وسواس بی‌نقص در جزئیات، برای بیش از یک میلیون کاربر در سراسر جهان محصول می‌سازد.
+        </p>
+      </div>
+      <div class="hero-cell">
+        <div class="hero-cell-label" data-fa="کاربران" data-en="Users">کاربران</div>
+        <div class="hero-cell-value">1.2<span class="accent">M</span></div>
+      </div>
+      <div class="hero-cell">
+        <div class="hero-cell-label" data-fa="تیم" data-en="Team">تیم</div>
+        <div class="hero-cell-value">247</div>
+      </div>
+      <div class="hero-cell">
+        <div class="hero-cell-label" data-fa="کشور" data-en="Countries">کشور</div>
+        <div class="hero-cell-value">45</div>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <button class="btn primary" onclick="scrollToId('story')">
+        <span data-fa="کاوش داستان" data-en="Explore Story">کاوش داستان</span>
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="btn secondary" onclick="contactUs()">
+        <span data-fa="شروع همکاری" data-en="Start Partnership">شروع همکاری</span>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="section" id="story">
+    <div class="section-marker reveal">
+      <span class="section-marker-num">01</span>
+      <span data-fa="فصل اول · داستان" data-en="Chapter One · The Story">فصل اول · داستان</span>
+      <span class="section-marker-line"></span>
+      <span data-fa="۱۳۹۷ تا امروز" data-en="2018 to Present">۱۳۹۷ تا امروز</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="از یک <span class='accent'>اتاق کوچک</span> تا یک شرکت جهانی" data-en="From a <span class='accent'>small room</span> to a global company">از یک <span class="accent">اتاق کوچک</span> تا یک شرکت جهانی</h2>
+
+    <p class="section-desc reveal" data-fa="داستان OBSIDIAN، داستان چهار ذهن است که با تکیه بر مهندسی دقیق و طراحی بی‌رحم، مسیر خود را ساخته‌اند." data-en="The OBSIDIAN story is the story of four minds who forged their own path through precision engineering and ruthless design.">
+      داستان OBSIDIAN، داستان چهار ذهن است که با تکیه بر مهندسی دقیق و طراحی بی‌رحم، مسیر خود را ساخته‌اند.
+    </p>
+
+    <div class="story-grid reveal">
+      <div class="story-main">
+        <p data-fa="سال ۱۳۹۷، چهار متخصص از شرکت‌های برتر فناوری در یک آپارتمان کوچک تهران گرد هم آمدند. هر کدام از جای متفاوتی آمده بودند، اما همه یک چیز مشترک داشتند: <strong>وسواس نسبت به جزئیات.</strong>" data-en="In 2018, four specialists from the world's top tech companies gathered in a small Tehran apartment. Each came from a different place, but all shared one thing: <strong>an obsession with detail.</strong>">
+          سال ۱۳۹۷، چهار متخصص از شرکت‌های برتر فناوری در یک آپارتمان کوچک تهران گرد هم آمدند. هر کدام از جای متفاوتی آمده بودند، اما همه یک چیز مشترک داشتند: <strong>وسواس نسبت به جزئیات.</strong>
+        </p>
+
+        <p data-fa="نام <em>OBSIDIAN</em> را انتخاب کردیم چون سنگ آتشفشانی، سیاه، سخت، و براق است — دقیقاً همان چیزی که ما می‌خواستیم باشیم. اولین محصول ما یک زیرساخت امنیتی بود که در ۹۰ روز ساخته شد، اما در طول مسیر آن را سه بار از صفر بازنویسی کردیم." data-en="We chose the name <em>OBSIDIAN</em> because volcanic stone is black, hard, and glossy — exactly what we wanted to be. Our first product was a security infrastructure built in 90 days, but along the way we rewrote it from scratch three times.">
+          نام <em>OBSIDIAN</em> را انتخاب کردیم چون سنگ آتشفشانی، سیاه، سخت، و براق است — دقیقاً همان چیزی که ما می‌خواستیم باشیم. اولین محصول ما یک زیرساخت امنیتی بود که در ۹۰ روز ساخته شد، اما در طول مسیر آن را سه بار از صفر بازنویسی کردیم.
+        </p>
+
+        <p data-fa="امروز، پس از هفت سال، بیش از ۱.۲ میلیون کاربر در ۴۵ کشور جهان به OBSIDIAN اعتماد می‌کنند. تیم ۲۴۷ نفره ما در چهار قاره پراکنده است. و ما هنوز هم با همان وسواس روز اول کار می‌کنیم — چون می‌دانیم که <strong>جزئیات، همه چیز است.</strong>" data-en="Today, after seven years, more than 1.2 million users in 45 countries trust OBSIDIAN. Our 247-person team is spread across four continents. And we still work with the same obsession as day one — because we know that <strong>details are everything.</strong>">
+          امروز، پس از هفت سال، بیش از ۱.۲ میلیون کاربر در ۴۵ کشور جهان به OBSIDIAN اعتماد می‌کنند. تیم ۲۴۷ نفره ما در چهار قاره پراکنده است. و ما هنوز هم با همان وسواس روز اول کار می‌کنیم — چون می‌دانیم که <strong>جزئیات، همه چیز است.</strong>
+        </p>
+
+        <div class="story-quote">
+          <p data-fa="ما آینده را پیش‌بینی نمی‌کنیم. ما آن را در آزمایشگاه‌ها، در خطوط کد، و در جلسات بی‌پایان طراحی می‌سازیم." data-en="We don't predict the future. We build it in labs, in lines of code, and in endless design meetings.">
+            ما آینده را پیش‌بینی نمی‌کنیم. ما آن را در آزمایشگاه‌ها، در خطوط کد، و در جلسات بی‌پایان طراحی می‌سازیم.
+          </p>
+          <span class="story-quote-author" data-fa="— علی رضایی · بنیان‌گذار" data-en="— Ali Rezaei · Founder">— علی رضایی · بنیان‌گذار</span>
+        </div>
+      </div>
+
+      <aside class="story-side">
+        <div class="side-block">
+          <div class="side-block-num">
+            <span>FACT / 001</span>
+            <span class="side-block-arrow">→</span>
+          </div>
+          <div class="side-block-value">04</div>
+          <div class="side-block-text" data-fa="بنیان‌گذار در روز اول" data-en="founders on day one">بنیان‌گذار در روز اول</div>
+        </div>
+
+        <div class="side-block">
+          <div class="side-block-num">
+            <span>FACT / 002</span>
+            <span class="side-block-arrow">→</span>
+          </div>
+          <div class="side-block-value">247<span class="accent">+</span></div>
+          <div class="side-block-text" data-fa="عضو تیم در چهار قاره" data-en="team members across four continents">عضو تیم در چهار قاره</div>
+        </div>
+
+        <div class="side-block">
+          <div class="side-block-num">
+            <span>FACT / 003</span>
+            <span class="side-block-arrow">→</span>
+          </div>
+          <div class="side-block-value">99<span class="accent">%</span></div>
+          <div class="side-block-text" data-fa="رضایت کاربران جهانی" data-en="global user satisfaction">رضایت کاربران جهانی</div>
+        </div>
+
+        <div class="side-block">
+          <div class="side-block-num">
+            <span>FACT / 004</span>
+            <span class="side-block-arrow">→</span>
+          </div>
+          <div class="side-block-value">45</div>
+          <div class="side-block-text" data-fa="کشور جهان" data-en="countries worldwide">کشور جهان</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ STATS BAND ============ -->
+  <div class="stats-band">
+    <div class="stats-band-inner reveal">
+      <div class="band-cell">
+        <div class="band-value"><span data-counter="1250000">0</span></div>
+        <div class="band-label" data-fa="کاربر فعال ماهانه" data-en="Monthly Active Users">کاربر فعال ماهانه</div>
+      </div>
+      <div class="band-cell">
+        <div class="band-value"><span data-counter="45">0</span></div>
+        <div class="band-label" data-fa="کشور جهان" data-en="Countries Worldwide">کشور جهان</div>
+      </div>
+      <div class="band-cell">
+        <div class="band-value"><span data-counter="247">0</span></div>
+        <div class="band-label" data-fa="عضو تیم" data-en="Team Members">عضو تیم</div>
+      </div>
+      <div class="band-cell">
+        <div class="band-value"><span data-counter="99">0</span><span class="unit">%</span></div>
+        <div class="band-label" data-fa="رضایت مشتری" data-en="Customer Satisfaction">رضایت مشتری</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VALUES ============ -->
+  <section class="section" id="values">
+    <div class="section-marker reveal">
+      <span class="section-marker-num">02</span>
+      <span data-fa="فصل دوم · ارزش‌ها" data-en="Chapter Two · Values">فصل دوم · ارزش‌ها</span>
+      <span class="section-marker-line"></span>
+      <span data-fa="شش اصل" data-en="Six Principles">شش اصل</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="اصولی که <span class='fill'>تغییر نمی‌کنند</span>" data-en="Principles that <span class='fill'>never change</span>">اصولی که <span class="fill">تغییر نمی‌کنند</span></h2>
+
+    <p class="section-desc reveal" data-fa="شش اصل بنیادین که در تمام جنبه‌های OBSIDIAN جاری هستند — از خط اول کد تا امضای قرارداد." data-en="Six fundamental principles running through every aspect of OBSIDIAN — from the first line of code to signing a contract.">
+      شش اصل بنیادین که در تمام جنبه‌های OBSIDIAN جاری هستند — از خط اول کد تا امضای قرارداد.
+    </p>
+
+    <div class="values-list reveal">
+      <div class="value-item">
+        <span class="value-item-num">01</span>
+        <h3 class="value-item-title" data-fa="امنیت مطلق" data-en="Absolute Security">امنیت مطلق</h3>
+        <p class="value-item-desc" data-fa="امنیت کاربران، خط سرخ ماست. از رمزنگاری AES-256 و معماری Zero-Trust گرفته تا ممیزی‌های مستقل فصلی، ما هیچ مصالحه‌ای نمی‌کنیم." data-en="User security is our red line. From AES-256 encryption and Zero-Trust architecture to quarterly independent audits, we make no compromises.">امنیت کاربران، خط سرخ ماست. از رمزنگاری AES-256 و معماری Zero-Trust گرفته تا ممیزی‌های مستقل فصلی، ما هیچ مصالحه‌ای نمی‌کنیم.</p>
+        <span class="value-item-tag">SECURITY</span>
+      </div>
+
+      <div class="value-item">
+        <span class="value-item-num">02</span>
+        <h3 class="value-item-title" data-fa="نوآوری مداوم" data-en="Continuous Innovation">نوآوری مداوم</h3>
+        <p class="value-item-desc" data-fa="هر سه ماه یک قابلیت جدید. هر سال یک بازآفرینی کامل. توقف، شکست است." data-en="A new feature every three months. A complete reinvention every year. Stopping is failing.">هر سه ماه یک قابلیت جدید. هر سال یک بازآفرینی کامل. توقف، شکست است.</p>
+        <span class="value-item-tag">INNOVATION</span>
+      </div>
+
+      <div class="value-item">
+        <span class="value-item-num">03</span>
+        <h3 class="value-item-title" data-fa="کیفیت بی‌نقص" data-en="Flawless Quality">کیفیت بی‌نقص</h3>
+        <p class="value-item-desc" data-fa="هر خط کد، هر پیکسل، هر میلی‌ثانیه اندازه‌گیری می‌شود. ما برای انتشار، معیار سختی‌گیرانه‌ای داریم." data-en="Every line of code, every pixel, every millisecond is measured. We have strict release criteria.">هر خط کد، هر پیکسل، هر میلی‌ثانیه اندازه‌گیری می‌شود. ما برای انتشار، معیار سختی‌گیرانه‌ای داریم.</p>
+        <span class="value-item-tag">QUALITY</span>
+      </div>
+
+      <div class="value-item">
+        <span class="value-item-num">04</span>
+        <h3 class="value-item-title" data-fa="شفافیت کامل" data-en="Radical Transparency">شفافیت کامل</h3>
+        <p class="value-item-desc" data-fa="تمام داده‌ها متعلق به کاربران است و ما فقط امانت‌داریم. سیاست‌های ما روی وب‌سایت عمومی است." data-en="All data belongs to users and we are only its guardians. Our policies are public on our website.">تمام داده‌ها متعلق به کاربران است و ما فقط امانت‌داریم. سیاست‌های ما روی وب‌سایت عمومی است.</p>
+        <span class="value-item-tag">TRANSPARENCY</span>
+      </div>
+
+      <div class="value-item">
+        <span class="value-item-num">05</span>
+        <h3 class="value-item-title" data-fa="تیم محور" data-en="Team First">تیم محور</h3>
+        <p class="value-item-desc" data-fa="بدون تیم، هیچ موفقیتی ممکن نیست. ما به رشد و رفاه اعضای تیم خود متعهد هستیم." data-en="Without a team, no success is possible. We are committed to the growth and wellbeing of our team members.">بدون تیم، هیچ موفقیتی ممکن نیست. ما به رشد و رفاه اعضای تیم خود متعهد هستیم.</p>
+        <span class="value-item-tag">TEAM</span>
+      </div>
+
+      <div class="value-item">
+        <span class="value-item-num">06</span>
+        <h3 class="value-item-title" data-fa="تفکر بلندمدت" data-en="Long-Term Thinking">تفکر بلندمدت</h3>
+        <p class="value-item-desc" data-fa="ما برای ده سال آینده برنامه‌ریزی می‌کنیم، نه سه ماه. سود کوتاه‌مدت هرگز اولویت اول نیست." data-en="We plan for the next ten years, not three months. Short-term profits are never the priority.">ما برای ده سال آینده برنامه‌ریزی می‌کنیم، نه سه ماه. سود کوتاه‌مدت هرگز اولویت اول نیست.</p>
+        <span class="value-item-tag">LONG-TERM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline">
+    <div class="section-marker reveal">
+      <span class="section-marker-num">03</span>
+      <span data-fa="فصل سوم · تاریخچه" data-en="Chapter Three · Timeline">فصل سوم · تاریخچه</span>
+      <span class="section-marker-line"></span>
+      <span data-fa="هفت سال" data-en="Seven Years">هفت سال</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="سفر <span class='accent'>هفت‌ساله</span> ما" data-en="Our <span class='accent'>seven-year</span> journey">سفر <span class="accent">هفت‌ساله</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="نقاط عطف کلیدی که OBSIDIAN را از یک ایده به یک شرکت جهانی تبدیل کردند." data-en="Key milestones that transformed OBSIDIAN from an idea into a global company.">
+      نقاط عطف کلیدی که OBSIDIAN را از یک ایده به یک شرکت جهانی تبدیل کردند.
+    </p>
+
+    <div class="timeline-brutal reveal">
+      <div class="tl-block">
+        <span class="tl-block-num">01 / 07</span>
+        <div class="tl-block-year">2018</div>
+        <h3 class="tl-block-title" data-fa="تأسیس OBSIDIAN" data-en="OBSIDIAN Founded">تأسیس OBSIDIAN</h3>
+        <p class="tl-block-desc" data-fa="چهار بنیان‌گذار، یک آپارتمان کوچک، و یک رویای مشترک." data-en="Four founders, a small apartment, and a shared dream.">چهار بنیان‌گذار، یک آپارتمان کوچک، و یک رویای مشترک.</p>
+      </div>
+
+      <div class="tl-block">
+        <span class="tl-block-num">02 / 07</span>
+        <div class="tl-block-year">2019</div>
+        <h3 class="tl-block-title" data-fa="اولین ۱۰۰۰ کاربر" data-en="First 1,000 Users">اولین ۱۰۰۰ کاربر</h3>
+        <p class="tl-block-desc" data-fa="اولین محصول منتشر شد و در کمتر از ۹۰ روز به ۱۰۰۰ کاربر رسید." data-en="The first product shipped and reached 1,000 users in under 90 days.">اولین محصول منتشر شد و در کمتر از ۹۰ روز به ۱۰۰۰ کاربر رسید.</p>
+      </div>
+
+      <div class="tl-block">
+        <span class="tl-block-num">03 / 07</span>
+        <div class="tl-block-year">2020</div>
+        <h3 class="tl-block-title" data-fa="دفتر دبی" data-en="Dubai Office">دفتر دبی</h3>
+        <p class="tl-block-desc" data-fa="اولین دفتر بین‌المللی در دبی افتتاح شد." data-en="First international office opened in Dubai.">اولین دفتر بین‌المللی در دبی افتتاح شد.</p>
+      </div>
+
+      <div class="tl-block">
+        <span class="tl-block-num">04 / 07</span>
+        <div class="tl-block-year">2021</div>
+        <h3 class="tl-block-title" data-fa="موتور AI" data-en="AI Engine">موتور AI</h3>
+        <p class="tl-block-desc" data-fa="موتور هوش مصنوعی اختصاصی ما رونمایی شد." data-en="Our proprietary AI engine was unveiled.">موتور هوش مصنوعی اختصاصی ما رونمایی شد.</p>
+      </div>
+
+      <div class="tl-block">
+        <span class="tl-block-num">05 / 07</span>
+        <div class="tl-block-year">2022</div>
+        <h3 class="tl-block-title" data-fa="برلین و SF" data-en="Berlin & SF">برلین و SF</h3>
+        <p class="tl-block-desc" data-fa="گسترش به اروپا و آمریکای شمالی." data-en="Expansion into Europe and North America.">گسترش به اروپا و آمریکای شمالی.</p>
+      </div>
+
+      <div class="tl-block">
+        <span class="tl-block-num">06 / 07</span>
+        <div class="tl-block-year">2023</div>
+        <h3 class="tl-block-title" data-fa="مرز یک میلیون" data-en="One Million">مرز یک میلیون</h3>
+        <p class="tl-block-desc" data-fa="بیش از یک میلیون کاربر فعال در ۴۵ کشور جهان." data-en="Over one million active users in 45 countries.">بیش از یک میلیون کاربر فعال در ۴۵ کشور جهان.</p>
+      </div>
+
+      <div class="tl-block">
+        <span class="tl-block-num">07 / 07</span>
+        <div class="tl-block-year">2025</div>
+        <h3 class="tl-block-title" data-fa="نسخه چهارم" data-en="Volume IV">نسخه چهارم</h3>
+        <p class="tl-block-desc" data-fa="با ۲۴۷ متخصص در چهار قاره، در حال ساخت نسل بعدی هستیم." data-en="With 247 experts across four continents, we are building the next generation.">با ۲۴۷ متخصص در چهار قاره، در حال ساخت نسل بعدی هستیم.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section" id="team">
+    <div class="section-marker reveal">
+      <span class="section-marker-num">04</span>
+      <span data-fa="فصل چهارم · تیم" data-en="Chapter Four · Team">فصل چهارم · تیم</span>
+      <span class="section-marker-line"></span>
+      <span data-fa="چهار رهبر" data-en="Four Leaders">چهار رهبر</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="ذهن‌های <span class='accent'>پشت</span> OBSIDIAN" data-en="The <span class='accent'>minds</span> behind OBSIDIAN">ذهن‌های <span class="accent">پشت</span> OBSIDIAN</h2>
+
+    <p class="section-desc reveal" data-fa="تیم رهبری ما متشکل از متخصصانی است که از شرکت‌های برتر فناوری جهان آمده‌اند." data-en="Our leadership team consists of experts who have come from the world's top technology companies.">
+      تیم رهبری ما متشکل از متخصصانی است که از شرکت‌های برتر فناوری جهان آمده‌اند.
+    </p>
+
+    <div class="team-blocks reveal">
+      <div class="member-block">
+        <div class="member-block-idx">01 / 04</div>
+        <div class="member-block-avatar">A</div>
+        <div class="member-block-name" data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</div>
+        <div class="member-block-role" data-fa="بنیان‌گذار · مدیرعامل" data-en="Founder · CEO">بنیان‌گذار · مدیرعامل</div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-block-idx">02 / 04</div>
+        <div class="member-block-avatar">S</div>
+        <div class="member-block-name" data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</div>
+        <div class="member-block-role" data-fa="مدیر ارشد فناوری" data-en="Chief Technology Officer">مدیر ارشد فناوری</div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-block-idx">03 / 04</div>
+        <div class="member-block-avatar">R</div>
+        <div class="member-block-name" data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</div>
+        <div class="member-block-role" data-fa="مدیر طراحی" data-en="Head of Design">مدیر طراحی</div>
+      </div>
+
+      <div class="member-block">
+        <div class="member-block-idx">04 / 04</div>
+        <div class="member-block-avatar">M</div>
+        <div class="member-block-name" data-fa="مریم حسینی" data-en="Maryam Hosseini">مریم حسینی</div>
+        <div class="member-block-role" data-fa="مدیر محصول" data-en="Head of Product">مدیر محصول</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section class="section" id="awards">
+    <div class="section-marker reveal">
+      <span class="section-marker-num">05</span>
+      <span data-fa="فصل پنجم · جوایز" data-en="Chapter Five · Awards">فصل پنجم · جوایز</span>
+      <span class="section-marker-line"></span>
+      <span data-fa="افتخارات" data-en="Honors">افتخارات</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="افتخارات <span class='accent'>جهانی</span> ما" data-en="Our <span class='accent'>global</span> honors">افتخارات <span class="accent">جهانی</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="جوایز و افتخاراتی که در طول مسیر دریافت کرده‌ایم." data-en="Awards and honors we have received along the way.">
+      جوایز و افتخاراتی که در طول مسیر دریافت کرده‌ایم.
+    </p>
+
+    <div class="awards-brutal reveal">
+      <div class="award-line">
+        <div class="award-line-year">2023</div>
+        <div class="award-line-title" data-fa="بهترین استودیوی فناوری خاورمیانه" data-en="Best Tech Studio in the Middle East">بهترین استودیوی فناوری خاورمیانه</div>
+        <div class="award-line-issuer">Middle East Tech Awards</div>
+        <div class="award-line-badge">🏆</div>
+      </div>
+
+      <div class="award-line">
+        <div class="award-line-year">2022</div>
+        <div class="award-line-title" data-fa="نوآوری برتر در هوش مصنوعی" data-en="Top Innovation in AI">نوآوری برتر در هوش مصنوعی</div>
+        <div class="award-line-issuer">Global AI Summit</div>
+        <div class="award-line-badge">🥇</div>
+      </div>
+
+      <div class="award-line">
+        <div class="award-line-year">2021</div>
+        <div class="award-line-title" data-fa="طراحی تجربه کاربری برتر" data-en="Best UX Design">طراحی تجربه کاربری برتر</div>
+        <div class="award-line-issuer">UX Design Awards</div>
+        <div class="award-line-badge">🎨</div>
+      </div>
+
+      <div class="award-line">
+        <div class="award-line-year">2020</div>
+        <div class="award-line-title" data-fa="استارتاپ برتر امنیتی" data-en="Top Security Startup">استارتاپ برتر امنیتی</div>
+        <div class="award-line-issuer">CyberSec Global</div>
+        <div class="award-line-badge">🛡️</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICES ============ -->
+  <section class="section" id="offices">
+    <div class="section-marker reveal">
+      <span class="section-marker-num">06</span>
+      <span data-fa="فصل ششم · دفاتر" data-en="Chapter Six · Offices">فصل ششم · دفاتر</span>
+      <span class="section-marker-line"></span>
+      <span data-fa="چهار قاره" data-en="Four Continents">چهار قاره</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="حضور <span class='accent'>جهانی</span> ما" data-en="Our <span class='accent'>global</span> presence">حضور <span class="accent">جهانی</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="چهار دفتر در چهار قاره، یک هدف مشترک." data-en="Four offices on four continents, one shared goal.">
+      چهار دفتر در چهار قاره، یک هدف مشترک.
+    </p>
+
+    <div class="offices-brutal reveal">
+      <div class="office-brutal">
+        <div class="office-brutal-num">HQ / 01</div>
+        <span class="office-brutal-flag">🇮🇷</span>
+        <div class="office-brutal-city" data-fa="تهران" data-en="Tehran">تهران</div>
+        <div class="office-brutal-country" data-fa="ایران · مرکز اصلی" data-en="Iran · HQ">ایران · مرکز اصلی</div>
+        <div class="office-brutal-address" data-fa="خیابان ولیعصر، برج فناوری، طبقه ۱۸" data-en="Valiasr St, Tech Tower, 18th Floor">خیابان ولیعصر، برج فناوری، طبقه ۱۸</div>
+      </div>
+
+      <div class="office-brutal">
+        <div class="office-brutal-num">MEA / 02</div>
+        <span class="office-brutal-flag">🇦🇪</span>
+        <div class="office-brutal-city" data-fa="دبی" data-en="Dubai">دبی</div>
+        <div class="office-brutal-country" data-fa="امارات · خاورمیانه" data-en="UAE · Middle East">امارات · خاورمیانه</div>
+        <div class="office-brutal-address" data-fa="مرکز مالی DIFC، برج Gate، طبقه ۲۴" data-en="DIFC, Gate Tower, 24th Floor">مرکز مالی DIFC، برج Gate، طبقه ۲۴</div>
+      </div>
+
+      <div class="office-brutal">
+        <div class="office-brutal-num">EU / 03</div>
+        <span class="office-brutal-flag">🇩🇪</span>
+        <div class="office-brutal-city" data-fa="برلین" data-en="Berlin">برلین</div>
+        <div class="office-brutal-country" data-fa="آلمان · اروپا" data-en="Germany · Europe">آلمان · اروپا</div>
+        <div class="office-brutal-address" data-fa="منطقه فناوری Mitte، Torstraße ۱۲" data-en="Mitte Tech District, Torstraße 12">منطقه فناوری Mitte، Torstraße ۱۲</div>
+      </div>
+
+      <div class="office-brutal">
+        <div class="office-brutal-num">NA / 04</div>
+        <span class="office-brutal-flag">🇺🇸</span>
+        <div class="office-brutal-city" data-fa="سانفرانسیسکو" data-en="San Francisco">سانفرانسیسکو</div>
+        <div class="office-brutal-country" data-fa="آمریکا · آمریکای شمالی" data-en="USA · North America">آمریکا · آمریکای شمالی</div>
+        <div class="office-brutal-address" data-fa="Market St، برج Salesforce، طبقه ۳۰" data-en="Market St, Salesforce Tower, 30th Floor">Market St، برج Salesforce، طبقه ۳۰</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-brutal" id="contact">
+    <div class="cta-inner reveal">
+      <div>
+        <div class="cta-label" data-fa="شروع همکاری" data-en="Start Partnership">شروع همکاری</div>
+        <h2 class="cta-title" data-fa="آماده‌اید <span class='accent'>آینده</span> را با ما بسازید؟" data-en="Ready to build the <span class='accent'>future</span> with us?">آماده‌اید <span class="accent">آینده</span> را با ما بسازید؟</h2>
+      </div>
+      <div class="cta-actions">
+        <button class="btn primary" onclick="contactUs()">
+          <span data-fa="تماس با ما" data-en="Contact Us">تماس با ما</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn secondary" onclick="scrollToId('story')">
+          <span data-fa="بازگشت به بالا" data-en="Back to Top">بازگشت به بالا</span>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 17 12 12 9 9"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <div class="footer-logo">O</div>
+            <span class="footer-brand-name">OBSIDIAN</span>
+          </div>
+          <p class="footer-desc" data-fa="استودیوی مهندسی و طراحی با تمرکز بر امنیت، مقیاس‌پذیری، و وسواس در جزئیات. از سال ۱۳۹۷ در کنار شما." data-en="Engineering and design studio focused on security, scalability, and obsession with detail. By your side since 2018.">
+            استودیوی مهندسی و طراحی با تمرکز بر امنیت، مقیاس‌پذیری، و وسواس در جزئیات. از سال ۱۳۹۷ در کنار شما.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="محصولات" data-en="Products">محصولات</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="هوش مصنوعی" data-en="AI Engine">هوش مصنوعی</button>
+            <button class="footer-link" data-fa="امنیت" data-en="Security">امنیت</button>
+            <button class="footer-link" data-fa="طراحی" data-en="Design System">طراحی</button>
+            <button class="footer-link" data-fa="پژوهش" data-en="Research">پژوهش</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="شرکت" data-en="Company">شرکت</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="scrollToId('story')" data-fa="درباره ما" data-en="About">درباره ما</button>
+            <button class="footer-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+            <button class="footer-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+            <button class="footer-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="Offices">دفاتر</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="ارتباط" data-en="Connect">ارتباط</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="تماس" data-en="Contact">تماس</button>
+            <button class="footer-link" data-fa="همکاری" data-en="Partnership">همکاری</button>
+            <button class="footer-link" data-fa="رسانه" data-en="Press">رسانه</button>
+            <button class="footer-link" data-fa="فرصت‌های شغلی" data-en="Careers">فرصت‌های شغلی</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025 OBSIDIAN STUDIO · <span data-fa="تمام حقوق محفوظ است." data-en="All rights reserved.">تمام حقوق محفوظ است.</span></div>
+        <div class="footer-bottom-links">
+          <button class="footer-bottom-link" data-fa="حریم خصوصی" data-en="Privacy">حریم خصوصی</button>
+          <button class="footer-bottom-link" data-fa="شرایط" data-en="Terms">شرایط</button>
+          <button class="footer-bottom-link" data-fa="کوکی‌ها" data-en="Cookies">کوکی‌ها</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+  <div class="toast-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <span id="toastMsg" data-fa="انجام شد!" data-en="Done!">انجام شد!</span>
+</div>
+
+<script>
+/* ============================================================
+   PAGE / NAV
+   ============================================================ */
+const page = document.getElementById('page');
+const nav = document.getElementById('nav');
+
+page.addEventListener('scroll', () => {
+  if(page.scrollTop > 40){
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+function scrollToTop(){
+  page.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(el){
+    const offset = 80;
+    const top = el.getBoundingClientRect().top + page.scrollTop - offset;
+    page.scrollTo({ top, behavior: 'smooth' });
+  }
+  document.getElementById('mobileMenu').classList.remove('on');
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('on');
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+let lang = 'fa';
+
+function toggleLang(){
+  lang = lang === 'fa' ? 'en' : 'fa';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  document.getElementById('langBtn').textContent = lang === 'fa' ? 'EN' : 'FA';
+
+  document.querySelectorAll('[data-fa]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if(val !== null && val !== undefined){
+      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+        el.placeholder = val;
+      } else {
+        el.innerHTML = val;
+      }
+    }
+  });
+
+  showToast(lang === 'fa' ? 'زبان تغییر کرد' : 'Language changed');
+}
+
+/* ============================================================
+   COUNTER
+   ============================================================ */
+function animateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.done) return;
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      el.dataset.done = '1';
+      const target = parseInt(el.getAttribute('data-counter'));
+      const duration = 2000;
+      const start = performance.now();
+      const isLarge = target > 10000;
+
+      function update(now){
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        let val = Math.floor(eased * target);
+        if(isLarge){
+          el.textContent = val >= 1000000
+            ? (val / 1000000).toFixed(1).replace('.0','') + 'M'
+            : val.toLocaleString('en-US');
+        } else {
+          el.textContent = val.toLocaleString('en-US');
+        }
+        if(t < 1){
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = isLarge
+            ? (target / 1000000).toFixed(1).replace('.0','') + 'M'
+            : target.toLocaleString('en-US');
+        }
+      }
+      requestAnimationFrame(update);
+    }
+  });
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================================================
+   NAV ACTIVE STATE
+   ============================================================ */
+const sections = ['story','values','timeline','team','awards'];
+const navLinks = document.querySelectorAll('.nav-link');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const onclick = link.getAttribute('onclick') || '';
+        if(onclick.includes(id)){
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-80px 0px -60px 0px' });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) sectionObserver.observe(el);
+});
+
+/* ============================================================
+   SCROLL HANDLER
+   ============================================================ */
+page.addEventListener('scroll', () => {
+  animateCounters();
+}, { passive: true });
+
+window.addEventListener('scroll', animateCounters, { passive: true });
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  toastMsg.textContent = msg;
+  toast.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('on');
+  }, 2600);
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+function contactUs(){
+  showToast(lang === 'fa' ? 'به‌زودی با شما تماس می‌گیریم!' : 'We will contact you soon!');
+  const btn = event && event.target ? event.target.closest('.btn, .nav-cta') : null;
+  if(btn){
+    btn.style.transition = 'transform .15s ease';
+    btn.style.transform = 'scale(.97)';
+    setTimeout(() => { btn.style.transform = ''; }, 150);
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load', () => {
+  animateCounters();
+  if(lang === 'fa'){
+    document.querySelectorAll('[data-fa]').forEach(el => {
+      const val = el.getAttribute('data-fa');
+      if(val && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA'){
+        el.innerHTML = val;
+      }
+    });
+  }
+});
+
+if(!window.IntersectionObserver){
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    el.textContent = el.getAttribute('data-counter');
+  });
+}
+
+/* ============================================================
+   CROSSHAIR (Optional enhancement for desktop)
+   ============================================================ */
+if(window.matchMedia('(min-width:1024px)').matches){
+  let crosshair = document.createElement('div');
+  crosshair.className = 'crosshair';
+  crosshair.textContent = '+';
+  document.body.appendChild(crosshair);
+
+  document.addEventListener('mousemove', (e) => {
+    crosshair.style.left = (e.clientX + 16) + 'px';
+    crosshair.style.top = (e.clientY + 16) + 'px';
+    crosshair.textContent = `X:${String(e.clientX).padStart(4,'0')} Y:${String(e.clientY).padStart(4,'0')}`;
+  });
+}
+</script>
+</body>
+</html>
