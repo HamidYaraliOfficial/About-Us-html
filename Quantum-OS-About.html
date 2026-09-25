@@ -1,0 +1,3332 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050608">
+<title>QUANTUM // System Diagnostics | Advanced About Terminal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'JetBrains Mono','Vazirmatn',monospace;
+  background:#050608;
+  color:#8ef0c4;
+  min-height:100vh;min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+  font-weight:400;
+  overflow-x:hidden;
+  text-shadow:0 0 2px currentColor;
+}
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#050608;
+  --bg-2:#0a0d10;
+  --bg-3:#0f1318;
+  --bg-4:#161c22;
+  --bg-5:#1e262e;
+
+  --mint:#8ef0c4;
+  --mint-2:#4fd1a0;
+  --mint-3:#2a8b6a;
+  --mint-4:#164535;
+
+  --cyan:#5ddcff;
+  --cyan-2:#2aa9c9;
+  --violet:#a78bfa;
+  --violet-2:#7c5cf0;
+  --amber:#ffb84d;
+  --amber-2:#cc8b1a;
+  --rose:#ff6b9d;
+  --rose-2:#c73d72;
+  --red:#ff4757;
+  --blue:#4d7cff;
+
+  --white:#e8ecf0;
+  --gray:#6b7682;
+  --gray-2:#3d4650;
+  --gray-3:#242b32;
+
+  --font-mono:'JetBrains Mono','IBM Plex Mono','Vazirmatn',monospace;
+  --font-body:'Vazirmatn','JetBrains Mono',monospace;
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  background:var(--bg);
+  position:relative;
+  scrollbar-width:thin;
+  scrollbar-color:var(--mint-2) var(--bg-2);
+}
+.page::-webkit-scrollbar{width:10px}
+.page::-webkit-scrollbar-track{
+  background:var(--bg-2);
+  border-left:1px solid var(--mint-4);
+}
+.page::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--mint-2),var(--mint-3));
+  border:1px solid var(--mint-2);
+}
+.page::-webkit-scrollbar-thumb:hover{
+  background:var(--mint);
+  box-shadow:0 0 12px var(--mint);
+}
+
+/* ============================================================
+   BACKGROUND — subtle grid + glow orbs
+   ============================================================ */
+.bg-grid{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.35;
+  background-image:
+    linear-gradient(rgba(142,240,196,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(142,240,196,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.bg-orb{
+  position:fixed;
+  border-radius:50%;
+  z-index:0;
+  pointer-events:none;
+  filter:blur(120px);
+  opacity:.35;
+}
+.bg-orb.o1{
+  top:-200px;inset-inline-start:-200px;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(142,240,196,.5),transparent 70%);
+  animation:orbFloat1 30s ease-in-out infinite;
+}
+.bg-orb.o2{
+  bottom:-200px;inset-inline-end:-200px;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(93,220,255,.4),transparent 70%);
+  animation:orbFloat2 35s ease-in-out infinite;
+}
+.bg-orb.o3{
+  top:40%;inset-inline-start:30%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(167,139,250,.35),transparent 70%);
+  animation:orbFloat3 40s ease-in-out infinite;
+}
+@keyframes orbFloat1{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(150px,100px) scale(1.2)}
+}
+@keyframes orbFloat2{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-150px,-100px) scale(1.15)}
+}
+@keyframes orbFloat3{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(100px,-150px) scale(1.1)}
+}
+
+/* CRT + scanlines */
+.crt-lines{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(142,240,196,.02) 2px,
+    rgba(142,240,196,.02) 3px
+  );
+  mix-blend-mode:screen;
+}
+.crt-vignette{
+  position:fixed;
+  inset:0;
+  z-index:998;
+  pointer-events:none;
+  background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 55%,rgba(0,0,0,.85) 100%);
+}
+.crt-noise{
+  position:fixed;
+  inset:0;
+  z-index:997;
+  pointer-events:none;
+  opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:noiseShift .5s steps(2) infinite;
+}
+@keyframes noiseShift{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-2px,2px)}
+  50%{transform:translate(2px,-2px)}
+  75%{transform:translate(-2px,-2px)}
+  100%{transform:translate(0,0)}
+}
+
+/* ============================================================
+   TOP BAR — System status
+   ============================================================ */
+.term-bar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(5,6,8,.92);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--mint-4);
+}
+.term-bar-inner{
+  max-width:1800px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  height:36px;
+  padding:0 16px;
+  gap:14px;
+  font-family:var(--font-mono);
+  font-size:11px;
+}
+.term-logo{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:var(--mint);
+  font-weight:700;
+  letter-spacing:1.5px;
+  padding-inline-end:14px;
+  border-inline-end:1px solid var(--mint-4);
+}
+.term-logo-mark{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;height:18px;
+  background:var(--mint-2);
+  color:var(--bg);
+  font-size:11px;
+  font-weight:800;
+  text-shadow:none;
+  animation:logoPulse 2s ease-in-out infinite;
+}
+@keyframes logoPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(142,240,196,.5)}
+  50%{box-shadow:0 0 0 4px rgba(142,240,196,0)}
+}
+.term-logo-text{
+  text-shadow:0 0 6px var(--mint);
+}
+
+.term-status{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex:1;
+  overflow:hidden;
+}
+.term-status-item{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--mint-3);
+  font-size:10.5px;
+  letter-spacing:.5px;
+  white-space:nowrap;
+}
+.term-status-item .dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 6px var(--mint);
+}
+.term-status-item .dot.warn{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.term-status-item .dot.info{background:var(--cyan);box-shadow:0 0 6px var(--cyan)}
+.term-status-item .label{color:var(--gray)}
+.term-status-item .val{color:var(--mint-2);font-weight:600}
+
+.term-meta{
+  display:flex;
+  gap:16px;
+  padding-inline-start:14px;
+  border-inline-start:1px solid var(--mint-4);
+  color:var(--mint-3);
+  font-size:10.5px;
+}
+.term-meta .time{color:var(--mint-2);font-weight:600}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;
+  top:36px;
+  z-index:99;
+  background:rgba(10,13,16,.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--mint-4);
+}
+.nav-inner{
+  max-width:1800px;
+  margin:0 auto;
+  display:flex;
+  align-items:stretch;
+  height:52px;
+  padding:0 16px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  padding-inline-end:20px;
+  border-inline-end:1px solid var(--mint-4);
+  transition:all .2s ease;
+}
+.logo:hover .logo-cursor{background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.logo-mark{
+  font-size:14px;
+  font-weight:800;
+  color:var(--mint);
+  padding:3px 8px;
+  border:1px solid var(--mint-2);
+  background:rgba(142,240,196,.06);
+  text-shadow:0 0 8px var(--mint);
+  position:relative;
+}
+.logo-mark::after{
+  content:'';
+  position:absolute;
+  top:-1px;inset-inline-end:-1px;
+  width:4px;height:4px;
+  background:var(--cyan);
+  box-shadow:0 0 6px var(--cyan);
+}
+.logo-text{
+  font-size:15px;
+  font-weight:800;
+  color:var(--mint);
+  letter-spacing:3px;
+  text-shadow:0 0 8px var(--mint);
+}
+.logo-cursor{
+  display:inline-block;
+  width:9px;
+  height:16px;
+  background:var(--mint);
+  margin-inline-start:2px;
+  animation:blink 1s steps(2) infinite;
+  vertical-align:middle;
+  transition:all .3s ease;
+}
+@keyframes blink{
+  0%,50%{opacity:1}
+  51%,100%{opacity:0}
+}
+
+.nav-links{
+  display:flex;
+  align-items:stretch;
+  flex:1;
+  overflow:hidden;
+}
+.nav-link{
+  background:transparent;
+  border:none;
+  border-inline-end:1px solid var(--mint-4);
+  color:var(--mint-3);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  padding:0 20px;
+  transition:all .18s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  position:relative;
+  letter-spacing:.5px;
+  white-space:nowrap;
+}
+html[dir="rtl"] .nav-link{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  font-size:13px;
+}
+.nav-link::before{
+  content:'';
+  position:absolute;
+  bottom:0;
+  inset-inline-start:0;
+  width:0;
+  height:2px;
+  background:var(--mint);
+  box-shadow:0 0 6px var(--mint);
+  transition:width .3s cubic-bezier(.16,1,.3,1);
+}
+.nav-link:hover{
+  color:var(--mint);
+  background:rgba(142,240,196,.04);
+}
+.nav-link:hover::before{width:100%}
+.nav-link.active{
+  color:var(--mint);
+  background:rgba(142,240,196,.08);
+}
+.nav-link.active::before{width:100%}
+.nav-link-prompt{
+  color:var(--cyan-2);
+  font-weight:700;
+  font-size:11px;
+}
+.nav-link-idx{
+  color:var(--gray-2);
+  font-size:10px;
+  font-weight:500;
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-inline-start:20px;
+  border-inline-start:1px solid var(--mint-4);
+}
+.nav-lang{
+  background:transparent;
+  border:1px solid var(--mint-3);
+  color:var(--mint-2);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+  padding:6px 12px;
+  transition:all .18s ease;
+  letter-spacing:1px;
+  position:relative;
+}
+.nav-lang:hover{
+  background:var(--mint-2);
+  color:var(--bg);
+  box-shadow:0 0 12px var(--mint-2);
+  text-shadow:none;
+}
+
+.nav-cta{
+  background:linear-gradient(135deg,var(--mint-2),var(--mint-3));
+  border:1px solid var(--mint-2);
+  color:var(--bg);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  font-weight:700;
+  cursor:pointer;
+  padding:7px 16px;
+  transition:all .18s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  letter-spacing:.5px;
+  text-shadow:none;
+  position:relative;
+  overflow:hidden;
+}
+html[dir="rtl"] .nav-cta{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  font-size:12.5px;
+}
+.nav-cta::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+  transition:inset-inline-start .6s ease;
+}
+.nav-cta:hover::before{inset-inline-start:100%}
+.nav-cta:hover{
+  box-shadow:0 0 20px var(--mint-2);
+}
+
+.menu-btn{
+  display:none;
+  background:transparent;
+  border:1px solid var(--mint-3);
+  color:var(--mint);
+  cursor:pointer;
+  padding:8px;
+}
+.menu-btn svg{
+  width:18px;height:18px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:square;
+}
+
+/* ============================================================
+   HERO — Command prompt + boot
+   ============================================================ */
+.hero{
+  padding:60px 32px 40px;
+  max-width:1800px;
+  margin:0 auto;
+  position:relative;
+  z-index:5;
+  font-family:var(--font-mono);
+}
+
+.hero-cmd{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:14px 20px;
+  background:var(--bg-2);
+  border:1px solid var(--mint-4);
+  font-size:12.5px;
+  margin-bottom:24px;
+  position:relative;
+}
+.hero-cmd::before{
+  content:'▸';
+  position:absolute;
+  inset-inline-start:6px;
+  top:-8px;
+  color:var(--mint-2);
+  background:var(--bg);
+  padding:0 6px;
+  font-size:10px;
+  letter-spacing:2px;
+}
+.hero-cmd-path{color:var(--cyan)}
+.hero-cmd-sep{color:var(--gray-2)}
+.hero-cmd-user{color:var(--mint)}
+.hero-cmd-cmd{color:var(--white)}
+.hero-cmd-cursor{
+  display:inline-block;
+  width:8px;height:16px;
+  background:var(--mint);
+  animation:blink 1s steps(2) infinite;
+}
+
+.hero-boot{
+  font-size:12px;
+  line-height:1.95;
+  color:var(--mint-3);
+  margin-bottom:40px;
+  padding:20px 24px;
+  background:rgba(142,240,196,.02);
+  border:1px dashed var(--mint-4);
+  position:relative;
+  overflow:hidden;
+}
+.hero-boot::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:2px;height:100%;
+  background:linear-gradient(180deg,transparent,var(--mint-2),transparent);
+}
+.hero-boot-line{
+  display:flex;
+  gap:14px;
+  align-items:baseline;
+}
+.hero-boot-time{color:var(--gray);min-width:60px;font-size:11px}
+.hero-boot-tag{
+  min-width:60px;
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:1px;
+}
+.hero-boot-tag.ok{color:var(--mint)}
+.hero-boot-tag.info{color:var(--cyan)}
+.hero-boot-tag.warn{color:var(--amber)}
+.hero-boot-tag.err{color:var(--red)}
+.hero-boot-msg{color:var(--mint-2)}
+
+.hero-title{
+  font-family:var(--font-mono);
+  font-size:clamp(30px, 5vw, 62px);
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  color:var(--mint);
+  margin-bottom:24px;
+  text-shadow:
+    0 0 12px var(--mint),
+    0 0 40px rgba(142,240,196,.4);
+}
+html[dir="rtl"] .hero-title{
+  font-family:'Vazirmatn',monospace;
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1.25;
+}
+.hero-title .sys{color:var(--gray);font-weight:400;font-size:.55em;display:block;margin-bottom:10px;letter-spacing:2px;text-shadow:none}
+.hero-title .accent{
+  color:var(--cyan);
+  text-shadow:0 0 12px var(--cyan),0 0 40px rgba(93,220,255,.4);
+}
+.hero-title .violet{
+  color:var(--violet);
+  text-shadow:0 0 12px var(--violet),0 0 40px rgba(167,139,250,.4);
+}
+
+.hero-desc{
+  font-family:var(--font-mono);
+  font-size:13.5px;
+  line-height:1.95;
+  color:var(--mint-2);
+  font-weight:400;
+  max-width:820px;
+  margin-bottom:36px;
+  padding:18px 22px;
+  background:linear-gradient(135deg,rgba(142,240,196,.04),rgba(93,220,255,.02));
+  border-inline-start:3px solid var(--mint);
+  position:relative;
+}
+html[dir="rtl"] .hero-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:14.5px;
+  letter-spacing:0;
+}
+.hero-desc .kw{color:var(--violet);font-weight:600}
+.hero-desc .str{color:var(--cyan)}
+.hero-desc .num{color:var(--amber);font-weight:600}
+.hero-desc .fn{color:var(--rose)}
+.hero-desc .cmt{color:var(--gray-2);font-style:italic}
+
+.hero-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:40px;
+}
+
+.btn{
+  padding:14px 24px;
+  border:1px solid var(--mint-2);
+  background:transparent;
+  color:var(--mint);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .2s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  letter-spacing:.5px;
+  text-shadow:0 0 4px currentColor;
+  position:relative;
+  overflow:hidden;
+}
+html[dir="rtl"] .btn{
+  font-family:'Vazirmatn',monospace;
+  font-size:13.5px;
+  letter-spacing:0;
+}
+.btn-icon{
+  font-family:var(--font-mono);
+  color:var(--mint-3);
+  font-weight:700;
+  font-size:14px;
+}
+.btn.primary{
+  background:linear-gradient(135deg,var(--mint-2),var(--mint-3));
+  color:var(--bg);
+  text-shadow:none;
+  box-shadow:
+    0 0 20px rgba(142,240,196,.4),
+    inset 0 1px 0 rgba(255,255,255,.15);
+  border-color:var(--mint);
+}
+.btn.primary .btn-icon{color:var(--bg)}
+.btn.primary:hover{
+  background:transparent;
+  color:var(--mint);
+  text-shadow:0 0 8px var(--mint);
+  box-shadow:0 0 32px rgba(142,240,196,.6),inset 0 0 24px rgba(142,240,196,.1);
+}
+.btn.primary:hover .btn-icon{color:var(--mint-3)}
+.btn.secondary:hover{
+  background:rgba(142,240,196,.06);
+  box-shadow:0 0 20px rgba(142,240,196,.3),inset 0 0 20px rgba(142,240,196,.08);
+}
+.btn.ghost{
+  border-color:var(--gray-2);
+  color:var(--gray);
+}
+.btn.ghost:hover{
+  border-color:var(--cyan);
+  color:var(--cyan);
+  box-shadow:0 0 16px rgba(93,220,255,.3);
+}
+.btn.ghost .btn-icon{color:var(--gray-2)}
+.btn.ghost:hover .btn-icon{color:var(--cyan)}
+
+/* Dashboard metrics */
+.hero-dash{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr;
+  gap:14px;
+  margin-top:40px;
+}
+.dash-card{
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+  border:1px solid var(--mint-4);
+  padding:20px 22px;
+  position:relative;
+  overflow:hidden;
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.dash-card::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:100%;height:2px;
+  background:linear-gradient(90deg,var(--mint),var(--cyan),transparent);
+  opacity:.8;
+}
+.dash-card:hover{
+  border-color:var(--mint-2);
+  box-shadow:0 8px 32px rgba(142,240,196,.12);
+  transform:translateY(-2px);
+}
+.dash-card.wide{grid-column:span 1}
+.dash-label{
+  font-size:10px;
+  color:var(--gray);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.dash-label::before{
+  content:'◆';
+  color:var(--mint-2);
+  font-size:8px;
+}
+.dash-value{
+  font-size:32px;
+  font-weight:800;
+  line-height:1;
+  color:var(--mint);
+  text-shadow:0 0 12px var(--mint);
+  margin-bottom:8px;
+  letter-spacing:-.02em;
+  font-family:var(--font-mono);
+}
+.dash-value .unit{
+  font-size:.5em;
+  color:var(--cyan);
+  margin-inline-start:3px;
+  font-weight:600;
+}
+.dash-bar{
+  height:3px;
+  background:var(--bg-4);
+  position:relative;
+  overflow:hidden;
+  margin-bottom:8px;
+}
+.dash-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,var(--mint),var(--cyan));
+  width:var(--w,70%);
+  box-shadow:0 0 8px var(--mint);
+  animation:barPulse 2.4s ease-in-out infinite;
+}
+@keyframes barPulse{
+  0%,100%{opacity:.7}
+  50%{opacity:1}
+}
+.dash-sub{
+  font-size:10.5px;
+  color:var(--mint-3);
+  letter-spacing:.5px;
+}
+.dash-sub .up{color:var(--mint);font-weight:700}
+.dash-sub .label{color:var(--gray)}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{
+  padding:60px 32px;
+  position:relative;
+  z-index:5;
+  max-width:1800px;
+  margin:0 auto;
+}
+
+.section-line{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--mint-3);
+  padding-bottom:14px;
+  border-bottom:1px solid var(--mint-4);
+  margin-bottom:36px;
+  flex-wrap:wrap;
+}
+.section-line::before{
+  content:'⌘';
+  color:var(--mint);
+  font-weight:700;
+  font-size:14px;
+}
+.section-line-path{color:var(--cyan)}
+.section-line-sep{color:var(--gray-2)}
+.section-line-tag{color:var(--mint)}
+.section-line-idx{
+  color:var(--gray-2);
+  font-size:10px;
+  padding:2px 8px;
+  border:1px solid var(--gray-3);
+}
+.section-line-blocks{
+  margin-inline-start:auto;
+  color:var(--mint-4);
+  letter-spacing:1px;
+  font-size:11px;
+}
+
+.section-title{
+  font-family:var(--font-mono);
+  font-size:clamp(26px, 3.5vw, 46px);
+  font-weight:800;
+  line-height:1.15;
+  letter-spacing:-.02em;
+  color:var(--mint);
+  margin-bottom:18px;
+  text-shadow:0 0 10px var(--mint),0 0 40px rgba(142,240,196,.2);
+}
+html[dir="rtl"] .section-title{
+  font-family:'Vazirmatn',monospace;
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1.3;
+  font-size:clamp(22px, 3vw, 36px);
+}
+.section-title .accent{color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.section-title .violet{color:var(--violet);text-shadow:0 0 10px var(--violet)}
+.section-title .amber{color:var(--amber);text-shadow:0 0 10px var(--amber)}
+
+.section-desc{
+  font-family:var(--font-mono);
+  font-size:13px;
+  line-height:1.9;
+  color:var(--mint-2);
+  margin-bottom:52px;
+  max-width:760px;
+  padding:14px 18px;
+  border-inline-start:2px solid var(--mint-3);
+  background:rgba(142,240,196,.02);
+}
+html[dir="rtl"] .section-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+  letter-spacing:0;
+}
+.section-desc .cmt{color:var(--gray-2);font-style:italic}
+
+/* ============================================================
+   STORY — IDE Split: Explorer + Editor
+   ============================================================ */
+.ide{
+  display:grid;
+  grid-template-columns:260px 1fr 220px;
+  gap:0;
+  border:1px solid var(--mint-4);
+  background:var(--bg-2);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(142,240,196,.05);
+}
+
+.ide-sidebar{
+  border-inline-end:1px solid var(--mint-4);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+  font-family:var(--font-mono);
+  font-size:12px;
+}
+.ide-panel-header{
+  padding:12px 16px;
+  color:var(--mint-3);
+  font-size:10.5px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--mint-4);
+  background:rgba(0,0,0,.2);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.ide-panel-header::before{
+  content:'▾';
+  color:var(--mint-2);
+}
+.ide-tree{
+  padding:10px 0;
+}
+.tree-item{
+  padding:5px 16px;
+  color:var(--mint-3);
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-family:var(--font-mono);
+  font-size:12px;
+  position:relative;
+}
+.tree-item:hover{
+  background:rgba(142,240,196,.05);
+  color:var(--mint);
+}
+.tree-item.active{
+  background:rgba(142,240,196,.08);
+  color:var(--mint);
+  border-inline-start:2px solid var(--mint);
+  padding-inline-start:14px;
+}
+.tree-item-prefix{color:var(--gray-2);font-size:10px}
+.tree-item-file{color:var(--mint-2)}
+.tree-item-icon{color:var(--cyan);font-size:11px}
+.tree-item-meta{
+  margin-inline-start:auto;
+  color:var(--gray-2);
+  font-size:10px;
+  padding-inline-start:6px;
+}
+
+.ide-main{
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.ide-tabs{
+  display:flex;
+  background:var(--bg-2);
+  border-bottom:1px solid var(--mint-4);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.ide-tabs::-webkit-scrollbar{display:none}
+.ide-tab{
+  padding:10px 18px;
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:var(--gray);
+  background:transparent;
+  border:none;
+  border-inline-end:1px solid var(--mint-4);
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  position:relative;
+}
+.ide-tab:hover{color:var(--mint-2);background:rgba(142,240,196,.03)}
+.ide-tab.active{
+  color:var(--mint);
+  background:var(--bg);
+}
+.ide-tab.active::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;
+  inset-inline-start:0;
+  width:100%;
+  height:2px;
+  background:var(--mint);
+  box-shadow:0 0 8px var(--mint);
+}
+.ide-tab-icon{color:var(--cyan);font-size:11px}
+.ide-tab-close{color:var(--gray-2);font-size:10px}
+
+.ide-editor{
+  padding:24px 0;
+  font-family:var(--font-mono);
+  overflow-x:hidden;
+  flex:1;
+}
+.editor-line{
+  display:flex;
+  gap:16px;
+  font-size:13px;
+  line-height:1.95;
+  padding:1px 24px;
+  transition:background .2s ease;
+}
+.editor-line:hover{
+  background:rgba(142,240,196,.03);
+}
+.editor-num{
+  color:var(--gray-2);
+  font-size:12px;
+  min-width:36px;
+  text-align:end;
+  user-select:none;
+  flex-shrink:0;
+}
+.editor-content{
+  color:var(--mint-2);
+  flex:1;
+  word-break:break-word;
+  font-family:var(--font-mono);
+}
+html[dir="rtl"] .editor-content{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.editor-content .kw{color:var(--violet);font-weight:600}
+.editor-content .str{color:var(--cyan)}
+.editor-content .num{color:var(--amber);font-weight:600}
+.editor-content .cmt{color:var(--gray-2);font-style:italic}
+.editor-content .fn{color:var(--rose)}
+.editor-content .op{color:var(--red)}
+.editor-content .punc{color:var(--mint-3)}
+
+.ide-right{
+  border-inline-start:1px solid var(--mint-4);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+  padding:0;
+  font-family:var(--font-mono);
+  font-size:11.5px;
+}
+.ide-mini-metric{
+  padding:16px 16px;
+  border-bottom:1px solid var(--mint-4);
+}
+.ide-mini-metric:last-child{border-bottom:none}
+.ide-mini-label{
+  font-size:10px;
+  color:var(--gray);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.ide-mini-value{
+  font-size:20px;
+  font-weight:800;
+  color:var(--mint);
+  text-shadow:0 0 8px var(--mint);
+  line-height:1;
+  margin-bottom:6px;
+  letter-spacing:-.02em;
+}
+.ide-mini-value .unit{font-size:.55em;color:var(--cyan)}
+.ide-mini-bar{
+  height:2px;
+  background:var(--bg-4);
+  position:relative;
+  overflow:hidden;
+}
+.ide-mini-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  width:var(--w,60%);
+  background:linear-gradient(90deg,var(--mint),var(--cyan));
+  box-shadow:0 0 6px var(--mint);
+}
+.ide-mini-sub{
+  font-size:10px;
+  color:var(--mint-3);
+  margin-top:6px;
+}
+
+/* ============================================================
+   STATS — Big grid
+   ============================================================ */
+.stats-hero{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.stat-big{
+  padding:32px 26px;
+  border:1px solid var(--mint-4);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+  position:relative;
+  overflow:hidden;
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.stat-big::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:100%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--mint),transparent);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.stat-big:hover{
+  border-color:var(--mint-2);
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(142,240,196,.15);
+}
+.stat-big:hover::before{opacity:1}
+
+.stat-big-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  padding-bottom:12px;
+  border-bottom:1px dashed var(--mint-4);
+}
+.stat-big-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  border:1px solid var(--mint-3);
+  color:var(--mint);
+  font-size:12px;
+  font-weight:800;
+}
+.stat-big-key{
+  font-size:10px;
+  color:var(--gray);
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+.stat-big-value{
+  font-family:var(--font-mono);
+  font-size:44px;
+  font-weight:800;
+  line-height:1;
+  color:var(--mint);
+  margin-bottom:10px;
+  text-shadow:0 0 14px var(--mint);
+  letter-spacing:-.03em;
+}
+.stat-big-value .unit{
+  font-size:.5em;
+  color:var(--cyan);
+  margin-inline-start:2px;
+}
+.stat-big-label{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  color:var(--mint-3);
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .stat-big-label{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+  letter-spacing:0;
+}
+.stat-big-trend{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  font-size:10.5px;
+  color:var(--mint);
+  margin-top:8px;
+  font-weight:700;
+}
+.stat-big-trend::before{content:'▲';font-size:8px}
+
+/* ============================================================
+   VALUES — Config
+   ============================================================ */
+.config-wrap{
+  border:1px solid var(--mint-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.3),
+    inset 0 1px 0 rgba(142,240,196,.05);
+}
+.config-head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--mint-4);
+  background:rgba(0,0,0,.25);
+  color:var(--mint-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.config-head .prompt{color:var(--mint);font-weight:700}
+.config-head .path{color:var(--cyan)}
+.config-head .cmd{color:var(--white)}
+.config-head .meta{
+  margin-inline-start:auto;
+  color:var(--gray);
+  font-size:10.5px;
+  letter-spacing:1px;
+}
+
+.config-body{
+  padding:20px 0;
+}
+.config-comment{
+  padding:0 24px 16px;
+  color:var(--gray);
+  font-size:12.5px;
+  line-height:1.85;
+  font-style:italic;
+}
+.config-comment::before{
+  content:'// ';
+  color:var(--mint-3);
+  font-style:normal;
+}
+
+.config-row{
+  padding:20px 24px;
+  border-bottom:1px solid var(--mint-4);
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:24px;
+  align-items:start;
+  transition:all .25s ease;
+  position:relative;
+}
+.config-row:last-child{border-bottom:none}
+.config-row:hover{
+  background:rgba(142,240,196,.04);
+}
+.config-row::before{
+  content:'';
+  position:absolute;
+  inset-inline-start:0;
+  top:0;
+  width:0;
+  height:100%;
+  background:linear-gradient(90deg,rgba(142,240,196,.1),transparent);
+  transition:width .4s ease;
+  pointer-events:none;
+}
+html[dir="rtl"] .config-row::before{
+  background:linear-gradient(-90deg,rgba(142,240,196,.1),transparent);
+}
+.config-row:hover::before{width:100%}
+
+.config-key{
+  font-size:13px;
+  font-weight:700;
+  color:var(--amber);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding-top:3px;
+  letter-spacing:.5px;
+}
+.config-key::before{
+  content:'>_';
+  color:var(--mint-3);
+  font-weight:400;
+  font-size:11px;
+}
+.config-val{
+  font-size:13px;
+  color:var(--mint-2);
+  line-height:1.9;
+}
+html[dir="rtl"] .config-key,
+html[dir="rtl"] .config-val{
+  font-family:'Vazirmatn',monospace;
+  font-size:13.5px;
+}
+.config-val strong{
+  color:var(--mint);
+  font-weight:700;
+}
+.config-val .tag{
+  display:inline-block;
+  padding:1px 8px;
+  border:1px solid var(--mint-3);
+  font-size:10px;
+  color:var(--mint-3);
+  margin-inline-end:8px;
+  letter-spacing:1.5px;
+  font-weight:700;
+  text-transform:uppercase;
+  vertical-align:middle;
+}
+.config-val .tag.critical{border-color:var(--red);color:var(--red)}
+.config-val .tag.daily{border-color:var(--cyan);color:var(--cyan)}
+.config-val .tag.always{border-color:var(--violet);color:var(--violet)}
+.config-val .tag.strict{border-color:var(--amber);color:var(--amber)}
+.config-val .tag.priority{border-color:var(--rose);color:var(--rose)}
+.config-val .tag.decade{border-color:var(--mint);color:var(--mint)}
+
+/* ============================================================
+   TIMELINE — Git log with graph
+   ============================================================ */
+.git-wrap{
+  border:1px solid var(--mint-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.git-head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--mint-4);
+  background:rgba(0,0,0,.25);
+  color:var(--mint-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.git-head .prompt{color:var(--mint);font-weight:700}
+.git-head .cmd{color:var(--white)}
+.git-head .meta{margin-inline-start:auto;color:var(--gray);font-size:10.5px}
+
+.git-body{
+  padding:24px;
+  font-size:12.5px;
+  line-height:1.85;
+}
+
+.git-commit{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:20px;
+  padding:18px 0;
+  border-bottom:1px dashed var(--mint-4);
+  transition:background .2s ease;
+  position:relative;
+}
+.git-commit:last-child{border-bottom:none}
+.git-commit::before{
+  content:'';
+  position:absolute;
+  inset-inline-start:70px;
+  top:24px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 10px var(--mint);
+  z-index:2;
+}
+.git-commit:hover::before{
+  background:var(--cyan);
+  box-shadow:0 0 14px var(--cyan);
+  transform:scale(1.3);
+  transition:all .3s ease;
+}
+.git-commit::after{
+  content:'';
+  position:absolute;
+  inset-inline-start:73px;
+  top:32px;
+  width:1px;
+  height:calc(100% + 2px);
+  background:linear-gradient(180deg,var(--mint-4),transparent);
+  z-index:1;
+}
+.git-commit:last-child::after{display:none}
+
+.git-hash{
+  color:var(--amber);
+  font-weight:700;
+  font-family:var(--font-mono);
+  white-space:nowrap;
+  padding-inline-end:56px;
+  padding-top:2px;
+  position:relative;
+  z-index:3;
+  background:var(--bg-2);
+}
+.git-hash::before{
+  content:'commit ';
+  color:var(--mint-4);
+  font-weight:400;
+}
+.git-content{
+  position:relative;
+  z-index:3;
+  background:var(--bg-2);
+}
+.git-meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  margin-bottom:8px;
+  font-size:11px;
+}
+.git-branch{
+  display:inline-block;
+  padding:2px 8px;
+  background:rgba(142,240,196,.08);
+  color:var(--mint);
+  font-size:10px;
+  letter-spacing:1px;
+  border:1px solid var(--mint-3);
+  font-weight:700;
+}
+.git-branch.head{
+  background:var(--mint);
+  color:var(--bg);
+  text-shadow:none;
+}
+.git-date{
+  color:var(--gray);
+  font-size:11px;
+}
+.git-author{
+  color:var(--cyan);
+  font-size:11px;
+}
+.git-title{
+  color:var(--mint);
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:6px;
+  display:block;
+}
+html[dir="rtl"] .git-title{
+  font-family:'Vazirmatn',monospace;
+  font-size:15px;
+}
+.git-desc{
+  color:var(--mint-2);
+  font-size:12.5px;
+  line-height:1.85;
+}
+html[dir="rtl"] .git-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:13px;
+}
+
+/* ============================================================
+   TEAM — Process table
+   ============================================================ */
+.process-wrap{
+  border:1px solid var(--mint-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+  overflow-x:auto;
+}
+.process-head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--mint-4);
+  background:rgba(0,0,0,.25);
+  color:var(--mint-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.process-head .prompt{color:var(--mint);font-weight:700}
+.process-head .cmd{color:var(--white)}
+.process-head .meta{margin-inline-start:auto;color:var(--gray);font-size:10.5px}
+
+.process-table{
+  min-width:640px;
+}
+.process-table-header{
+  display:grid;
+  grid-template-columns:80px 200px 1fr 120px 100px;
+  gap:16px;
+  padding:12px 24px;
+  border-bottom:1px solid var(--mint-4);
+  background:rgba(0,0,0,.2);
+  font-size:10px;
+  color:var(--gray);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.process-row{
+  display:grid;
+  grid-template-columns:80px 200px 1fr 120px 100px;
+  gap:16px;
+  padding:18px 24px;
+  border-bottom:1px solid var(--mint-4);
+  align-items:center;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.process-row:last-child{border-bottom:none}
+.process-row:hover{
+  background:rgba(142,240,196,.04);
+}
+.process-row:hover .process-user{
+  color:var(--cyan);
+  text-shadow:0 0 8px var(--cyan);
+}
+
+.process-pid{
+  color:var(--gray);
+  font-size:12px;
+}
+.process-user{
+  color:var(--mint);
+  font-weight:700;
+  font-size:14px;
+  transition:all .2s ease;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+html[dir="rtl"] .process-user{
+  font-family:'Vazirmatn',monospace;
+  font-size:15px;
+}
+.process-avatar{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;height:28px;
+  border:1px solid var(--mint-3);
+  background:rgba(142,240,196,.06);
+  color:var(--mint);
+  font-size:13px;
+  font-weight:800;
+  font-family:var(--font-mono);
+  flex-shrink:0;
+}
+.process-role{
+  color:var(--mint-3);
+  font-size:12px;
+}
+html[dir="rtl"] .process-role{
+  font-family:'Vazirmatn',monospace;
+  font-size:13px;
+}
+.process-cpu{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.process-cpu-bar{
+  flex:1;
+  height:4px;
+  background:var(--bg-4);
+  position:relative;
+  overflow:hidden;
+}
+.process-cpu-bar::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  width:var(--w,60%);
+  background:linear-gradient(90deg,var(--mint),var(--cyan));
+  box-shadow:0 0 6px var(--mint);
+}
+.process-cpu-val{
+  font-size:11px;
+  color:var(--mint-3);
+  min-width:36px;
+  text-align:end;
+}
+.process-status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:10.5px;
+  color:var(--mint);
+  letter-spacing:1.5px;
+  font-weight:700;
+  padding:2px 8px;
+  border:1px solid var(--mint-3);
+  background:rgba(142,240,196,.06);
+}
+.process-status::before{
+  content:'';
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 8px var(--mint);
+  animation:blink 1.6s steps(2) infinite;
+}
+
+/* ============================================================
+   AWARDS — Package list
+   ============================================================ */
+.pkg-wrap{
+  border:1px solid var(--mint-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.pkg-head{
+  padding:14px 20px;
+  border-bottom:1px solid var(--mint-4);
+  background:rgba(0,0,0,.25);
+  color:var(--mint-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.pkg-head .prompt{color:var(--mint);font-weight:700}
+.pkg-head .cmd{color:var(--white)}
+.pkg-head .meta{margin-inline-start:auto;color:var(--gray);font-size:10.5px}
+
+.pkg-list{
+  padding:10px 0;
+}
+.pkg-item{
+  padding:18px 24px;
+  display:grid;
+  grid-template-columns:auto 80px 1fr auto auto;
+  gap:20px;
+  align-items:center;
+  border-bottom:1px dashed var(--mint-4);
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.pkg-item:last-child{border-bottom:none}
+.pkg-item:hover{
+  background:rgba(142,240,196,.04);
+}
+.pkg-item:hover .pkg-name{
+  color:var(--cyan);
+  text-shadow:0 0 8px var(--cyan);
+}
+.pkg-icon{
+  font-size:14px;
+  color:var(--mint-3);
+  font-weight:700;
+}
+.pkg-year{
+  color:var(--amber);
+  font-weight:800;
+  font-size:15px;
+  letter-spacing:1px;
+}
+.pkg-name{
+  color:var(--mint);
+  font-weight:700;
+  font-size:13.5px;
+  transition:all .2s ease;
+}
+html[dir="rtl"] .pkg-name{
+  font-family:'Vazirmatn',monospace;
+  font-size:14.5px;
+}
+.pkg-issuer{
+  color:var(--mint-3);
+  font-size:11.5px;
+  text-align:end;
+}
+html[dir="rtl"] .pkg-issuer{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+.pkg-badge{
+  color:var(--mint);
+  font-size:11px;
+  padding:3px 10px;
+  border:1px solid var(--mint-3);
+  letter-spacing:1px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* ============================================================
+   OFFICES — Node cards
+   ============================================================ */
+.nodes-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.node-card{
+  border:1px solid var(--mint-4);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+  padding:24px 22px;
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.node-card::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:3px;height:0;
+  background:linear-gradient(180deg,var(--mint),var(--cyan));
+  transition:height .4s cubic-bezier(.16,1,.3,1);
+}
+.node-card:hover{
+  background:linear-gradient(180deg,var(--bg-3),var(--bg-4));
+  border-color:var(--mint-2);
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px rgba(142,240,196,.12);
+}
+.node-card:hover::before{height:100%}
+
+.node-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px dashed var(--mint-4);
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  color:var(--mint-3);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  justify-content:space-between;
+}
+.node-dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 10px var(--mint);
+  animation:blink 1.8s steps(2) infinite;
+}
+.node-id{
+  color:var(--amber);
+  font-weight:700;
+}
+.node-city{
+  font-family:var(--font-mono);
+  font-size:22px;
+  font-weight:800;
+  color:var(--mint);
+  text-shadow:0 0 10px var(--mint);
+  margin-bottom:6px;
+  letter-spacing:-.02em;
+}
+html[dir="rtl"] .node-city{
+  font-family:'Vazirmatn',monospace;
+  font-size:20px;
+  letter-spacing:0;
+}
+.node-country{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--mint-3);
+  letter-spacing:1px;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--mint-4);
+}
+html[dir="rtl"] .node-country{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+  letter-spacing:0;
+}
+.node-address{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  line-height:1.8;
+  color:var(--mint-2);
+}
+html[dir="rtl"] .node-address{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta-wrap{
+  padding:20px 32px 60px;
+  max-width:1800px;
+  margin:0 auto;
+  position:relative;
+  z-index:5;
+}
+.cta-terminal{
+  border:1px solid var(--mint-2);
+  background:linear-gradient(180deg,var(--bg-2),var(--bg));
+  padding:56px 48px;
+  font-family:var(--font-mono);
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    0 0 80px rgba(142,240,196,.15),
+    inset 0 0 80px rgba(142,240,196,.03);
+}
+.cta-terminal::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--mint),var(--cyan),transparent);
+  animation:scan 4s linear infinite;
+}
+@keyframes scan{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(100%)}
+}
+.cta-terminal::after{
+  content:'';
+  position:absolute;
+  inset-inline-end:-100px;
+  top:-100px;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(93,220,255,.1),transparent 70%);
+  pointer-events:none;
+}
+
+.cta-cmd{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12.5px;
+  color:var(--mint-3);
+  padding-bottom:14px;
+  border-bottom:1px dashed var(--mint-4);
+  margin-bottom:28px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+.cta-cmd .user{color:var(--mint);font-weight:700}
+.cta-cmd .path{color:var(--cyan)}
+.cta-cmd .cmd{color:var(--white)}
+.cta-cmd .cursor{
+  display:inline-block;
+  width:8px;height:16px;
+  background:var(--mint);
+  animation:blink 1s steps(2) infinite;
+}
+
+.cta-title{
+  font-family:var(--font-mono);
+  font-size:clamp(26px, 3.5vw, 44px);
+  font-weight:800;
+  line-height:1.15;
+  color:var(--mint);
+  margin-bottom:20px;
+  text-shadow:0 0 14px var(--mint),0 0 40px rgba(142,240,196,.3);
+  letter-spacing:-.01em;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .cta-title{
+  font-family:'Vazirmatn',monospace;
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1.3;
+  font-size:clamp(22px, 3vw, 36px);
+}
+.cta-title .accent{color:var(--cyan);text-shadow:0 0 14px var(--cyan)}
+
+.cta-desc{
+  font-size:13.5px;
+  line-height:1.9;
+  color:var(--mint-2);
+  margin-bottom:36px;
+  max-width:680px;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .cta-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+
+.cta-buttons{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  padding:48px 32px 24px;
+  background:var(--bg-2);
+  border-top:1px solid var(--mint-4);
+  position:relative;
+  z-index:5;
+  font-family:var(--font-mono);
+}
+.footer-inner{max-width:1800px;margin:0 auto}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;
+  padding-bottom:36px;
+  border-bottom:1px dashed var(--mint-4);
+  margin-bottom:24px;
+}
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+.footer-logo{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--mint-2),var(--mint-3));
+  color:var(--bg);
+  font-weight:800;
+  font-size:16px;
+  text-shadow:none;
+  box-shadow:0 0 16px rgba(142,240,196,.4);
+}
+.footer-brand-name{
+  font-size:15px;
+  font-weight:800;
+  color:var(--mint);
+  letter-spacing:3px;
+  text-shadow:0 0 8px var(--mint);
+}
+.footer-tag{
+  display:inline-block;
+  padding:2px 8px;
+  border:1px solid var(--mint-3);
+  font-size:9.5px;
+  color:var(--mint-3);
+  letter-spacing:1.5px;
+  margin-inline-start:6px;
+}
+.footer-desc{
+  font-size:12px;
+  line-height:1.85;
+  color:var(--mint-3);
+  max-width:360px;
+}
+html[dir="rtl"] .footer-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+.footer-col-title{
+  font-size:10.5px;
+  color:var(--amber);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:18px;
+  font-weight:700;
+}
+.footer-col-title::before{content:'## ';color:var(--mint-3)}
+html[dir="rtl"] .footer-col-title{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+.footer-links{display:flex;flex-direction:column;gap:10px}
+.footer-link{
+  background:none;border:none;
+  color:var(--mint-3);
+  font-family:var(--font-mono);
+  font-size:12px;
+  cursor:pointer;
+  text-align:inherit;
+  padding:2px 0;
+  transition:all .15s ease;
+  width:fit-content;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+html[dir="rtl"] .footer-link{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+.footer-link::before{
+  content:'$';
+  color:var(--mint-4);
+  font-weight:700;
+  transition:color .15s ease;
+}
+.footer-link:hover{
+  color:var(--mint);
+  text-shadow:0 0 6px var(--mint);
+}
+.footer-link:hover::before{color:var(--mint)}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:22px;
+  border-top:1px dashed var(--mint-4);
+  font-size:11px;
+  color:var(--mint-4);
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .footer-bottom{
+  font-family:'Vazirmatn',monospace;
+  font-size:12px;
+}
+.footer-bottom-links{display:flex;gap:22px;flex-wrap:wrap}
+.footer-bottom-link{
+  background:none;border:none;
+  color:var(--mint-4);
+  font-family:inherit;
+  font-size:inherit;
+  cursor:pointer;
+  padding:0;
+  transition:all .15s ease;
+}
+.footer-bottom-link:hover{
+  color:var(--mint);
+  text-shadow:0 0 6px var(--mint);
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .8s ease,transform .8s ease;
+}
+.reveal.in-view{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+.mobile-menu{
+  position:fixed;
+  inset:88px 0 auto 0;
+  background:var(--bg);
+  border-bottom:2px solid var(--mint);
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  z-index:98;
+  transform:translateY(-120%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s ease;
+  font-family:var(--font-mono);
+}
+.mobile-menu.on{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.mobile-link{
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--mint-4);
+  color:var(--mint-3);
+  font-family:var(--font-mono);
+  font-size:13px;
+  font-weight:600;
+  padding:20px 24px;
+  text-align:inherit;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+html[dir="rtl"] .mobile-link{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.mobile-link::before{
+  content:'$_';
+  color:var(--mint);
+  font-weight:700;
+}
+.mobile-link:hover,
+.mobile-link:active{
+  background:linear-gradient(90deg,rgba(142,240,196,.08),transparent);
+  color:var(--mint);
+  padding-inline-start:32px;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:24px;
+  inset-inline-start:24px;
+  padding:16px 22px;
+  background:var(--bg-3);
+  border:1px solid var(--mint);
+  color:var(--mint);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  opacity:0;
+  transform:translateY(200px);
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  z-index:1000;
+  pointer-events:none;
+  max-width:90vw;
+  box-shadow:
+    0 0 40px rgba(142,240,196,.3),
+    inset 0 1px 0 rgba(142,240,196,.1);
+}
+html[dir="rtl"] .toast{
+  font-family:'Vazirmatn',monospace;
+  font-size:13.5px;
+}
+.toast.on{
+  opacity:1;
+  transform:translateY(0);
+}
+.toast::before{
+  content:'[ OK ]';
+  color:var(--mint);
+  font-weight:700;
+  letter-spacing:1px;
+  padding-inline-end:12px;
+  border-inline-end:1px solid var(--mint-4);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1300px){
+  .ide{grid-template-columns:220px 1fr}
+  .ide-right{display:none}
+}
+@media(max-width:1100px){
+  .ide{grid-template-columns:1fr}
+  .ide-sidebar{border-inline-end:none;border-bottom:1px solid var(--mint-4);max-height:220px;overflow-y:auto}
+  .stats-hero{grid-template-columns:repeat(2,1fr)}
+  .nodes-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media(max-width:768px){
+  .term-bar-inner{padding:0 10px;height:34px;gap:8px}
+  .term-status-item:nth-child(n+2){display:none}
+  .term-status{overflow:hidden}
+  .term-meta .time{display:none}
+  .nav{top:34px}
+  .nav-inner{height:48px;padding:0 10px;gap:0}
+  .nav-links{display:none}
+  .nav-lang{display:none}
+  .nav-cta{padding:6px 12px;font-size:11px}
+  .nav-cta span{display:none}
+  .nav-cta::after{content:'>';font-size:14px}
+  .menu-btn{display:flex;padding:6px 8px}
+  .logo{padding-inline-end:10px}
+  .logo-text{font-size:12px;letter-spacing:2px}
+  .nav-actions{padding-inline-start:10px;gap:6px}
+  .mobile-menu{inset:82px 0 auto 0}
+
+  .hero{padding:40px 16px 32px}
+  .hero-cmd{font-size:11.5px;padding:12px 14px;flex-wrap:wrap;gap:6px}
+  .hero-boot{font-size:11px;padding:16px 14px;line-height:1.95}
+  .hero-boot-line{flex-wrap:wrap;gap:8px}
+  .hero-boot-time{min-width:auto}
+  .hero-boot-tag{min-width:auto}
+  .hero-title{font-size:26px}
+  .hero-desc{font-size:12.5px;padding:14px 16px}
+  .btn{padding:12px 18px;font-size:12px;width:100%;justify-content:center}
+  .hero-actions{flex-direction:column}
+
+  .hero-dash{grid-template-columns:1fr 1fr}
+  .dash-card.wide{grid-column:span 2}
+  .dash-value{font-size:24px}
+
+  .section{padding:40px 16px}
+  .section-line{font-size:11px;gap:8px}
+  .section-line-idx{display:none}
+  .section-line-blocks{display:none}
+  .section-title{font-size:22px}
+  .section-desc{font-size:12.5px;padding:10px 14px;margin-bottom:32px}
+
+  .ide-sidebar{max-height:180px}
+  .ide-editor{padding:16px 0}
+  .editor-line{padding:1px 14px;gap:12px;font-size:11.5px}
+  .editor-num{min-width:28px;font-size:10.5px}
+  .ide-tab{padding:8px 12px;font-size:10.5px}
+
+  .stats-hero{grid-template-columns:1fr 1fr;gap:10px}
+  .stat-big{padding:22px 16px}
+  .stat-big-value{font-size:28px}
+  .stat-big-label{font-size:11px}
+
+  .config-row{grid-template-columns:1fr;gap:6px;padding:16px 18px}
+  .config-key{font-size:12px}
+  .config-val{font-size:12px}
+
+  .git-body{padding:16px}
+  .git-commit{grid-template-columns:1fr;gap:6px;padding:14px 0}
+  .git-commit::before,
+  .git-commit::after{display:none}
+  .git-hash{padding-inline-end:0;padding-top:0;font-size:11.5px}
+  .git-title{font-size:13px}
+  .git-desc{font-size:12px}
+
+  .process-table{min-width:auto}
+  .process-table-header{display:none}
+  .process-row{
+    grid-template-columns:1fr;
+    gap:8px;
+    padding:16px;
+  }
+  .process-pid{font-size:10.5px}
+  .process-user{font-size:13px}
+
+  .pkg-item{grid-template-columns:1fr;gap:8px;padding:16px}
+  .pkg-icon{display:none}
+  .pkg-issuer{text-align:start}
+  .pkg-badge{align-self:start}
+
+  .nodes-grid{grid-template-columns:1fr;gap:12px}
+  .node-card{padding:20px 18px}
+  .node-city{font-size:18px}
+
+  .cta-wrap{padding:20px 16px 40px}
+  .cta-terminal{padding:32px 20px}
+  .cta-title{font-size:20px}
+  .cta-desc{font-size:12.5px}
+  .cta-buttons{flex-direction:column}
+
+  .footer{padding:36px 16px 20px}
+  .footer-top{grid-template-columns:1fr;gap:28px;padding-bottom:28px}
+  .footer-bottom{flex-direction:column;gap:12px;align-items:flex-start}
+  .footer-bottom-links{flex-wrap:wrap;gap:14px}
+
+  .toast{inset-inline-start:16px;inset-inline-end:16px;bottom:16px;font-size:12px}
+}
+@media(max-width:480px){
+  .hero-title{font-size:22px}
+  .section-title{font-size:19px}
+  .hero-dash{grid-template-columns:1fr}
+  .dash-card.wide{grid-column:span 1}
+  .stats-hero{grid-template-columns:1fr}
+  .stat-big-value{font-size:32px}
+  .cta-title{font-size:18px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+  .crt-noise{animation:none;opacity:.02}
+}
+</style>
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <!-- BACKGROUND -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb o1" aria-hidden="true"></div>
+  <div class="bg-orb o2" aria-hidden="true"></div>
+  <div class="bg-orb o3" aria-hidden="true"></div>
+
+  <!-- CRT -->
+  <div class="crt-lines" aria-hidden="true"></div>
+  <div class="crt-vignette" aria-hidden="true"></div>
+  <div class="crt-noise" aria-hidden="true"></div>
+
+  <!-- ============ TERMINAL TOP BAR ============ -->
+  <div class="term-bar">
+    <div class="term-bar-inner">
+      <div class="term-logo">
+        <span class="term-logo-mark">Q</span>
+        <span class="term-logo-text">QUANTUM</span>
+      </div>
+
+      <div class="term-status">
+        <span class="term-status-item"><span class="dot"></span><span class="label">SYS</span><span class="val">ONLINE</span></span>
+        <span class="term-status-item"><span class="dot info"></span><span class="label">NET</span><span class="val">1.2M</span></span>
+        <span class="term-status-item"><span class="dot warn"></span><span class="label">LOAD</span><span class="val">4.7%</span></span>
+        <span class="term-status-item"><span class="dot"></span><span class="label">UPTIME</span><span class="val">7y</span></span>
+      </div>
+
+      <div class="term-meta">
+        <span class="time" id="clock">00:00:00</span>
+        <span>v4.0.1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="scrollToTop()">
+        <span class="logo-mark">Q</span>
+        <span class="logo-text">QUANTUM<span class="logo-cursor"></span></span>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-link active" onclick="scrollToId('story')">
+          <span class="nav-link-prompt">./</span><span data-fa="داستان" data-en="story">داستان</span>
+          <span class="nav-link-idx">01</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('values')">
+          <span class="nav-link-prompt">./</span><span data-fa="ارزش‌ها" data-en="values">ارزش‌ها</span>
+          <span class="nav-link-idx">02</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('timeline')">
+          <span class="nav-link-prompt">./</span><span data-fa="تاریخچه" data-en="log">تاریخچه</span>
+          <span class="nav-link-idx">03</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('team')">
+          <span class="nav-link-prompt">./</span><span data-fa="تیم" data-en="ps">تیم</span>
+          <span class="nav-link-idx">04</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('awards')">
+          <span class="nav-link-prompt">./</span><span data-fa="جوایز" data-en="pkg">جوایز</span>
+          <span class="nav-link-idx">05</span>
+        </button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-lang" onclick="toggleLang()"><span id="langBtn">EN</span></button>
+        <button class="nav-cta" onclick="contactUs()">
+          <span data-fa="تماس" data-en="Contact">تماس</span>
+          <span style="color:rgba(5,6,8,.5)">↵</span>
+        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="scrollToId('story')" data-fa="داستان ما" data-en="our story">داستان ما</button>
+    <button class="mobile-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="values">ارزش‌ها</button>
+    <button class="mobile-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="log">تاریخچه</button>
+    <button class="mobile-link" onclick="scrollToId('team')" data-fa="تیم" data-en="team">تیم</button>
+    <button class="mobile-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="awards">جوایز</button>
+    <button class="mobile-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="nodes">دفاتر</button>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-cmd">
+      <span class="hero-cmd-path">~/quantum</span>
+      <span class="hero-cmd-sep">::</span>
+      <span class="hero-cmd-user">root</span>
+      <span class="hero-cmd-sep">▸</span>
+      <span class="hero-cmd-cmd">./about --verbose --format=full --lang=auto</span>
+      <span class="hero-cmd-cursor"></span>
+    </div>
+
+    <div class="hero-boot">
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.000s]</span><span class="hero-boot-tag ok">[ OK ]</span><span class="hero-boot-msg">Initializing QUANTUM core modules...</span></div>
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.114s]</span><span class="hero-boot-tag ok">[ OK ]</span><span class="hero-boot-msg">Mounted /dev/identity · 4 founder signatures verified</span></div>
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.287s]</span><span class="hero-boot-tag ok">[ OK ]</span><span class="hero-boot-msg">Loaded 247 worker processes · 4 continents</span></div>
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.412s]</span><span class="hero-boot-tag info">[INFO]</span><span class="hero-boot-msg">Establishing global mesh · 45 regions</span></div>
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.538s]</span><span class="hero-boot-tag ok">[ OK ]</span><span class="hero-boot-msg">Mesh online · RTT avg 42ms · packets 100%</span></div>
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.671s]</span><span class="hero-boot-tag warn">[WARN]</span><span class="hero-boot-msg">Uptime counter: 7 years · auto-restart enabled</span></div>
+      <div class="hero-boot-line"><span class="hero-boot-time">[0.892s]</span><span class="hero-boot-tag ok">[ OK ]</span><span class="hero-boot-msg">System ready. All subsystems nominal.</span></div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="sys">// SYSTEM.QUANTUM.ABOUT</span>
+      <span data-fa="ما زیرساخت" data-en="we build the">ما زیرساخت</span>
+      <span class="accent" data-fa="آینده" data-en="future">آینده</span>
+      <span data-fa="را می‌سازیم" data-en="infrastructure">را می‌سازیم</span>
+      <span class="violet">_</span>
+    </h1>
+
+    <p class="hero-desc" data-fa="<span class='cmt'>// QUANTUM Corp · از 2018</span><br><span class='kw'>QUANTUM</span> یک شرکت <span class='str'>مهندسی زیرساخت</span> است که برای <span class='num'>1.2M+</span> کاربر در <span class='num'>45</span> کشور جهان، <span class='fn'>معماری نرم‌افزار</span>، <span class='fn'>امنیت سایبری</span>، و <span class='fn'>هوش مصنوعی</span> را در بالاترین سطح ممکن فراهم می‌کند." data-en="<span class='cmt'>// QUANTUM Corp · since 2018</span><br><span class='kw'>QUANTUM</span> is an <span class='str'>infrastructure engineering</span> company providing <span class='fn'>software architecture</span>, <span class='fn'>cybersecurity</span>, and <span class='fn'>AI</span> at the highest level for <span class='num'>1.2M+</span> users in <span class='num'>45</span> countries.">
+      <span class="cmt">// QUANTUM Corp · از 2018</span><br>
+      <span class="kw">QUANTUM</span> یک شرکت <span class="str">مهندسی زیرساخت</span> است که برای <span class="num">1.2M+</span> کاربر در <span class="num">45</span> کشور جهان، <span class="fn">معماری نرم‌افزار</span>، <span class="fn">امنیت سایبری</span>، و <span class="fn">هوش مصنوعی</span> را در بالاترین سطح ممکن فراهم می‌کند.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn primary" onclick="scrollToId('story')">
+        <span class="btn-icon">▸</span>
+        <span data-fa="اجرای داستان" data-en="Run Story">اجرای داستان</span>
+      </button>
+      <button class="btn secondary" onclick="contactUs()">
+        <span class="btn-icon">$</span>
+        <span data-fa="شروع همکاری" data-en="Start Partnership">شروع همکاری</span>
+      </button>
+      <button class="btn ghost" onclick="scrollToId('timeline')">
+        <span class="btn-icon">#</span>
+        <span data-fa="مشاهده لاگ" data-en="View Log">مشاهده لاگ</span>
+      </button>
+    </div>
+
+    <div class="hero-dash">
+      <div class="dash-card wide">
+        <div class="dash-label" data-fa="کاربران فعال ماهانه" data-en="monthly active users">کاربران فعال ماهانه</div>
+        <div class="dash-value"><span data-counter="1250000">0</span><span class="unit">users</span></div>
+        <div class="dash-bar" style="--w:94%"></div>
+        <div class="dash-sub"><span class="up">▲ 18.4%</span> <span class="label">· از سال گذشته</span></div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-label" data-fa="کشورها" data-en="regions">کشورها</div>
+        <div class="dash-value">45</div>
+        <div class="dash-bar" style="--w:75%"></div>
+        <div class="dash-sub"><span class="up">▲ 6</span> <span class="label">منطقه جدید</span></div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-label" data-fa="تیم" data-en="team">تیم</div>
+        <div class="dash-value">247</div>
+        <div class="dash-bar" style="--w:82%"></div>
+        <div class="dash-sub"><span class="up">▲ 32</span> <span class="label">استخدام امسال</span></div>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-label" data-fa="آپ‌تایم" data-en="uptime">آپ‌تایم</div>
+        <div class="dash-value">99.99<span class="unit">%</span></div>
+        <div class="dash-bar" style="--w:99%"></div>
+        <div class="dash-sub"><span class="up">● </span> <span class="label">SLA compliant</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY — IDE ============ -->
+  <section class="section" id="story">
+    <div class="section-line">
+      <span class="section-line-path">~/quantum</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="story --verbose" data-en="story --verbose">story --verbose</span>
+      <span class="section-line-idx">01</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓░░ 80%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="از یک <span class='accent'>فایل README</span> تا یک <span class='violet'>اکوسیستم</span>" data-en="From a <span class='accent'>README file</span> to an <span class='violet'>ecosystem</span>">از یک <span class="accent">فایل README</span> تا یک <span class="violet">اکوسیستم</span></h2>
+
+    <p class="section-desc reveal" data-fa="<span class='cmt'>// داستان QUANTUM در فوریه 2018 با یک فایل README آغاز شد — امروز، زیرساخت میلیون‌ها کاربر است.</span>" data-en="<span class='cmt'>// The QUANTUM story began with a README file in February 2018 — today, it's the infrastructure for millions of users.</span>">
+      <span class="cmt">// داستان QUANTUM در فوریه 2018 با یک فایل README آغاز شد — امروز، زیرساخت میلیون‌ها کاربر است.</span>
+    </p>
+
+    <div class="ide reveal">
+      <aside class="ide-sidebar">
+        <div class="ide-panel-header">EXPLORER · quantum</div>
+        <div class="ide-tree">
+          <div class="tree-item active">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">story.md</span>
+            <span class="tree-item-meta">2.4K</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">founding.txt</span>
+            <span class="tree-item-meta">1.2K</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">philosophy.md</span>
+            <span class="tree-item-meta">3.8K</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">manifesto.json</span>
+            <span class="tree-item-meta">890B</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">milestones.log</span>
+            <span class="tree-item-meta">4.1K</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">legacy.toml</span>
+            <span class="tree-item-meta">1.6K</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">config.yaml</span>
+            <span class="tree-item-meta">2.2K</span>
+          </div>
+          <div class="tree-item">
+            <span class="tree-item-icon">◈</span>
+            <span class="tree-item-file">README.md</span>
+            <span class="tree-item-meta">1.1K</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="ide-main">
+        <div class="ide-tabs">
+          <button class="ide-tab active">
+            <span class="ide-tab-icon">◈</span>
+            <span>story.md</span>
+            <span class="ide-tab-close">×</span>
+          </button>
+          <button class="ide-tab">
+            <span class="ide-tab-icon">◈</span>
+            <span>founding.txt</span>
+          </button>
+          <button class="ide-tab">
+            <span class="ide-tab-icon">◈</span>
+            <span>README.md</span>
+          </button>
+        </div>
+
+        <div class="ide-editor">
+          <div class="editor-line">
+            <span class="editor-num">001</span>
+            <span class="editor-content"><span class="cmt"># The QUANTUM Story</span></span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">002</span>
+            <span class="editor-content"><span class="cmt"># file: story.md · version: 4.0.1 · author: core-team</span></span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">003</span>
+            <span class="editor-content"></span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">004</span>
+            <span class="editor-content" data-fa="<span class='kw'>import</span> <span class='str'>'philosophy'</span> <span class='kw'>from</span> <span class='str'>'./core'</span><span class='punc'>;</span>" data-en="<span class='kw'>import</span> <span class='str'>'philosophy'</span> <span class='kw'>from</span> <span class='str'>'./core'</span><span class='punc'>;</span>">
+              <span class="kw">import</span> <span class="str">'philosophy'</span> <span class="kw">from</span> <span class="str">'./core'</span><span class="punc">;</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">005</span>
+            <span class="editor-content"></span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">006</span>
+            <span class="editor-content" data-fa="<span class='cmt'>// در فوریه 2018، چهار مهندس در یک اتاق کوچک گرد هم آمدند.</span>" data-en="<span class='cmt'>// In February 2018, four engineers gathered in a small room.</span>">
+              <span class="cmt">// در فوریه 2018، چهار مهندس در یک اتاق کوچک گرد هم آمدند.</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">007</span>
+            <span class="editor-content" data-fa="<span class='kw'>const</span> <span class='fn'>founders</span> <span class='op'>=</span> <span class='punc'>[</span><span class='str'>'ali'</span><span class='punc'>,</span> <span class='str'>'sara'</span><span class='punc'>,</span> <span class='str'>'reza'</span><span class='punc'>,</span> <span class='str'>'maryam'</span><span class='punc'>];</span>" data-en="<span class='kw'>const</span> <span class='fn'>founders</span> <span class='op'>=</span> <span class='punc'>[</span><span class='str'>'ali'</span><span class='punc'>,</span> <span class='str'>'sara'</span><span class='punc'>,</span> <span class='str'>'reza'</span><span class='punc'>,</span> <span class='str'>'maryam'</span><span class='punc'>];</span>">
+              <span class="kw">const</span> <span class="fn">founders</span> <span class="op">=</span> <span class="punc">[</span><span class="str">'ali'</span><span class="punc">,</span> <span class="str">'sara'</span><span class="punc">,</span> <span class="str">'reza'</span><span class="punc">,</span> <span class="str">'maryam'</span><span class="punc">];</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">008</span>
+            <span class="editor-content"></span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">009</span>
+            <span class="editor-content" data-fa="<span class='cmt'>// نام QUANTUM را انتخاب کردیم چون فیزیک، بنیاد همه چیز است.</span>" data-en="<span class='cmt'>// We chose QUANTUM because physics is the foundation of everything.</span>">
+              <span class="cmt">// نام QUANTUM را انتخاب کردیم چون فیزیک، بنیاد همه چیز است.</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">010</span>
+            <span class="editor-content" data-fa="<span class='kw'>await</span> <span class='fn'>deploy</span><span class='punc'>({</span>" data-en="<span class='kw'>await</span> <span class='fn'>deploy</span><span class='punc'>({</span>">
+              <span class="kw">await</span> <span class="fn">deploy</span><span class="punc">({</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">011</span>
+            <span class="editor-content" data-fa="  <span class='fn'>infrastructure</span><span class='punc'>:</span> <span class='str'>'quantum-core'</span><span class='punc'>,</span>" data-en="  <span class='fn'>infrastructure</span><span class='punc'>:</span> <span class='str'>'quantum-core'</span><span class='punc'>,</span>">
+              &nbsp;&nbsp;<span class="fn">infrastructure</span><span class="punc">:</span> <span class="str">'quantum-core'</span><span class="punc">,</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">012</span>
+            <span class="editor-content" data-fa="  <span class='fn'>scale</span><span class='punc'>:</span> <span class='num'>1_200_000</span><span class='punc'>,</span>" data-en="  <span class='fn'>scale</span><span class='punc'>:</span> <span class='num'>1_200_000</span><span class='punc'>,</span>">
+              &nbsp;&nbsp;<span class="fn">scale</span><span class="punc">:</span> <span class="num">1_200_000</span><span class="punc">,</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">013</span>
+            <span class="editor-content" data-fa="  <span class='fn'>regions</span><span class='punc'>:</span> <span class='num'>45</span><span class='punc'>,</span>" data-en="  <span class='fn'>regions</span><span class='punc'>:</span> <span class='num'>45</span><span class='punc'>,</span>">
+              &nbsp;&nbsp;<span class="fn">regions</span><span class="punc">:</span> <span class="num">45</span><span class="punc">,</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">014</span>
+            <span class="editor-content" data-fa="  <span class='fn'>uptime</span><span class='punc'>:</span> <span class='str'>'99.99%'</span><span class='punc'>,</span>" data-en="  <span class='fn'>uptime</span><span class='punc'>:</span> <span class='str'>'99.99%'</span><span class='punc'>,</span>">
+              &nbsp;&nbsp;<span class="fn">uptime</span><span class="punc">:</span> <span class="str">'99.99%'</span><span class="punc">,</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">015</span>
+            <span class="editor-content" data-fa="<span class='punc'>});</span>" data-en="<span class='punc'>});</span>">
+              <span class="punc">});</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">016</span>
+            <span class="editor-content"></span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">017</span>
+            <span class="editor-content" data-fa="<span class='cmt'>// امروز، تیم 247 نفره در چهار قاره — همه متصل، همه فعال.</span>" data-en="<span class='cmt'>// Today, 247 team members across four continents — all connected, all active.</span>">
+              <span class="cmt">// امروز، تیم 247 نفره در چهار قاره — همه متصل، همه فعال.</span>
+            </span>
+          </div>
+          <div class="editor-line">
+            <span class="editor-num">018</span>
+            <span class="editor-content"><span class="cmt">// EOF</span></span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="ide-right">
+        <div class="ide-mini-metric">
+          <div class="ide-mini-label">Users</div>
+          <div class="ide-mini-value"><span data-counter="1250000">0</span></div>
+          <div class="ide-mini-bar" style="--w:94%"></div>
+          <div class="ide-mini-sub">+18.4% YoY</div>
+        </div>
+        <div class="ide-mini-metric">
+          <div class="ide-mini-label">Regions</div>
+          <div class="ide-mini-value">45</div>
+          <div class="ide-mini-bar" style="--w:75%"></div>
+          <div class="ide-mini-sub">+6 new</div>
+        </div>
+        <div class="ide-mini-metric">
+          <div class="ide-mini-label">Team</div>
+          <div class="ide-mini-value">247</div>
+          <div class="ide-mini-bar" style="--w:82%"></div>
+          <div class="ide-mini-sub">+32 hires</div>
+        </div>
+        <div class="ide-mini-metric">
+          <div class="ide-mini-label">Uptime</div>
+          <div class="ide-mini-value">99.99<span class="unit">%</span></div>
+          <div class="ide-mini-bar" style="--w:99%"></div>
+          <div class="ide-mini-sub">SLA OK</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="section" id="values">
+    <div class="section-line">
+      <span class="section-line-path">~/quantum</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="cat values.conf" data-en="cat values.conf">cat values.conf</span>
+      <span class="section-line-idx">02</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="اصول <span class='amber'>غیرقابل‌مذاکره</span> ما" data-en="Our <span class='amber'>non-negotiable</span> principles">اصول <span class="amber">غیرقابل‌مذاکره</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='cmt'>// شش اصلی که در تمام تصمیمات QUANTUM جاری هستند — از خط اول کد تا امضای قرارداد.</span>" data-en="<span class='cmt'>// Six principles running through every QUANTUM decision — from the first line of code to signing a contract.</span>">
+      <span class="cmt">// شش اصلی که در تمام تصمیمات QUANTUM جاری هستند — از خط اول کد تا امضای قرارداد.</span>
+    </p>
+
+    <div class="config-wrap reveal">
+      <div class="config-head">
+        <span class="prompt">$</span>
+        <span class="cmd">cat</span>
+        <span class="path">/etc/quantum/values.conf</span>
+        <span class="meta">6 rules · 0 errors · syntax OK</span>
+      </div>
+
+      <div class="config-body">
+        <div class="config-comment" data-fa="فایل تنظیمات اصلی QUANTUM — قابل ویرایش فقط توسط تیم اصلی." data-en="QUANTUM main configuration file — editable only by core team.">
+          فایل تنظیمات اصلی QUANTUM — قابل ویرایش فقط توسط تیم اصلی.
+        </div>
+
+        <div class="config-row">
+          <div class="config-key">security</div>
+          <div class="config-val" data-fa="<span class='tag critical'>critical</span> <strong>امنیت مطلق</strong> — رمزنگاری AES-256، معماری Zero-Trust، ممیزی مستقل فصلی." data-en="<span class='tag critical'>critical</span> <strong>Absolute Security</strong> — AES-256 encryption, Zero-Trust architecture, quarterly independent audits.">
+            <span class="tag critical">critical</span> <strong>امنیت مطلق</strong> — رمزنگاری AES-256، معماری Zero-Trust، ممیزی مستقل فصلی.
+          </div>
+        </div>
+
+        <div class="config-row">
+          <div class="config-key">innovation</div>
+          <div class="config-val" data-fa="<span class='tag daily'>daily</span> <strong>نوآوری مداوم</strong> — هر سه ماه یک قابلیت جدید، هر سال یک بازآفرینی کامل." data-en="<span class='tag daily'>daily</span> <strong>Continuous Innovation</strong> — a new feature every three months, a full reinvention every year.">
+            <span class="tag daily">daily</span> <strong>نوآوری مداوم</strong> — هر سه ماه یک قابلیت جدید، هر سال یک بازآفرینی کامل.
+          </div>
+        </div>
+
+        <div class="config-row">
+          <div class="config-key">quality</div>
+          <div class="config-val" data-fa="<span class='tag strict'>strict</span> <strong>کیفیت بی‌نقص</strong> — هر خط کد، هر پیکسل، هر میلی‌ثانیه اندازه‌گیری می‌شود." data-en="<span class='tag strict'>strict</span> <strong>Flawless Quality</strong> — every line of code, every pixel, every millisecond is measured.">
+            <span class="tag strict">strict</span> <strong>کیفیت بی‌نقص</strong> — هر خط کد، هر پیکسل، هر میلی‌ثانیه اندازه‌گیری می‌شود.
+          </div>
+        </div>
+
+        <div class="config-row">
+          <div class="config-key">transparency</div>
+          <div class="config-val" data-fa="<span class='tag always'>always</span> <strong>شفافیت کامل</strong> — تمام داده‌ها متعلق به کاربران است؛ ما فقط امانت‌داریم." data-en="<span class='tag always'>always</span> <strong>Radical Transparency</strong> — all data belongs to users; we are only guardians.">
+            <span class="tag always">always</span> <strong>شفافیت کامل</strong> — تمام داده‌ها متعلق به کاربران است؛ ما فقط امانت‌داریم.
+          </div>
+        </div>
+
+        <div class="config-row">
+          <div class="config-key">team_first</div>
+          <div class="config-val" data-fa="<span class='tag priority'>priority</span> <strong>تیم محور</strong> — بدون تیم، هیچ موفقیتی ممکن نیست." data-en="<span class='tag priority'>priority</span> <strong>Team First</strong> — without a team, no success is possible.">
+            <span class="tag priority">priority</span> <strong>تیم محور</strong> — بدون تیم، هیچ موفقیتی ممکن نیست.
+          </div>
+        </div>
+
+        <div class="config-row">
+          <div class="config-key">long_term</div>
+          <div class="config-val" data-fa="<span class='tag decade'>decade</span> <strong>تفکر بلندمدت</strong> — برنامه‌ریزی برای ده سال آینده، نه سه ماه." data-en="<span class='tag decade'>decade</span> <strong>Long-Term Thinking</strong> — planning for the next ten years, not three months.">
+            <span class="tag decade">decade</span> <strong>تفکر بلندمدت</strong> — برنامه‌ریزی برای ده سال آینده، نه سه ماه.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline">
+    <div class="section-line">
+      <span class="section-line-path">~/quantum</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="git log --graph" data-en="git log --graph">git log --graph</span>
+      <span class="section-line-idx">03</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="تاریخچه <span class='accent'>commit</span> های ما" data-en="Our <span class='accent'>commit</span> history">تاریخچه <span class="accent">commit</span> های ما</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='cmt'>// هر commit یک نقطه‌ی عطف در سفر هفت‌ساله‌ی ما است.</span>" data-en="<span class='cmt'>// Every commit is a milestone in our seven-year journey.</span>">
+      <span class="cmt">// هر commit یک نقطه‌ی عطف در سفر هفت‌ساله‌ی ما است.</span>
+    </p>
+
+    <div class="git-wrap reveal">
+      <div class="git-head">
+        <span class="prompt">$</span>
+        <span class="cmd">git log --oneline --graph --all --decorate</span>
+        <span class="meta">7 commits · main ✓</span>
+      </div>
+
+      <div class="git-body">
+        <div class="git-commit">
+          <div class="git-hash">a3f9c21</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch head">HEAD → main</span>
+              <span class="git-date">2018-03-15</span>
+              <span class="git-author">by @ali</span>
+            </div>
+            <div class="git-title" data-fa="feat: تأسیس QUANTUM Corp" data-en="feat: QUANTUM Corp Founded">feat: تأسیس QUANTUM Corp</div>
+            <div class="git-desc" data-fa="چهار بنیان‌گذار، یک اتاق کوچک در تهران، و یک رویای مشترک." data-en="Four founders, a small room in Tehran, and a shared dream.">چهار بنیان‌گذار، یک اتاق کوچک در تهران، و یک رویای مشترک.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">b7e2f45</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch">v0.1.0</span>
+              <span class="git-date">2019-08-22</span>
+              <span class="git-author">by @sara</span>
+            </div>
+            <div class="git-title" data-fa="feat: اولین 1000 کاربر" data-en="feat: First 1000 Users">feat: اولین 1000 کاربر</div>
+            <div class="git-desc" data-fa="اولین محصول منتشر شد و در کمتر از 90 روز به 1000 کاربر رسید." data-en="First product shipped and reached 1000 users in under 90 days.">اولین محصول منتشر شد و در کمتر از 90 روز به 1000 کاربر رسید.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">c1a8d92</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch">v0.5.0</span>
+              <span class="git-date">2020-05-10</span>
+              <span class="git-author">by @reza</span>
+            </div>
+            <div class="git-title" data-fa="infra: افتتاح دفتر دبی" data-en="infra: Dubai Office Opened">infra: افتتاح دفتر دبی</div>
+            <div class="git-desc" data-fa="اولین دفتر بین‌المللی در دبی افتتاح شد." data-en="First international office opened in Dubai.">اولین دفتر بین‌المللی در دبی افتتاح شد.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">d5f3b71</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch">v1.0.0</span>
+              <span class="git-date">2021-11-03</span>
+              <span class="git-author">by @maryam</span>
+            </div>
+            <div class="git-title" data-fa="release: موتور هوش مصنوعی QUANTUM" data-en="release: QUANTUM AI Engine">release: موتور هوش مصنوعی QUANTUM</div>
+            <div class="git-desc" data-fa="موتور هوش مصنوعی اختصاصی ما رونمایی شد و تحولی در محصولات ایجاد کرد." data-en="Our proprietary AI engine was unveiled, revolutionizing our products.">موتور هوش مصنوعی اختصاصی ما رونمایی شد و تحولی در محصولات ایجاد کرد.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">e9d4c05</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch">v2.0.0</span>
+              <span class="git-date">2022-07-18</span>
+              <span class="git-author">by @ali</span>
+            </div>
+            <div class="git-title" data-fa="infra: گسترش به برلین و سانفرانسیسکو" data-en="infra: Expansion to Berlin & SF">infra: گسترش به برلین و سانفرانسیسکو</div>
+            <div class="git-desc" data-fa="گسترش به اروپا و آمریکای شمالی — دو دفتر جدید در دو قاره." data-en="Expansion into Europe and North America — two new offices across two continents.">گسترش به اروپا و آمریکای شمالی — دو دفتر جدید در دو قاره.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">f2b6a48</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch">v3.0.0</span>
+              <span class="git-date">2023-09-12</span>
+              <span class="git-author">by @sara</span>
+            </div>
+            <div class="git-title" data-fa="feat: مرز یک میلیون کاربر" data-en="feat: One Million Users">feat: مرز یک میلیون کاربر</div>
+            <div class="git-desc" data-fa="بیش از یک میلیون کاربر فعال در 45 کشور جهان." data-en="Over one million active users in 45 countries.">بیش از یک میلیون کاربر فعال در 45 کشور جهان.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">a8e1f93</div>
+          <div class="git-content">
+            <div class="git-meta-row">
+              <span class="git-branch">v4.0.1</span>
+              <span class="git-date">2025-01-01</span>
+              <span class="git-author">by core-team</span>
+            </div>
+            <div class="git-title" data-fa="release: نسخه چهارم — امروز" data-en="release: Volume IV — Today">release: نسخه چهارم — امروز</div>
+            <div class="git-desc" data-fa="با 247 متخصص در چهار قاره، در حال ساختن نسل بعدی زیرساخت‌های حیاتی هستیم." data-en="With 247 experts across four continents, we are building the next generation of critical infrastructure.">با 247 متخصص در چهار قاره، در حال ساختن نسل بعدی زیرساخت‌های حیاتی هستیم.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section" id="team">
+    <div class="section-line">
+      <span class="section-line-path">~/quantum</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="ps aux --team" data-en="ps aux --team">ps aux --team</span>
+      <span class="section-line-idx">04</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="لیست <span class='accent'>فرایندهای</span> فعال" data-en="List of <span class='accent'>active processes</span>">لیست <span class="accent">فرایندهای</span> فعال</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='cmt'>// تیم رهبری QUANTUM — همه در وضعیت ONLINE با CPU اختصاصی.</span>" data-en="<span class='cmt'>// QUANTUM leadership team — all in ONLINE state with dedicated CPU.</span>">
+      <span class="cmt">// تیم رهبری QUANTUM — همه در وضعیت ONLINE با CPU اختصاصی.</span>
+    </p>
+
+    <div class="process-wrap reveal">
+      <div class="process-head">
+        <span class="prompt">$</span>
+        <span class="cmd">ps aux | grep --team</span>
+        <span class="meta">4 processes · all online</span>
+      </div>
+
+      <div class="process-table">
+        <div class="process-table-header">
+          <span>PID</span>
+          <span>USER</span>
+          <span>ROLE</span>
+          <span>CPU</span>
+          <span>STATUS</span>
+        </div>
+
+        <div class="process-row">
+          <div class="process-pid">0001</div>
+          <div class="process-user">
+            <span class="process-avatar">A</span>
+            <span data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</span>
+          </div>
+          <div class="process-role" data-fa="بنیان‌گذار · مدیرعامل" data-en="Founder · CEO">بنیان‌گذار · مدیرعامل</div>
+          <div class="process-cpu">
+            <div class="process-cpu-bar" style="--w:92%"></div>
+            <span class="process-cpu-val">92%</span>
+          </div>
+          <div class="process-status">ONLINE</div>
+        </div>
+
+        <div class="process-row">
+          <div class="process-pid">0002</div>
+          <div class="process-user">
+            <span class="process-avatar">S</span>
+            <span data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</span>
+          </div>
+          <div class="process-role" data-fa="مدیر ارشد فناوری" data-en="Chief Technology Officer">مدیر ارشد فناوری</div>
+          <div class="process-cpu">
+            <div class="process-cpu-bar" style="--w:96%"></div>
+            <span class="process-cpu-val">96%</span>
+          </div>
+          <div class="process-status">ONLINE</div>
+        </div>
+
+        <div class="process-row">
+          <div class="process-pid">0003</div>
+          <div class="process-user">
+            <span class="process-avatar">R</span>
+            <span data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</span>
+          </div>
+          <div class="process-role" data-fa="مدیر طراحی" data-en="Head of Design">مدیر طراحی</div>
+          <div class="process-cpu">
+            <div class="process-cpu-bar" style="--w:87%"></div>
+            <span class="process-cpu-val">87%</span>
+          </div>
+          <div class="process-status">ONLINE</div>
+        </div>
+
+        <div class="process-row">
+          <div class="process-pid">0004</div>
+          <div class="process-user">
+            <span class="process-avatar">M</span>
+            <span data-fa="مریم حسینی" data-en="Maryam Hosseini">مریم حسینی</span>
+          </div>
+          <div class="process-role" data-fa="مدیر محصول" data-en="Head of Product">مدیر محصول</div>
+          <div class="process-cpu">
+            <div class="process-cpu-bar" style="--w:89%"></div>
+            <span class="process-cpu-val">89%</span>
+          </div>
+          <div class="process-status">ONLINE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section class="section" id="awards">
+    <div class="section-line">
+      <span class="section-line-path">~/quantum</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="pkg list --installed" data-en="pkg list --installed">pkg list --installed</span>
+      <span class="section-line-idx">05</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="جوایز <span class='accent'>نصب‌شده</span> در سیستم" data-en="<span class='accent'>Installed</span> awards">جوایز <span class="accent">نصب‌شده</span> در سیستم</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='cmt'>// جوایز و افتخارات بین‌المللی QUANTUM Corp — همه authenticated.</span>" data-en="<span class='cmt'>// QUANTUM Corp international awards and honors — all authenticated.</span>">
+      <span class="cmt">// جوایز و افتخارات بین‌المللی QUANTUM Corp — همه authenticated.</span>
+    </p>
+
+    <div class="pkg-wrap reveal">
+      <div class="pkg-head">
+        <span class="prompt">$</span>
+        <span class="cmd">nexus-pkg --list-installed --awards</span>
+        <span class="meta">4 packages installed · signature verified</span>
+      </div>
+
+      <div class="pkg-list">
+        <div class="pkg-item">
+          <span class="pkg-icon">▸</span>
+          <span class="pkg-year">2023</span>
+          <span class="pkg-name" data-fa="بهترین استودیوی فناوری خاورمیانه" data-en="Best Tech Studio in the Middle East">بهترین استودیوی فناوری خاورمیانه</span>
+          <span class="pkg-issuer">Middle East Tech Awards</span>
+          <span class="pkg-badge">🏆 VERIFIED</span>
+        </div>
+
+        <div class="pkg-item">
+          <span class="pkg-icon">▸</span>
+          <span class="pkg-year">2022</span>
+          <span class="pkg-name" data-fa="نوآوری برتر در هوش مصنوعی" data-en="Top Innovation in AI">نوآوری برتر در هوش مصنوعی</span>
+          <span class="pkg-issuer">Global AI Summit</span>
+          <span class="pkg-badge">🥇 VERIFIED</span>
+        </div>
+
+        <div class="pkg-item">
+          <span class="pkg-icon">▸</span>
+          <span class="pkg-year">2021</span>
+          <span class="pkg-name" data-fa="طراحی تجربه کاربری برتر" data-en="Best UX Design">طراحی تجربه کاربری برتر</span>
+          <span class="pkg-issuer">UX Design Awards</span>
+          <span class="pkg-badge">🎨 VERIFIED</span>
+        </div>
+
+        <div class="pkg-item">
+          <span class="pkg-icon">▸</span>
+          <span class="pkg-year">2020</span>
+          <span class="pkg-name" data-fa="استارتاپ برتر امنیتی" data-en="Top Security Startup">استارتاپ برتر امنیتی</span>
+          <span class="pkg-issuer">CyberSec Global</span>
+          <span class="pkg-badge">🛡️ VERIFIED</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICES ============ -->
+  <section class="section" id="offices">
+    <div class="section-line">
+      <span class="section-line-path">~/quantum</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="netstat -nodes" data-en="netstat -nodes">netstat -nodes</span>
+      <span class="section-line-idx">06</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="گره‌های <span class='accent'>شبکه</span> ما" data-en="Our <span class='accent'>network</span> nodes">گره‌های <span class="accent">شبکه</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='cmt'>// چهار دفتر در چهار قاره — همه متصل، همه فعال، همه پایدار.</span>" data-en="<span class='cmt'>// Four offices on four continents — all connected, all active, all resilient.</span>">
+      <span class="cmt">// چهار دفتر در چهار قاره — همه متصل، همه فعال، همه پایدار.</span>
+    </p>
+
+    <div class="nodes-grid reveal">
+      <div class="node-card">
+        <div class="node-header">
+          <span class="node-id">TECH-01</span>
+          <span class="node-dot"></span>
+        </div>
+        <div class="node-city" data-fa="تهران" data-en="Tehran">تهران</div>
+        <div class="node-country" data-fa="ایران · مرکز اصلی" data-en="Iran · HQ">ایران · مرکز اصلی</div>
+        <div class="node-address" data-fa="خیابان ولیعصر، برج فناوری، طبقه ۱۸" data-en="Valiasr St, Tech Tower, 18F">خیابان ولیعصر، برج فناوری، طبقه ۱۸</div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-header">
+          <span class="node-id">MEA-02</span>
+          <span class="node-dot"></span>
+        </div>
+        <div class="node-city" data-fa="دبی" data-en="Dubai">دبی</div>
+        <div class="node-country" data-fa="امارات · خاورمیانه" data-en="UAE · Middle East">امارات · خاورمیانه</div>
+        <div class="node-address" data-fa="DIFC، برج Gate، طبقه ۲۴" data-en="DIFC, Gate Tower, 24F">DIFC، برج Gate، طبقه ۲۴</div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-header">
+          <span class="node-id">EU-03</span>
+          <span class="node-dot"></span>
+        </div>
+        <div class="node-city" data-fa="برلین" data-en="Berlin">برلین</div>
+        <div class="node-country" data-fa="آلمان · اروپا" data-en="Germany · Europe">آلمان · اروپا</div>
+        <div class="node-address" data-fa="Mitte، Torstraße ۱۲" data-en="Mitte, Torstraße 12">Mitte، Torstraße ۱۲</div>
+      </div>
+
+      <div class="node-card">
+        <div class="node-header">
+          <span class="node-id">NA-04</span>
+          <span class="node-dot"></span>
+        </div>
+        <div class="node-city" data-fa="سانفرانسیسکو" data-en="San Francisco">سانفرانسیسکو</div>
+        <div class="node-country" data-fa="آمریکا · آمریکای شمالی" data-en="USA · North America">آمریکا · آمریکای شمالی</div>
+        <div class="node-address" data-fa="Market St، Salesforce Tower، 30F" data-en="Market St, Salesforce Tower, 30F">Market St، Salesforce Tower، 30F</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-wrap" id="contact">
+    <div class="cta-terminal reveal">
+      <div class="cta-cmd">
+        <span class="user">root@quantum</span>
+        <span class="path">~/contact</span>
+        <span class="cmd">$ ./start-partnership.sh --enterprise --verbose</span>
+        <span class="cursor"></span>
+      </div>
+
+      <h2 class="cta-title" data-fa="آماده‌اید <span class='accent'>کد</span> را با هم بنویسیم؟" data-en="Ready to write <span class='accent'>code</span> together?">آماده‌اید <span class="accent">کد</span> را با هم بنویسیم؟</h2>
+
+      <p class="cta-desc" data-fa="چه یک استارتاپ نوپا باشید و چه یک شرکت بزرگ، QUANTUM آماده است تا زیرساخت فناوری شما را طراحی، پیاده‌سازی، و مقیاس‌بندی کند." data-en="Whether you're a startup or a large enterprise, QUANTUM is ready to design, implement, and scale your technology infrastructure.">
+        چه یک استارتاپ نوپا باشید و چه یک شرکت بزرگ، QUANTUM آماده است تا زیرساخت فناوری شما را طراحی، پیاده‌سازی، و مقیاس‌بندی کند.
+      </p>
+
+      <div class="cta-buttons">
+        <button class="btn primary" onclick="contactUs()">
+          <span class="btn-icon">▸</span>
+          <span data-fa="تماس با ما" data-en="Contact Us">تماس با ما</span>
+        </button>
+        <button class="btn secondary" onclick="scrollToId('story')">
+          <span class="btn-icon">↑</span>
+          <span data-fa="بازگشت به بالا" data-en="Back to Top">بازگشت به بالا</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <span class="footer-logo">Q</span>
+            <span class="footer-brand-name">QUANTUM</span>
+            <span class="footer-tag">CORP</span>
+          </div>
+          <p class="footer-desc" data-fa="شرکت مهندسی زیرساخت با تمرکز بر معماری نرم‌افزار، امنیت سایبری، و هوش مصنوعی. از سال 2018." data-en="Infrastructure engineering company focused on software architecture, cybersecurity, and AI. Since 2018.">
+            شرکت مهندسی زیرساخت با تمرکز بر معماری نرم‌افزار، امنیت سایبری، و هوش مصنوعی. از سال 2018.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="محصولات" data-en="products">محصولات</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="موتور هوش مصنوعی" data-en="ai-engine">موتور هوش مصنوعی</button>
+            <button class="footer-link" data-fa="امنیت" data-en="security">امنیت</button>
+            <button class="footer-link" data-fa="زیرساخت" data-en="infrastructure">زیرساخت</button>
+            <button class="footer-link" data-fa="پژوهش" data-en="research">پژوهش</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="شرکت" data-en="company">شرکت</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="scrollToId('story')" data-fa="درباره ما" data-en="about">درباره ما</button>
+            <button class="footer-link" onclick="scrollToId('team')" data-fa="تیم" data-en="team">تیم</button>
+            <button class="footer-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="awards">جوایز</button>
+            <button class="footer-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="nodes">دفاتر</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="ارتباط" data-en="connect">ارتباط</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="تماس" data-en="contact">تماس</button>
+            <button class="footer-link" data-fa="همکاری" data-en="partnership">همکاری</button>
+            <button class="footer-link" data-fa="رسانه" data-en="press">رسانه</button>
+            <button class="footer-link" data-fa="فرصت‌های شغلی" data-en="careers">فرصت‌های شغلی</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025 QUANTUM CORP · <span data-fa="تمام حقوق محفوظ است." data-en="All rights reserved.">تمام حقوق محفوظ است.</span> · v4.0.1</div>
+        <div class="footer-bottom-links">
+          <button class="footer-bottom-link" data-fa="حریم خصوصی" data-en="privacy">حریم خصوصی</button>
+          <button class="footer-bottom-link" data-fa="شرایط" data-en="terms">شرایط</button>
+          <button class="footer-bottom-link" data-fa="کوکی‌ها" data-en="cookies">کوکی‌ها</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+  <span id="toastMsg" data-fa="انجام شد!" data-en="Done!">انجام شد!</span>
+</div>
+
+<script>
+/* ============================================================
+   CLOCK
+   ============================================================ */
+function updateClock(){
+  const el = document.getElementById('clock');
+  if(!el) return;
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  el.textContent = `${h}:${m}:${s}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ============================================================
+   PAGE / NAV
+   ============================================================ */
+const page = document.getElementById('page');
+const nav = document.getElementById('nav');
+
+page.addEventListener('scroll', () => {
+  if(page.scrollTop > 40){
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+function scrollToTop(){
+  page.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(el){
+    const offset = 100;
+    const top = el.getBoundingClientRect().top + page.scrollTop - offset;
+    page.scrollTo({ top, behavior: 'smooth' });
+  }
+  document.getElementById('mobileMenu').classList.remove('on');
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('on');
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+let lang = 'fa';
+
+function toggleLang(){
+  lang = lang === 'fa' ? 'en' : 'fa';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  document.getElementById('langBtn').textContent = lang === 'fa' ? 'EN' : 'FA';
+
+  document.querySelectorAll('[data-fa]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if(val !== null && val !== undefined){
+      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+        el.placeholder = val;
+      } else {
+        el.innerHTML = val;
+      }
+    }
+  });
+
+  showToast(lang === 'fa' ? 'lang: en → fa' : 'lang: fa → en');
+}
+
+/* ============================================================
+   COUNTER
+   ============================================================ */
+function animateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.done) return;
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      el.dataset.done = '1';
+      const target = parseInt(el.getAttribute('data-counter'));
+      const duration = 2000;
+      const start = performance.now();
+      const isLarge = target > 10000;
+
+      function update(now){
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        let val = Math.floor(eased * target);
+        if(isLarge){
+          el.textContent = val >= 1000000
+            ? (val / 1000000).toFixed(1).replace('.0','') + 'M'
+            : val.toLocaleString('en-US');
+        } else {
+          el.textContent = val.toLocaleString('en-US');
+        }
+        if(t < 1){
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = isLarge
+            ? (target / 1000000).toFixed(1).replace('.0','') + 'M'
+            : target.toLocaleString('en-US');
+        }
+      }
+      requestAnimationFrame(update);
+    }
+  });
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================================================
+   NAV ACTIVE STATE
+   ============================================================ */
+const sections = ['story','values','timeline','team','awards'];
+const navLinks = document.querySelectorAll('.nav-link');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const onclick = link.getAttribute('onclick') || '';
+        if(onclick.includes(id)){
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-80px 0px -60px 0px' });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) sectionObserver.observe(el);
+});
+
+/* ============================================================
+   SCROLL HANDLER
+   ============================================================ */
+page.addEventListener('scroll', () => {
+  animateCounters();
+}, { passive: true });
+
+window.addEventListener('scroll', animateCounters, { passive: true });
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  toastMsg.textContent = msg;
+  toast.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('on');
+  }, 2600);
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+function contactUs(){
+  showToast(lang === 'fa' ? 'اتصال برقرار شد — منتظر تماس باشید' : 'Connection established — expect contact');
+  const btn = event && event.target ? event.target.closest('.btn, .nav-cta') : null;
+  if(btn){
+    btn.style.transition = 'transform .1s ease';
+    btn.style.transform = 'scale(.96)';
+    setTimeout(() => { btn.style.transform = ''; }, 120);
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load', () => {
+  animateCounters();
+  if(lang === 'fa'){
+    document.querySelectorAll('[data-fa]').forEach(el => {
+      const val = el.getAttribute('data-fa');
+      if(val && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA'){
+        el.innerHTML = val;
+      }
+    });
+  }
+});
+
+if(!window.IntersectionObserver){
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    el.textContent = el.getAttribute('data-counter');
+  });
+}
+</script>
+</body>
+</html>
