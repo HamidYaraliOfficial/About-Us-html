@@ -1,0 +1,2339 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffd93d">
+<title>Aurora Neo | درباره ما</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Archivo+Black&family=Space+Mono:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Vazirmatn','Inter',-apple-system,sans-serif;
+  background:#ffd93d;
+  color:#000;
+  min-height:100vh;min-height:100dvh;
+  position:relative;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  font-weight:500;
+}
+
+/* ============================================================
+   COLOR PALETTES
+   ============================================================ */
+:root{
+  --bg:#ffd93d;
+  --bg-2:#ffc93c;
+  --ink:#000000;
+  --card:#ffffff;
+  --accent-1:#ff6b6b;
+  --accent-2:#4ecdc4;
+  --accent-3:#a78bfa;
+  --accent-4:#ff9f43;
+  --accent-5:#00d9ff;
+  --success:#6bcb77;
+  --shadow-color:#000;
+}
+
+[data-palette="yellow"]{
+  --bg:#ffd93d;--bg-2:#ffc93c;--card:#ffffff;
+  --accent-1:#ff6b6b;--accent-2:#4ecdc4;--accent-3:#a78bfa;
+  --accent-4:#ff9f43;--accent-5:#00d9ff;
+}
+[data-palette="mint"]{
+  --bg:#c8f4c2;--bg-2:#b3ebac;--card:#ffffff;
+  --accent-1:#ff6b6b;--accent-2:#ffd93d;--accent-3:#a78bfa;
+  --accent-4:#ff9f43;--accent-5:#00d9ff;
+}
+[data-palette="pink"]{
+  --bg:#ffb3d9;--bg-2:#ffa1d0;--card:#ffffff;
+  --accent-1:#ffec3d;--accent-2:#4ecdc4;--accent-3:#a78bfa;
+  --accent-4:#ff6b6b;--accent-5:#00d9ff;
+}
+[data-palette="lilac"]{
+  --bg:#d4c5f9;--bg-2:#c7b3f7;--card:#ffffff;
+  --accent-1:#ffd93d;--accent-2:#ff6b6b;--accent-3:#4ecdc4;
+  --accent-4:#ff9f43;--accent-5:#00d9ff;
+}
+[data-palette="orange"]{
+  --bg:#ffb347;--bg-2:#ffa832;--card:#ffffff;
+  --accent-1:#ffec3d;--accent-2:#4ecdc4;--accent-3:#a78bfa;
+  --accent-4:#ff6b6b;--accent-5:#00d9ff;
+}
+[data-palette="sky"]{
+  --bg:#a8e6ff;--bg-2:#96dfff;--card:#ffffff;
+  --accent-1:#ffd93d;--accent-2:#ff6b6b;--accent-3:#a78bfa;
+  --accent-4:#ff9f43;--accent-5:#6bcb77;
+}
+[data-palette="dark"]{
+  --bg:#1a1a1a;--bg-2:#252525;--card:#2a2a2a;
+  --ink:#ffffff;
+  --accent-1:#ffd93d;--accent-2:#4ecdc4;--accent-3:#a78bfa;
+  --accent-4:#ff6b6b;--accent-5:#00d9ff;
+  --shadow-color:#000;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  background:var(--bg);
+  color:var(--ink);
+  transition:background .4s ease,color .4s ease;
+  scrollbar-width:auto;
+  scrollbar-color:var(--ink) var(--bg-2);
+}
+.page::-webkit-scrollbar{width:16px}
+.page::-webkit-scrollbar-track{background:var(--bg-2);border-left:3px solid var(--ink)}
+.page::-webkit-scrollbar-thumb{background:var(--ink);border:3px solid var(--bg-2)}
+.page::-webkit-scrollbar-thumb:hover{background:var(--accent-1)}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;top:0;
+  background:var(--card);
+  border-bottom:4px solid var(--ink);
+  z-index:100;
+  transition:all .3s ease;
+}
+.nav-inner{
+  max-width:1440px;
+  margin:0 auto;
+  padding:0 32px;
+  height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+}
+
+.logo{
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;
+  transition:transform .2s ease;
+}
+.logo:hover{transform:rotate(-2deg)}
+
+.logo-mark{
+  width:52px;height:52px;
+  background:var(--accent-1);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Archivo Black',sans-serif;
+  font-size:24px;
+  color:#fff;
+  transition:all .2s ease;
+  position:relative;
+}
+.logo:hover .logo-mark{
+  transform:translate(2px,2px);
+  box-shadow:3px 3px 0 var(--ink);
+  background:var(--accent-3);
+}
+.logo-text{
+  font-family:'Archivo Black','Bricolage Grotesque',sans-serif;
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:-1px;
+  line-height:1;
+  color:var(--ink);
+}
+html[dir="rtl"] .logo-text{font-family:'Vazirmatn',sans-serif;font-weight:900}
+
+.nav-links{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  padding:6px;
+  background:var(--bg-2);
+  border:3px solid var(--ink);
+  border-radius:0;
+}
+.nav-link{
+  background:transparent;
+  border:3px solid transparent;
+  color:var(--ink);
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:800;
+  cursor:pointer;
+  padding:10px 18px;
+  transition:all .15s ease;
+  letter-spacing:-.01em;
+  position:relative;
+  text-transform:uppercase;
+  border-radius:0;
+}
+html[dir="rtl"] .nav-link{text-transform:none;font-size:14px}
+.nav-link:hover{
+  background:var(--accent-1);
+  color:#fff;
+  border-color:var(--ink);
+  transform:translate(-2px,-2px);
+  box-shadow:3px 3px 0 var(--ink);
+}
+.nav-link.active{
+  background:var(--ink);
+  color:var(--bg);
+  border-color:var(--ink);
+}
+
+.nav-actions{display:flex;align-items:center;gap:14px}
+.nav-lang{
+  background:var(--accent-5);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  color:var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  padding:10px 16px;
+  transition:all .15s ease;
+}
+.nav-lang:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+  background:var(--accent-4);
+}
+.nav-cta{
+  background:var(--accent-3);
+  color:#fff;
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  padding:14px 26px;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:900;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:inline-flex;align-items:center;gap:10px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .nav-cta{text-transform:none;letter-spacing:0}
+.nav-cta:hover{
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 var(--ink);
+  background:var(--accent-1);
+}
+.nav-cta svg{
+  width:18px;height:18px;
+  stroke:currentColor;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.menu-btn{
+  display:none;
+  background:var(--accent-2);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  cursor:pointer;
+  padding:10px;
+  transition:all .15s ease;
+}
+.menu-btn:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.menu-btn svg{
+  width:26px;height:26px;
+  stroke:var(--ink);fill:none;stroke-width:3.5;
+  stroke-linecap:round;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding:80px 32px 60px;
+  max-width:1440px;
+  margin:0 auto;
+  position:relative;
+}
+
+.hero-marquee{
+  background:var(--ink);
+  color:var(--bg);
+  padding:14px 0;
+  overflow:hidden;
+  margin:0 -32px 60px;
+  border-top:3px solid var(--ink);
+  border-bottom:3px solid var(--ink);
+  transform:rotate(-1deg);
+  position:relative;
+  z-index:2;
+}
+.hero-marquee-track{
+  display:flex;
+  gap:48px;
+  animation:marquee 25s linear infinite;
+  width:max-content;
+}
+.hero-marquee-item{
+  font-family:'Archivo Black',sans-serif;
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:48px;
+  white-space:nowrap;
+}
+html[dir="rtl"] .hero-marquee-item{font-family:'Vazirmatn',sans-serif;font-size:18px;letter-spacing:0}
+.hero-marquee-item::after{
+  content:'★';
+  color:var(--accent-1);
+}
+@keyframes marquee{to{transform:translateX(-50%)}}
+html[dir="rtl"] .hero-marquee-track{animation-direction:reverse}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:10px 20px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:32px;
+  transform:rotate(-1deg);
+  transition:transform .2s ease;
+}
+.hero-badge:hover{transform:rotate(1deg) scale(1.02)}
+.hero-badge-dot{
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--accent-1);
+  border:2px solid var(--ink);
+  animation:pulseDot 1.5s ease-in-out infinite;
+}
+@keyframes pulseDot{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.4)}
+}
+
+.hero-title{
+  font-family:'Archivo Black','Bricolage Grotesque',sans-serif;
+  font-size:clamp(56px, 9vw, 140px);
+  font-weight:900;
+  line-height:.9;
+  letter-spacing:-.04em;
+  color:var(--ink);
+  margin-bottom:40px;
+  max-width:1300px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .hero-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-.03em;
+  text-transform:none;
+  font-size:clamp(44px, 8vw, 120px);
+}
+.hero-title em{
+  font-style:normal;
+  background:var(--accent-1);
+  color:#fff;
+  padding:0 20px;
+  display:inline-block;
+  border:4px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  transform:rotate(-1deg);
+  transition:transform .3s ease;
+}
+.hero-title em:hover{
+  transform:rotate(2deg) scale(1.02);
+}
+.hero-title .highlight-2{
+  background:var(--accent-2);
+  color:var(--ink);
+}
+
+.hero-bottom{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:60px;
+  margin-top:60px;
+  align-items:end;
+}
+
+.hero-desc{
+  font-size:17px;
+  line-height:1.7;
+  color:var(--ink);
+  font-weight:500;
+  max-width:560px;
+  padding:24px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+}
+
+.hero-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.hero-stat{
+  padding:24px 20px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.hero-stat:nth-child(1){background:var(--accent-2)}
+.hero-stat:nth-child(2){background:var(--accent-3);color:#fff}
+.hero-stat:nth-child(3){background:var(--accent-4)}
+.hero-stat:nth-child(4){background:var(--accent-5)}
+.hero-stat:hover{
+  transform:translate(3px,3px);
+  box-shadow:3px 3px 0 var(--ink);
+}
+.hero-stat::before{
+  content:'';position:absolute;
+  top:-20px;right:-20px;
+  width:60px;height:60px;
+  background:rgba(0,0,0,.08);
+  border-radius:50%;
+}
+.hero-stat-num{
+  font-family:'Archivo Black',sans-serif;
+  font-size:38px;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.03em;
+  margin-bottom:6px;
+  color:inherit;
+}
+html[dir="rtl"] .hero-stat-num{font-family:'Vazirmatn',sans-serif;font-weight:900}
+.hero-stat-label{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  line-height:1.3;
+}
+html[dir="rtl"] .hero-stat-label{font-family:'Vazirmatn',sans-serif;font-size:12px;letter-spacing:0;text-transform:none}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{
+  padding:100px 32px;
+  border-top:4px solid var(--ink);
+  position:relative;
+}
+.section-inner{max-width:1440px;margin:0 auto}
+
+.section-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 16px;
+  background:var(--ink);
+  color:var(--bg);
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:24px;
+  border:3px solid var(--ink);
+}
+.section-tag-num{
+  padding:2px 8px;
+  background:var(--accent-1);
+  color:var(--ink);
+  border:2px solid var(--bg);
+  font-size:10px;
+}
+
+.section-title{
+  font-family:'Archivo Black','Bricolage Grotesque',sans-serif;
+  font-size:clamp(40px, 6vw, 88px);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:-.04em;
+  color:var(--ink);
+  margin-bottom:24px;
+  max-width:1100px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .section-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  text-transform:none;
+}
+.section-title em{
+  font-style:normal;
+  background:var(--accent-1);
+  color:#fff;
+  padding:0 14px;
+  display:inline-block;
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  transform:rotate(-1deg);
+}
+.section-title .em-2{background:var(--accent-2);color:var(--ink)}
+.section-title .em-3{background:var(--accent-3)}
+.section-title .em-4{background:var(--accent-4);color:var(--ink)}
+.section-title .em-5{background:var(--accent-5);color:var(--ink)}
+
+.section-desc{
+  font-size:17px;
+  line-height:1.7;
+  color:var(--ink);
+  max-width:720px;
+  font-weight:500;
+  margin-bottom:60px;
+  padding:20px 24px;
+  border-left:6px solid var(--ink);
+  background:var(--card);
+  border-top:3px solid var(--ink);
+  border-right:3px solid var(--ink);
+  border-bottom:3px solid var(--ink);
+}
+html[dir="rtl"] .section-desc{
+  border-left:3px solid var(--ink);
+  border-right:6px solid var(--ink);
+}
+
+/* ============================================================
+   STORY
+   ============================================================ */
+.story-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:32px;
+  align-items:start;
+}
+
+.story-main{
+  padding:40px;
+  background:var(--card);
+  border:4px solid var(--ink);
+  box-shadow:10px 10px 0 var(--ink);
+}
+.story-main p{
+  font-size:16px;
+  line-height:1.85;
+  color:var(--ink);
+  margin-bottom:20px;
+  font-weight:500;
+}
+.story-main p:first-of-type::first-letter{
+  font-family:'Archivo Black',sans-serif;
+  font-size:88px;
+  font-weight:900;
+  float:right;
+  line-height:.85;
+  margin-left:14px;
+  margin-top:8px;
+  color:var(--accent-1);
+  -webkit-text-stroke:3px var(--ink);
+  paint-order:stroke fill;
+  padding:6px 12px 0 0;
+}
+html[dir="ltr"] .story-main p:first-of-type::first-letter{
+  float:left;
+  margin-right:14px;
+  margin-left:0;
+  padding:6px 0 0 12px;
+}
+
+.story-quote{
+  margin-top:32px;
+  padding:32px;
+  background:var(--accent-4);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  position:relative;
+  transform:rotate(-.5deg);
+}
+.story-quote::before{
+  content:'"';
+  position:absolute;
+  top:-40px;
+  right:24px;
+  font-family:'Archivo Black',sans-serif;
+  font-size:120px;
+  color:var(--ink);
+  line-height:1;
+}
+html[dir="ltr"] .story-quote::before{right:auto;left:24px}
+.story-quote p{
+  font-family:'Archivo Black','Bricolage Grotesque',sans-serif;
+  font-size:24px;
+  font-weight:900;
+  line-height:1.3;
+  color:var(--ink);
+  letter-spacing:-.01em;
+  margin:0;
+}
+html[dir="rtl"] .story-quote p{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  font-size:20px;
+  line-height:1.5;
+}
+.story-quote-author{
+  display:block;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:3px solid var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+
+.story-side{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.story-badge{
+  padding:32px 28px;
+  background:var(--accent-3);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+  transition:transform .3s ease;
+}
+.story-badge:hover{transform:translate(-4px,-4px);box-shadow:12px 12px 0 var(--ink)}
+.story-badge::before{
+  content:'★';
+  position:absolute;
+  top:-30px;left:-30px;
+  font-size:140px;
+  color:rgba(255,255,255,.1);
+  line-height:1;
+}
+.story-badge-label{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  opacity:.85;
+}
+.story-badge-num{
+  font-family:'Archivo Black',sans-serif;
+  font-size:64px;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.04em;
+  margin-bottom:8px;
+}
+html[dir="rtl"] .story-badge-num{font-family:'Vazirmatn',sans-serif}
+.story-badge-text{
+  font-size:14px;
+  font-weight:600;
+  line-height:1.4;
+}
+
+/* ============================================================
+   VALUES
+   ============================================================ */
+.values-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:24px;
+}
+.value-card{
+  padding:32px 28px;
+  background:var(--card);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.value-card:hover{
+  transform:translate(-4px,-4px);
+  box-shadow:12px 12px 0 var(--ink);
+  background:var(--bg-2);
+}
+.value-card:nth-child(1){background:var(--accent-1);color:#fff}
+.value-card:nth-child(2){background:var(--accent-2)}
+.value-card:nth-child(3){background:var(--accent-3);color:#fff}
+.value-card:nth-child(4){background:var(--accent-4)}
+.value-card:nth-child(5){background:var(--accent-5)}
+.value-card:nth-child(6){background:var(--card)}
+.value-card:hover:nth-child(1){background:var(--accent-5);color:var(--ink)}
+.value-card:hover:nth-child(3){background:var(--accent-4);color:var(--ink)}
+
+.value-num{
+  font-family:'Space Mono',monospace;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  padding:6px 12px;
+  background:var(--ink);
+  color:var(--bg);
+  display:inline-block;
+  border:2px solid var(--ink);
+  margin-bottom:20px;
+}
+.value-icon{
+  font-size:56px;
+  line-height:1;
+  margin-bottom:20px;
+  filter:drop-shadow(4px 4px 0 rgba(0,0,0,.25));
+}
+.value-title{
+  font-family:'Archivo Black',sans-serif;
+  font-size:26px;
+  font-weight:900;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin-bottom:12px;
+  text-transform:uppercase;
+  color:inherit;
+}
+html[dir="rtl"] .value-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  font-size:22px;
+}
+.value-desc{
+  font-size:14.5px;
+  line-height:1.6;
+  font-weight:500;
+  color:inherit;
+  opacity:.9;
+}
+
+/* ============================================================
+   STATS STRIP
+   ============================================================ */
+.stats-strip{
+  background:var(--ink);
+  color:var(--bg);
+  padding:60px 32px;
+  border-top:4px solid var(--ink);
+  border-bottom:4px solid var(--ink);
+  transform:rotate(-1deg);
+  margin:80px -32px;
+  overflow:hidden;
+  position:relative;
+}
+.stats-strip-inner{
+  max-width:1440px;margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+.stat-big{
+  padding:32px 24px;
+  border-right:3px dashed rgba(255,217,61,.3);
+  transition:background .2s ease;
+  cursor:pointer;
+}
+html[dir="rtl"] .stat-big{border-right:none;border-left:3px dashed rgba(255,217,61,.3)}
+.stat-big:last-child{border:none}
+.stat-big:hover{background:rgba(255,217,61,.05)}
+.stat-big-num{
+  font-family:'Archivo Black',sans-serif;
+  font-size:clamp(40px,5vw,72px);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.04em;
+  margin-bottom:12px;
+  color:var(--accent-1);
+}
+html[dir="rtl"] .stat-big-num{font-family:'Vazirmatn',sans-serif}
+.stat-big:nth-child(2) .stat-big-num{color:var(--accent-2)}
+.stat-big:nth-child(3) .stat-big-num{color:var(--accent-3)}
+.stat-big:nth-child(4) .stat-big-num{color:var(--accent-4)}
+.stat-big-label{
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  opacity:.7;
+  line-height:1.4;
+}
+html[dir="rtl"] .stat-big-label{font-family:'Vazirmatn',sans-serif;letter-spacing:0;text-transform:none;font-size:13px}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline-list{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  position:relative;
+}
+.timeline-item{
+  display:grid;
+  grid-template-columns:140px 60px 1fr;
+  gap:0;
+  align-items:start;
+  padding:36px 0;
+  border-bottom:4px solid var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+}
+.timeline-item:first-child{border-top:4px solid var(--ink)}
+.timeline-item:hover{background:var(--card);padding-inline:32px}
+.timeline-item:hover .tl-year-box{transform:rotate(-3deg) scale(1.05)}
+
+.tl-year-box{
+  padding:16px 20px;
+  background:var(--accent-1);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  text-align:center;
+  transition:all .3s ease;
+  align-self:start;
+}
+.timeline-item:nth-child(2) .tl-year-box{background:var(--accent-2)}
+.timeline-item:nth-child(3) .tl-year-box{background:var(--accent-3);color:#fff}
+.timeline-item:nth-child(4) .tl-year-box{background:var(--accent-4)}
+.timeline-item:nth-child(5) .tl-year-box{background:var(--accent-5)}
+.timeline-item:nth-child(6) .tl-year-box{background:var(--accent-1);color:#fff}
+
+.tl-year-num{
+  font-family:'Archivo Black',sans-serif;
+  font-size:28px;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.03em;
+}
+html[dir="rtl"] .tl-year-num{font-family:'Vazirmatn',sans-serif}
+
+.tl-connector{
+  display:flex;
+  justify-content:center;
+  padding-top:20px;
+}
+.tl-connector-line{
+  width:4px;
+  height:40px;
+  background:var(--ink);
+  position:relative;
+}
+.tl-connector-line::after{
+  content:'';
+  position:absolute;
+  bottom:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:0;height:0;
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:10px solid var(--ink);
+}
+
+.tl-content-box{
+  padding:28px 32px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+}
+.tl-content-title{
+  font-family:'Archivo Black',sans-serif;
+  font-size:24px;
+  font-weight:900;
+  line-height:1.15;
+  letter-spacing:-.02em;
+  margin-bottom:12px;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .tl-content-title{font-family:'Vazirmatn',sans-serif;font-weight:900;text-transform:none;font-size:20px}
+.tl-content-desc{
+  font-size:15px;
+  line-height:1.7;
+  color:var(--ink);
+  font-weight:500;
+}
+
+/* ============================================================
+   TEAM
+   ============================================================ */
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.member-card{
+  padding:0;
+  background:var(--card);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.member-card:hover{
+  transform:translate(-4px,-4px);
+  box-shadow:12px 12px 0 var(--ink);
+}
+
+.member-photo{
+  aspect-ratio:1;
+  background:var(--accent-1);
+  border-bottom:4px solid var(--ink);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all .3s ease;
+}
+.member-card:nth-child(2) .member-photo{background:var(--accent-2)}
+.member-card:nth-child(3) .member-photo{background:var(--accent-3)}
+.member-card:nth-child(4) .member-photo{background:var(--accent-4)}
+
+.member-photo::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0,transparent 20px,rgba(0,0,0,.06) 20px,rgba(0,0,0,.06) 21px);
+}
+.member-letter{
+  font-family:'Archivo Black',sans-serif;
+  font-size:100px;
+  font-weight:900;
+  line-height:1;
+  color:#fff;
+  -webkit-text-stroke:4px var(--ink);
+  paint-order:stroke fill;
+  position:relative;
+  z-index:1;
+  transition:transform .3s ease;
+}
+html[dir="rtl"] .member-letter{font-family:'Vazirmatn',sans-serif}
+.member-card:hover .member-letter{transform:rotate(-8deg) scale(1.1)}
+
+.member-info{
+  padding:20px;
+}
+.member-name{
+  font-family:'Archivo Black',sans-serif;
+  font-size:18px;
+  font-weight:900;
+  line-height:1.15;
+  letter-spacing:-.01em;
+  margin-bottom:6px;
+  color:var(--ink);
+}
+html[dir="rtl"] .member-name{font-family:'Vazirmatn',sans-serif;font-weight:900}
+.member-role{
+  display:inline-block;
+  padding:4px 10px;
+  background:var(--ink);
+  color:var(--bg);
+  font-family:'Space Mono',monospace;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .member-role{font-family:'Vazirmatn',sans-serif;letter-spacing:0;text-transform:none;font-size:12px}
+
+/* ============================================================
+   AWARDS
+   ============================================================ */
+.awards-list{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.award-row{
+  display:grid;
+  grid-template-columns:100px 1fr auto;
+  gap:24px;
+  padding:24px 28px;
+  background:var(--card);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  align-items:center;
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.award-row:hover{
+  transform:translate(-3px,-3px);
+  box-shadow:9px 9px 0 var(--ink);
+  background:var(--bg-2);
+}
+.award-row::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;
+  width:8px;height:100%;
+  background:var(--accent-1);
+}
+.award-row:nth-child(2)::before{background:var(--accent-2)}
+.award-row:nth-child(3)::before{background:var(--accent-3)}
+.award-row:nth-child(4)::before{background:var(--accent-4)}
+
+.award-year-badge{
+  padding:12px 16px;
+  background:var(--accent-1);
+  color:#fff;
+  border:3px solid var(--ink);
+  font-family:'Archivo Black',sans-serif;
+  font-size:20px;
+  font-weight:900;
+  text-align:center;
+  letter-spacing:-.02em;
+  box-shadow:4px 4px 0 var(--ink);
+}
+html[dir="rtl"] .award-year-badge{font-family:'Vazirmatn',sans-serif}
+.award-row:nth-child(2) .award-year-badge{background:var(--accent-2);color:var(--ink)}
+.award-row:nth-child(3) .award-year-badge{background:var(--accent-3)}
+.award-row:nth-child(4) .award-year-badge{background:var(--accent-4);color:var(--ink)}
+
+.award-content-title{
+  font-family:'Archivo Black',sans-serif;
+  font-size:20px;
+  font-weight:900;
+  line-height:1.15;
+  margin-bottom:6px;
+  color:var(--ink);
+}
+html[dir="rtl"] .award-content-title{font-family:'Vazirmatn',sans-serif;font-weight:900;font-size:17px}
+.award-content-issuer{
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--ink);
+  opacity:.7;
+}
+html[dir="rtl"] .award-content-issuer{font-family:'Vazirmatn',sans-serif;letter-spacing:0;font-size:13px}
+
+.award-star{
+  font-size:44px;
+  line-height:1;
+  filter:drop-shadow(3px 3px 0 var(--ink));
+  transition:transform .3s ease;
+}
+.award-row:hover .award-star{transform:rotate(360deg) scale(1.2)}
+
+/* ============================================================
+   OFFICES
+   ============================================================ */
+.offices-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.office-card{
+  padding:32px 24px;
+  background:var(--card);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.office-card:hover{
+  transform:translate(-4px,-4px);
+  box-shadow:12px 12px 0 var(--ink);
+  background:var(--bg-2);
+}
+.office-card:nth-child(1){background:var(--accent-1);color:#fff}
+.office-card:nth-child(2){background:var(--accent-2)}
+.office-card:nth-child(3){background:var(--accent-3);color:#fff}
+.office-card:nth-child(4){background:var(--accent-5)}
+
+.office-flag{
+  font-size:56px;
+  line-height:1;
+  margin-bottom:20px;
+  display:block;
+  filter:drop-shadow(4px 4px 0 rgba(0,0,0,.2));
+}
+.office-num{
+  display:inline-block;
+  padding:4px 10px;
+  background:var(--ink);
+  color:var(--bg);
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-bottom:12px;
+}
+.office-city{
+  font-family:'Archivo Black',sans-serif;
+  font-size:28px;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.03em;
+  margin-bottom:8px;
+  text-transform:uppercase;
+  color:inherit;
+}
+html[dir="rtl"] .office-city{font-family:'Vazirmatn',sans-serif;font-weight:900;text-transform:none;font-size:24px}
+.office-country{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding-bottom:16px;
+  margin-bottom:16px;
+  border-bottom:3px solid currentColor;
+  opacity:.9;
+}
+html[dir="rtl"] .office-country{font-family:'Vazirmatn',sans-serif;letter-spacing:0;font-size:12px}
+.office-address{
+  font-size:13.5px;
+  line-height:1.6;
+  font-weight:500;
+  color:inherit;
+  opacity:.9;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta-section{
+  background:var(--accent-1);
+  color:#fff;
+  padding:100px 32px;
+  border-top:4px solid var(--ink);
+  border-bottom:4px solid var(--ink);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.cta-section::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0,transparent 30px,rgba(0,0,0,.06) 30px,rgba(0,0,0,.06) 31px);
+}
+.cta-inner{
+  max-width:1000px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.cta-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 18px;
+  background:var(--ink);
+  color:var(--bg);
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:32px;
+  transform:rotate(-2deg);
+}
+.cta-title{
+  font-family:'Archivo Black',sans-serif;
+  font-size:clamp(44px, 7vw, 100px);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:-.04em;
+  color:#fff;
+  margin-bottom:32px;
+  text-transform:uppercase;
+  text-shadow:
+    4px 4px 0 var(--ink),
+    -2px -2px 0 var(--ink);
+}
+html[dir="rtl"] .cta-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  line-height:1.1;
+  font-size:clamp(36px, 6vw, 80px);
+}
+.cta-title em{
+  font-style:normal;
+  background:var(--bg);
+  color:var(--ink);
+  padding:0 20px;
+  display:inline-block;
+  border:4px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  transform:rotate(-1deg);
+}
+.cta-desc{
+  font-size:17px;
+  line-height:1.7;
+  font-weight:500;
+  max-width:600px;
+  margin:0 auto 40px;
+  color:#fff;
+}
+.cta-buttons{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.cta-btn{
+  padding:20px 40px;
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  background:var(--card);
+  color:var(--ink);
+  font-family:'Archivo Black','Bricolage Grotesque',sans-serif;
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:inline-flex;align-items:center;gap:14px;
+  position:relative;
+}
+html[dir="rtl"] .cta-btn{font-family:'Vazirmatn',sans-serif;text-transform:none;letter-spacing:0}
+.cta-btn:hover{
+  transform:translate(4px,4px);
+  box-shadow:4px 4px 0 var(--ink);
+}
+.cta-btn.primary{background:var(--accent-4)}
+.cta-btn.secondary{background:var(--bg)}
+.cta-btn svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background:var(--ink);
+  color:var(--bg);
+  padding:80px 32px 32px;
+  border-top:4px solid var(--ink);
+}
+.footer-inner{max-width:1440px;margin:0 auto}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;
+  padding-bottom:60px;
+  border-bottom:3px dashed rgba(255,217,61,.3);
+  margin-bottom:40px;
+}
+.footer-brand{
+  font-family:'Archivo Black',sans-serif;
+  font-size:48px;
+  font-weight:900;
+  line-height:1;
+  letter-spacing:-.04em;
+  color:var(--bg);
+  margin-bottom:20px;
+  text-transform:uppercase;
+}
+.footer-brand .dot{
+  color:var(--accent-1);
+}
+.footer-desc{
+  font-size:14.5px;
+  line-height:1.7;
+  color:var(--bg);
+  opacity:.7;
+  max-width:340px;
+  font-weight:500;
+}
+.footer-col-title{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent-1);
+  margin-bottom:24px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--accent-1);
+}
+html[dir="rtl"] .footer-col-title{font-family:'Vazirmatn',sans-serif;letter-spacing:0;font-size:13px}
+.footer-links{display:flex;flex-direction:column;gap:14px}
+.footer-link{
+  background:none;border:none;
+  color:var(--bg);
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  padding:0;
+  text-align:inherit;
+  transition:all .2s ease;
+  display:inline-flex;align-items:center;gap:10px;
+  width:fit-content;
+}
+.footer-link:hover{
+  color:var(--accent-1);
+  transform:translateX(-6px);
+}
+html[dir="ltr"] .footer-link:hover{transform:translateX(6px)}
+.footer-link::before{
+  content:'→';
+  font-family:'Space Mono',monospace;
+  opacity:0;
+  transition:opacity .2s ease;
+}
+html[dir="rtl"] .footer-link::before{content:'←'}
+.footer-link:hover::before{opacity:1}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:32px;
+  border-top:3px dashed rgba(255,217,61,.3);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  letter-spacing:1px;
+  color:var(--bg);
+  opacity:.7;
+}
+html[dir="rtl"] .footer-bottom{font-family:'Vazirmatn',sans-serif;letter-spacing:0;font-size:13px}
+.footer-bottom-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-bottom-link{
+  background:none;border:none;
+  color:var(--bg);
+  font-family:inherit;
+  font-size:12px;
+  cursor:pointer;
+  transition:color .2s ease;
+  opacity:.7;
+}
+.footer-bottom-link:hover{color:var(--accent-1);opacity:1}
+
+/* ============================================================
+   PALETTE SWITCHER
+   ============================================================ */
+.palette-switcher{
+  position:fixed;
+  bottom:32px;
+  left:32px;
+  z-index:200;
+  display:flex;
+  gap:10px;
+  padding:12px 16px;
+  background:var(--card);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+}
+.palette-dot{
+  width:32px;height:32px;
+  border:3px solid var(--ink);
+  cursor:pointer;
+  padding:0;
+  transition:all .15s ease;
+  border-radius:0;
+}
+.palette-dot:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:3px 3px 0 var(--ink);
+}
+.palette-dot.on{
+  box-shadow:
+    inset 0 0 0 4px var(--card),
+    4px 4px 0 var(--ink);
+  transform:translate(-2px,-2px);
+}
+.palette-dot[data-p="yellow"]{background:#ffd93d}
+.palette-dot[data-p="mint"]{background:#c8f4c2}
+.palette-dot[data-p="pink"]{background:#ffb3d9}
+.palette-dot[data-p="lilac"]{background:#d4c5f9}
+.palette-dot[data-p="orange"]{background:#ffb347}
+.palette-dot[data-p="sky"]{background:#a8e6ff}
+.palette-dot[data-p="dark"]{background:linear-gradient(135deg,#1a1a1a 50%,#ffd93d 50%)}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%) translateY(200px);
+  padding:20px 32px;
+  background:var(--accent-1);
+  color:#fff;
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  font-family:'Archivo Black','Bricolage Grotesque',sans-serif;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:14px;
+  opacity:0;
+  transition:all .4s cubic-bezier(.68,-.55,.265,1.55);
+  z-index:1000;
+  pointer-events:none;
+  max-width:90vw;
+  border-radius:0;
+}
+html[dir="rtl"] .toast{font-family:'Vazirmatn',sans-serif;letter-spacing:0;text-transform:none}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-icon{
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--ink);
+  flex-shrink:0;
+}
+.toast-icon svg{
+  width:100%;height:100%;
+  stroke:var(--accent-1);fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+.mobile-menu{
+  position:fixed;
+  inset:80px 0 auto 0;
+  background:var(--card);
+  border-bottom:4px solid var(--ink);
+  padding:24px 32px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:99;
+  transform:translateY(-100%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.mobile-menu.on{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.mobile-link{
+  background:var(--bg-2);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  color:var(--ink);
+  font-family:inherit;
+  font-size:15px;
+  font-weight:800;
+  padding:16px 20px;
+  text-align:inherit;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.mobile-link:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+  background:var(--accent-1);
+  color:#fff;
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in-view{opacity:1;transform:translateY(0)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1100px){
+  .hero-bottom{grid-template-columns:1fr;gap:40px}
+  .story-grid{grid-template-columns:1fr}
+  .timeline-item{grid-template-columns:120px 40px 1fr}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .offices-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+  .stats-strip-inner{grid-template-columns:repeat(2,1fr)}
+  .stat-big:nth-child(2){border-right:none}
+  html[dir="rtl"] .stat-big:nth-child(2){border-left:none}
+}
+
+@media(max-width:768px){
+  .nav-inner{padding:0 20px;height:70px}
+  .nav-links{display:none}
+  .nav-lang{padding:8px 12px}
+  .nav-cta{padding:10px 16px;font-size:12px}
+  .nav-cta span{display:none}
+  .nav-cta::after{content:'→';font-size:16px}
+  .menu-btn{display:flex}
+  .mobile-menu{inset:70px 0 auto 0;padding:20px}
+
+  .hero{padding:60px 20px 40px}
+  .hero-marquee{margin:0 -20px 40px}
+  .hero-marquee-item{font-size:16px}
+  .hero-title{font-size:44px}
+  .hero-title em{padding:0 12px}
+  .hero-desc{padding:20px}
+  .hero-stats{grid-template-columns:1fr 1fr;gap:12px}
+  .hero-stat{padding:18px 16px}
+  .hero-stat-num{font-size:28px}
+
+  .section{padding:60px 20px}
+  .section-title{font-size:32px}
+  .section-title em{padding:0 10px}
+  .section-desc{padding:16px 18px;font-size:15px}
+
+  .story-main{padding:24px}
+  .story-main p{font-size:14.5px}
+  .story-main p:first-of-type::first-letter{font-size:64px;-webkit-text-stroke:2px var(--ink)}
+  .story-quote{padding:24px}
+  .story-quote::before{font-size:80px;top:-28px}
+  .story-quote p{font-size:17px}
+  .story-badge{padding:24px 20px}
+  .story-badge-num{font-size:48px}
+
+  .values-grid{grid-template-columns:1fr;gap:16px}
+  .value-card{padding:24px 20px}
+  .value-title{font-size:20px}
+  .value-icon{font-size:44px}
+
+  .stats-strip{margin:60px -20px;padding:40px 20px}
+  .stats-strip-inner{grid-template-columns:1fr 1fr;gap:0}
+  .stat-big{padding:20px 16px;border:none;border-bottom:2px dashed rgba(255,217,61,.3)}
+  .stat-big:nth-child(odd){border-left:2px dashed rgba(255,217,61,.3)}
+  html[dir="rtl"] .stat-big:nth-child(odd){border-left:none;border-right:2px dashed rgba(255,217,61,.3)}
+  .stat-big:nth-last-child(-n+2){border-bottom:none}
+  .stat-big-num{font-size:36px}
+  .stat-big-label{font-size:11px}
+
+  .timeline-item{
+    grid-template-columns:1fr;
+    gap:16px;
+    padding:24px 0;
+  }
+  .tl-year-box{align-self:flex-start;padding:12px 16px}
+  .tl-year-num{font-size:22px}
+  .tl-connector{display:none}
+  .tl-content-box{padding:20px}
+
+  .team-grid{grid-template-columns:1fr 1fr;gap:16px}
+  .member-letter{font-size:72px;-webkit-text-stroke:3px var(--ink)}
+  .member-name{font-size:15px}
+
+  .award-row{
+    grid-template-columns:1fr;
+    gap:14px;
+    padding:20px;
+  }
+  .award-year-badge{align-self:flex-start;padding:8px 14px;font-size:16px}
+  .award-content-title{font-size:16px}
+  .award-star{position:absolute;top:16px;left:16px;font-size:32px}
+
+  .offices-grid{grid-template-columns:1fr}
+  .office-card{padding:24px 20px}
+  .office-city{font-size:22px}
+  .office-flag{font-size:44px}
+
+  .cta-section{padding:60px 20px}
+  .cta-title{font-size:32px;text-shadow:3px 3px 0 var(--ink)}
+  .cta-title em{padding:0 12px}
+  .cta-btn{padding:16px 24px;font-size:13px}
+
+  .footer{padding:60px 20px 30px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-brand{font-size:32px}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+
+  .palette-switcher{bottom:16px;left:16px;padding:10px 14px;gap:8px}
+  .palette-dot{width:26px;height:26px}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:34px}
+  .hero-title em{padding:0 8px}
+  .section-title{font-size:26px}
+  .stats-strip-inner{grid-template-columns:1fr}
+  .stat-big{border-left:none !important;border-right:none !important;border-bottom:2px dashed rgba(255,217,61,.3) !important}
+  .team-grid{grid-template-columns:1fr}
+  .member-letter{font-size:88px}
+  .cta-title{font-size:26px}
+  .cta-btn{padding:14px 20px;font-size:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-palette="yellow">
+
+<div class="page" id="page">
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="scrollToTop()">
+        <div class="logo-mark">A</div>
+        <div class="logo-text">AURORA</div>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-link active" onclick="scrollToId('story')" data-fa="داستان" data-en="Story">داستان</button>
+        <button class="nav-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+        <button class="nav-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="History">تاریخچه</button>
+        <button class="nav-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+        <button class="nav-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-lang" onclick="toggleLang()" id="langBtn">EN</button>
+        <button class="nav-cta" onclick="contactUs()">
+          <span data-fa="تماس" data-en="Contact">تماس</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="scrollToId('story')" data-fa="داستان ما" data-en="Our Story">داستان ما</button>
+    <button class="mobile-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+    <button class="mobile-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="History">تاریخچه</button>
+    <button class="mobile-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+    <button class="mobile-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+    <button class="mobile-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="Offices">دفاتر</button>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-marquee">
+      <div class="hero-marquee-track">
+        <div class="hero-marquee-item" data-fa="تأسیس ۱۳۹۷" data-en="Est. 2018">تأسیس ۱۳۹۷</div>
+        <div class="hero-marquee-item" data-fa="۱.۲ میلیون کاربر" data-en="1.2M Users">۱.۲ میلیون کاربر</div>
+        <div class="hero-marquee-item" data-fa="۴۵ کشور" data-en="45 Countries">۴۵ کشور</div>
+        <div class="hero-marquee-item" data-fa="۲۴۷ عضو تیم" data-en="247 Team">۲۴۷ عضو تیم</div>
+        <div class="hero-marquee-item" data-fa="تأسیس ۱۳۹۷" data-en="Est. 2018">تأسیس ۱۳۹۷</div>
+        <div class="hero-marquee-item" data-fa="۱.۲ میلیون کاربر" data-en="1.2M Users">۱.۲ میلیون کاربر</div>
+        <div class="hero-marquee-item" data-fa="۴۵ کشور" data-en="45 Countries">۴۵ کشور</div>
+        <div class="hero-marquee-item" data-fa="۲۴۷ عضو تیم" data-en="247 Team">۲۴۷ عضو تیم</div>
+      </div>
+    </div>
+
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span data-fa="درباره Aurora" data-en="About Aurora">درباره Aurora</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span data-fa="ما چیزهای" data-en="We build">ما چیزهای</span><br>
+      <span data-fa="<em>باحال</em> می‌سازیم" data-en="<em>awesome</em> things"><em>باحال</em> می‌سازیم</span><br>
+      <span data-fa="برای" data-en="for">برای</span>
+      <span data-fa="<em class='highlight-2'>آدم‌های واقعی</em>" data-en="<em class='highlight-2'>real people</em>"><em class="highlight-2">آدم‌های واقعی</em></span>
+    </h1>
+
+    <div class="hero-bottom">
+      <p class="hero-desc" data-fa="Aurora یک استودیوی فناوری مستقل است که از سال ۱۳۹۷ محصولات دیجیتال باورنکردنی می‌سازد. بدون پیچیدگی، بدون بهانه — فقط کارهای درجه‌یک و لذت‌بخش." data-en="Aurora is an independent tech studio that's been making incredible digital products since 2018. No BS, no excuses — just top-tier, fun work.">
+        Aurora یک استودیوی فناوری مستقل است که از سال ۱۳۹۷ محصولات دیجیتال باورنکردنی می‌سازد. بدون پیچیدگی، بدون بهانه — فقط کارهای درجه‌یک و لذت‌بخش.
+      </p>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="1250000">0</div>
+          <div class="hero-stat-label" data-fa="کاربر فعال" data-en="Active users">کاربر فعال</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="45">0</div>
+          <div class="hero-stat-label" data-fa="کشور" data-en="Countries">کشور</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="247">0</div>
+          <div class="hero-stat-label" data-fa="عضو تیم" data-en="Team members">عضو تیم</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" data-counter="7">0</div>
+          <div class="hero-stat-label" data-fa="سال تجربه" data-en="Years">سال تجربه</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="section" id="story">
+    <div class="section-inner">
+      <div class="section-tag">
+        <span class="section-tag-num">01</span>
+        <span data-fa="داستان ما" data-en="Our Story">داستان ما</span>
+      </div>
+
+      <h2 class="section-title" data-fa="از یک <em>اتاق کوچک</em> تا یک شرکت بین‌المللی" data-en="From a <em>small room</em> to an international company">از یک <em>اتاق کوچک</em> تا یک شرکت بین‌المللی</h2>
+
+      <p class="section-desc" data-fa="داستان Aurora، داستان چهار نفر است که تصمیم گرفتند چیزی متفاوت بسازند. این داستانی درباره پیگیری، یادگیری، و باور به این است که می‌شود بهتر بود." data-en="The Aurora story is the story of four people who decided to build something different. It's a story about persistence, learning, and believing in being better.">
+        داستان Aurora، داستان چهار نفر است که تصمیم گرفتند چیزی متفاوت بسازند. این داستانی درباره پیگیری، یادگیری، و باور به این است که می‌شود بهتر بود.
+      </p>
+
+      <div class="story-grid">
+        <div class="story-main reveal">
+          <p data-fa="سال ۱۳۹۷، چهار متخصص فناوری در یک آپارتمان کوچک تهران جمع شدند. هر کدام تجربه‌ای در شرکت‌های بزرگ داشتند، اما همه به یک چیز باور داشتند: فناوری باید ساده، امن، و لذت‌بخش باشد. آن روزها، این سه ویژگی با هم جمع نمی‌شدند." data-en="In 2018, four technology specialists gathered in a small Tehran apartment. Each had experience at big companies, but all believed one thing: technology should be simple, secure, and fun. Back then, those three didn't come together.">
+            سال ۱۳۹۷، چهار متخصص فناوری در یک آپارتمان کوچک تهران جمع شدند. هر کدام تجربه‌ای در شرکت‌های بزرگ داشتند، اما همه به یک چیز باور داشتند: فناوری باید ساده، امن، و لذت‌بخش باشد. آن روزها، این سه ویژگی با هم جمع نمی‌شدند.
+          </p>
+
+          <p data-fa="اولین نسخه محصول در ۹۰ روز نوشته شد. اما آن ۹۰ روز، هر کدام شامل ۹۰ تصمیم سخت بود. ما نمی‌دانستیم آینده چه می‌شود، اما مطمئن بودیم که مسیر درست است. امروز، ۷ سال بعد، این اطمینان جواب داده است." data-en="The first version was written in 90 days. But those 90 days included 90 hard decisions. We didn't know the future, but we were certain the path was right. Today, 7 years later, that certainty has paid off.">
+            اولین نسخه محصول در ۹۰ روز نوشته شد. اما آن ۹۰ روز، هر کدام شامل ۹۰ تصمیم سخت بود. ما نمی‌دانستیم آینده چه می‌شود، اما مطمئن بودیم که مسیر درست است. امروز، ۷ سال بعد، این اطمینان جواب داده است.
+          </p>
+
+          <div class="story-quote">
+            <p data-fa="ما نمی‌خواستیم بهترین در دنیا باشیم. فقط می‌خواستیم چیزی بسازیم که به آن افتخار کنیم." data-en="We didn't want to be the best in the world. We just wanted to build something we're proud of.">
+              ما نمی‌خواستیم بهترین در دنیا باشیم. فقط می‌خواستیم چیزی بسازیم که به آن افتخار کنیم.
+            </p>
+            <span class="story-quote-author" data-fa="— علی رضایی، بنیان‌گذار" data-en="— Ali Rezaei, Founder">— علی رضایی، بنیان‌گذار</span>
+          </div>
+        </div>
+
+        <aside class="story-side">
+          <div class="story-badge">
+            <div class="story-badge-label" data-fa="روز اول" data-en="Day One">روز اول</div>
+            <div class="story-badge-num">۴</div>
+            <div class="story-badge-text" data-fa="نفر بنیان‌گذار، یک اتاق، یک ایده" data-en="founders, one room, one idea">نفر بنیان‌گذار، یک اتاق، یک ایده</div>
+          </div>
+
+          <div class="story-badge" style="background:var(--accent-5);color:var(--ink)">
+            <div class="story-badge-label" data-fa="امروز" data-en="Today">امروز</div>
+            <div class="story-badge-num">247</div>
+            <div class="story-badge-text" data-fa="عضو تیم در سراسر جهان" data-en="team members worldwide">عضو تیم در سراسر جهان</div>
+          </div>
+
+          <div class="story-badge" style="background:var(--success);color:var(--ink)">
+            <div class="story-badge-label" data-fa="رضایت مشتری" data-en="Satisfaction">رضایت مشتری</div>
+            <div class="story-badge-num">99%</div>
+            <div class="story-badge-text" data-fa="کاربران ما را به دیگران توصیه می‌کنند" data-en="of users recommend us to others">کاربران ما را به دیگران توصیه می‌کنند</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="section" id="values">
+    <div class="section-inner">
+      <div class="section-tag">
+        <span class="section-tag-num">02</span>
+        <span data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</span>
+      </div>
+
+      <h2 class="section-title" data-fa="چیزی که ما را <em class='em-2'>متفاوت</em> می‌کند" data-en="What makes us <em class='em-2'>different</em>">چیزی که ما را <em class="em-2">متفاوت</em> می‌کند</h2>
+
+      <p class="section-desc" data-fa="ما یک شرکت معمولی نیستیم. این اصول، DNA ما هستند و هر روز بر اساس آن‌ها تصمیم می‌گیریم." data-en="We're not a normal company. These principles are our DNA and we decide by them every day.">
+        ما یک شرکت معمولی نیستیم. این اصول، DNA ما هستند و هر روز بر اساس آن‌ها تصمیم می‌گیریم.
+      </p>
+
+      <div class="values-grid reveal">
+        <div class="value-card">
+          <span class="value-num">01</span>
+          <div class="value-icon">🔥</div>
+          <h3 class="value-title" data-fa="بدون بهانه" data-en="No excuses">بدون بهانه</h3>
+          <p class="value-desc" data-fa="اگر کاری قابل انجام است، انجامش می‌دهیم. اگر نه، دلیلش را شفاف می‌گوییم." data-en="If it can be done, we do it. If not, we say why, transparently.">اگر کاری قابل انجام است، انجامش می‌دهیم. اگر نه، دلیلش را شفاف می‌گوییم.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">02</span>
+          <div class="value-icon">⚡</div>
+          <h3 class="value-title" data-fa="سریع و درست" data-en="Fast & right">سریع و درست</h3>
+          <p class="value-desc" data-fa="سرعت مهم است، اما درست بودن مهم‌تر. هر دو را با هم می‌خواهیم." data-en="Speed matters, but being right matters more. We want both.">سرعت مهم است، اما درست بودن مهم‌تر. هر دو را با هم می‌خواهیم.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">03</span>
+          <div class="value-icon">😎</div>
+          <h3 class="value-title" data-fa="با استایل" data-en="With style">با استایل</h3>
+          <p class="value-desc" data-fa="کار خوب، باید زیبا هم باشد. جزئیات را جدی می‌گیریم." data-en="Good work should be beautiful too. We take details seriously.">کار خوب، باید زیبا هم باشد. جزئیات را جدی می‌گیریم.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">04</span>
+          <div class="value-icon">🤝</div>
+          <h3 class="value-title" data-fa="با احترام" data-en="With respect">با احترام</h3>
+          <p class="value-desc" data-fa="با مشتری، همکار، و شریک — همیشه با احترام کامل." data-en="With customers, colleagues, and partners — always with full respect.">با مشتری، همکار، و شریک — همیشه با احترام کامل.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">05</span>
+          <div class="value-icon">🎯</div>
+          <h3 class="value-title" data-fa="تمرکز روی هدف" data-en="Focus on goal">تمرکز روی هدف</h3>
+          <p class="value-desc" data-fa="پراکندگی ممنوع. هر تیم روی هدف خودش متمرکز است." data-en="No distraction. Each team focuses on its own goal.">پراکندگی ممنوع. هر تیم روی هدف خودش متمرکز است.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">06</span>
+          <div class="value-icon">🚀</div>
+          <h3 class="value-title" data-fa="همیشه در رشد" data-en="Always growing">همیشه در رشد</h3>
+          <p class="value-desc" data-fa="هیچوقت فکر نمی‌کنیم کافی است. همیشه در حال بهتر شدن." data-en="We never think it's enough. Always getting better.">هیچوقت فکر نمی‌کنیم کافی است. همیشه در حال بهتر شدن.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS STRIP ============ -->
+  <div class="stats-strip">
+    <div class="stats-strip-inner">
+      <div class="stat-big reveal">
+        <div class="stat-big-num" data-counter="1250000">0</div>
+        <div class="stat-big-label" data-fa="کاربر فعال در سراسر جهان" data-en="Active users worldwide">کاربر فعال در سراسر جهان</div>
+      </div>
+      <div class="stat-big reveal">
+        <div class="stat-big-num" data-counter="45">0</div>
+        <div class="stat-big-label" data-fa="کشور در چهار قاره" data-en="Countries on four continents">کشور در چهار قاره</div>
+      </div>
+      <div class="stat-big reveal">
+        <div class="stat-big-num" data-counter="247">0</div>
+        <div class="stat-big-label" data-fa="عضو تیم متخصص" data-en="Team members">عضو تیم متخصص</div>
+      </div>
+      <div class="stat-big reveal">
+        <div class="stat-big-num"><span data-counter="99">0</span>%</div>
+        <div class="stat-big-label" data-fa="رضایت مشتری" data-en="Customer satisfaction">رضایت مشتری</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline">
+    <div class="section-inner">
+      <div class="section-tag">
+        <span class="section-tag-num">03</span>
+        <span data-fa="تاریخچه" data-en="History">تاریخچه</span>
+      </div>
+
+      <h2 class="section-title" data-fa="نقاط <em class='em-3'>باحال</em> ما" data-en="Our <em class='em-3'>cool</em> milestones">نقاط <em class="em-3">باحال</em> ما</h2>
+
+      <p class="section-desc" data-fa="از روز اول تا امروز، این‌ها لحظاتی هستند که به آن‌ها افتخار می‌کنیم." data-en="From day one to today, these are the moments we're proud of.">
+        از روز اول تا امروز، این‌ها لحظاتی هستند که به آن‌ها افتخار می‌کنیم.
+      </p>
+
+      <div class="timeline-list reveal">
+        <div class="timeline-item">
+          <div class="tl-year-box">
+            <div class="tl-year-num">1397</div>
+          </div>
+          <div class="tl-connector"><div class="tl-connector-line"></div></div>
+          <div class="tl-content-box">
+            <h3 class="tl-content-title" data-fa="روز صفر — تأسیس Aurora" data-en="Day Zero — Aurora founded">روز صفر — تأسیس Aurora</h3>
+            <p class="tl-content-desc" data-fa="چهار نفر، یک اتاق کوچک، و یک ایده بزرگ. اولین خط کد نوشته شد." data-en="Four people, a small room, and a big idea. The first line of code was written.">چهار نفر، یک اتاق کوچک، و یک ایده بزرگ. اولین خط کد نوشته شد.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="tl-year-box">
+            <div class="tl-year-num">1398</div>
+          </div>
+          <div class="tl-connector"><div class="tl-connector-line"></div></div>
+          <div class="tl-content-box">
+            <h3 class="tl-content-title" data-fa="اولین ۱۰۰۰ کاربر" data-en="First 1000 users">اولین ۱۰۰۰ کاربر</h3>
+            <p class="tl-content-desc" data-fa="پس از یک سال تلاش بی‌وقفه، اولین هزار کاربر به ما اعتماد کردند." data-en="After a year of relentless effort, our first thousand users trusted us.">پس از یک سال تلاش بی‌وقفه، اولین هزار کاربر به ما اعتماد کردند.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="tl-year-box">
+            <div class="tl-year-num">1400</div>
+          </div>
+          <div class="tl-connector"><div class="tl-connector-line"></div></div>
+          <div class="tl-content-box">
+            <h3 class="tl-content-title" data-fa="دفتر دبی افتتاح شد" data-en="Dubai office opened">دفتر دبی افتتاح شد</h3>
+            <p class="tl-content-desc" data-fa="اولین دفتر بین‌المللی ما در مرکز DIFC دبی. حالا در دو قاره هستیم." data-en="Our first international office at DIFC Dubai. Now on two continents.">اولین دفتر بین‌المللی ما در مرکز DIFC دبی. حالا در دو قاره هستیم.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="tl-year-box">
+            <div class="tl-year-num">1401</div>
+          </div>
+          <div class="tl-connector"><div class="tl-connector-line"></div></div>
+          <div class="tl-content-box">
+            <h3 class="tl-content-title" data-fa="دفتر لندن" data-en="London office">دفتر لندن</h3>
+            <p class="tl-content-desc" data-fa="گسترش به اروپا. کاناری وارف، لندن. حالا در سه قاره." data-en="Expansion to Europe. Canary Wharf, London. Now on three continents.">گسترش به اروپا. کاناری وارف، لندن. حالا در سه قاره.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="tl-year-box">
+            <div class="tl-year-num">1402</div>
+          </div>
+          <div class="tl-connector"><div class="tl-connector-line"></div></div>
+          <div class="tl-content-box">
+            <h3 class="tl-content-title" data-fa="یک میلیون کاربر 🎉" data-en="One million users 🎉">یک میلیون کاربر 🎉</h3>
+            <p class="tl-content-desc" data-fa="مهم‌ترین نقطه عطف ما. یک میلیون نفر به Aurora اعتماد می‌کنند." data-en="Our most important milestone. One million people trust Aurora.">مهم‌ترین نقطه عطف ما. یک میلیون نفر به Aurora اعتماد می‌کنند.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="tl-year-box">
+            <div class="tl-year-num">1404</div>
+          </div>
+          <div class="tl-connector"><div class="tl-connector-line"></div></div>
+          <div class="tl-content-box">
+            <h3 class="tl-content-title" data-fa="Aurora 4.0 — آینده از راه رسید" data-en="Aurora 4.0 — the future has arrived">Aurora 4.0 — آینده از راه رسید</h3>
+            <p class="tl-content-desc" data-fa="نسخه چهارم با هوش مصنوعی و امکانات انقلابی. حالا در چهار قاره." data-en="Fourth generation with AI and revolutionary features. Now on four continents.">نسخه چهارم با هوش مصنوعی و امکانات انقلابی. حالا در چهار قاره.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section" id="team">
+    <div class="section-inner">
+      <div class="section-tag">
+        <span class="section-tag-num">04</span>
+        <span data-fa="تیم" data-en="Team">تیم</span>
+      </div>
+
+      <h2 class="section-title" data-fa="آدم‌هایی که <em class='em-4'>Aurora</em> را می‌سازند" data-en="The people who <em class='em-4'>build</em> Aurora">آدم‌هایی که <em class="em-4">Aurora</em> را می‌سازند</h2>
+
+      <p class="section-desc" data-fa="چهار رهبر که با دهه‌ها تجربه، مسیر Aurora را هدایت می‌کنند." data-en="Four leaders with decades of experience guide Aurora's path.">
+        چهار رهبر که با دهه‌ها تجربه، مسیر Aurora را هدایت می‌کنند.
+      </p>
+
+      <div class="team-grid reveal">
+        <div class="member-card">
+          <div class="member-photo">
+            <span class="member-letter">A</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</h3>
+            <span class="member-role" data-fa="بنیان‌گذار و مدیرعامل" data-en="Founder & CEO">بنیان‌گذار و مدیرعامل</span>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <span class="member-letter">S</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</h3>
+            <span class="member-role" data-fa="مدیر فنی" data-en="CTO">مدیر فنی</span>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <span class="member-letter">R</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</h3>
+            <span class="member-role" data-fa="مدیر طراحی" data-en="Design Director">مدیر طراحی</span>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <div class="member-photo">
+            <span class="member-letter">M</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="مریم تهرانی" data-en="Maryam Tehrani">مریم تهرانی</h3>
+            <span class="member-role" data-fa="مدیر محصول" data-en="Product Lead">مدیر محصول</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section class="section" id="awards">
+    <div class="section-inner">
+      <div class="section-tag">
+        <span class="section-tag-num">05</span>
+        <span data-fa="جوایز" data-en="Awards">جوایز</span>
+      </div>
+
+      <h2 class="section-title" data-fa="افتخاراتی که <em class='em-5'>به دست آوردیم</em>" data-en="Honors we <em class='em-5'>earned</em>">افتخاراتی که <em class="em-5">به دست آوردیم</em></h2>
+
+      <p class="section-desc" data-fa="هیچ‌کدام از این جوایز شانسی نبوده. هر کدام، حاصل سال‌ها تلاش تیم Aurora است." data-en="None of these awards were by chance. Each was the result of years of effort by the Aurora team.">
+        هیچ‌کدام از این جوایز شانسی نبوده. هر کدام، حاصل سال‌ها تلاش تیم Aurora است.
+      </p>
+
+      <div class="awards-list reveal">
+        <div class="award-row">
+          <div class="award-year-badge">1400</div>
+          <div class="award-content">
+            <h3 class="award-content-title" data-fa="بهترین استارتاپ فناوری سال" data-en="Best Tech Startup of the Year">بهترین استارتاپ فناوری سال</h3>
+            <p class="award-content-issuer" data-fa="جایزه ملی فناوری اطلاعات ایران" data-en="National IT Award of Iran">جایزه ملی فناوری اطلاعات ایران</p>
+          </div>
+          <span class="award-star">🏆</span>
+        </div>
+
+        <div class="award-row">
+          <div class="award-year-badge">1401</div>
+          <div class="award-content">
+            <h3 class="award-content-title" data-fa="جایزه نوآوری در امنیت سایبری" data-en="Cybersecurity Innovation Award">جایزه نوآوری در امنیت سایبری</h3>
+            <p class="award-content-issuer" data-fa="انجمن امنیت دیجیتال خاورمیانه" data-en="Middle East Digital Security Association">انجمن امنیت دیجیتال خاورمیانه</p>
+          </div>
+          <span class="award-star">🥇</span>
+        </div>
+
+        <div class="award-row">
+          <div class="award-year-badge">1402</div>
+          <div class="award-content">
+            <h3 class="award-content-title" data-fa="بهترین تجربه کاربری سال" data-en="Best User Experience of the Year">بهترین تجربه کاربری سال</h3>
+            <p class="award-content-issuer" data-fa="فستیوال طراحی تهران" data-en="Tehran Design Festival">فستیوال طراحی تهران</p>
+          </div>
+          <span class="award-star">⭐</span>
+        </div>
+
+        <div class="award-row">
+          <div class="award-year-badge">1403</div>
+          <div class="award-content">
+            <h3 class="award-content-title" data-fa="شرکت برگزیده فناوری منطقه" data-en="Regional Tech Company of Choice">شرکت برگزیده فناوری منطقه</h3>
+            <p class="award-content-issuer" data-fa="مجمع جهانی فناوری دبی" data-en="Dubai Global Tech Forum">مجمع جهانی فناوری دبی</p>
+          </div>
+          <span class="award-star">🌟</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICES ============ -->
+  <section class="section" id="offices">
+    <div class="section-inner">
+      <div class="section-tag">
+        <span class="section-tag-num">06</span>
+        <span data-fa="دفاتر" data-en="Offices">دفاتر</span>
+      </div>
+
+      <h2 class="section-title" data-fa="چهار دفتر، چهار <em>قاره</em>" data-en="Four offices, four <em>continents</em>">چهار دفتر، چهار <em>قاره</em></h2>
+
+      <p class="section-desc" data-fa="با دفاتر در تهران، دبی، لندن، و نیویورک، همیشه نزدیک به مشتریان خود هستیم." data-en="With offices in Tehran, Dubai, London, and New York, we're always close to our clients.">
+        با دفاتر در تهران، دبی، لندن، و نیویورک، همیشه نزدیک به مشتریان خود هستیم.
+      </p>
+
+      <div class="offices-grid reveal">
+        <div class="office-card">
+          <span class="office-flag">🇮🇷</span>
+          <span class="office-num">01</span>
+          <h3 class="office-city" data-fa="تهران" data-en="Tehran">تهران</h3>
+          <div class="office-country" data-fa="دفتر مرکزی — ایران" data-en="HQ — Iran">دفتر مرکزی — ایران</div>
+          <p class="office-address" data-fa="خیابان ولیعصر، برج آرورا، طبقه ۱۵" data-en="Valiasr St, Aurora Tower, Floor 15">خیابان ولیعصر، برج آرورا، طبقه ۱۵</p>
+        </div>
+
+        <div class="office-card">
+          <span class="office-flag">🇦🇪</span>
+          <span class="office-num">02</span>
+          <h3 class="office-city" data-fa="دبی" data-en="Dubai">دبی</h3>
+          <div class="office-country" data-fa="خاورمیانه — امارات" data-en="Middle East — UAE">خاورمیانه — امارات</div>
+          <p class="office-address" data-fa="مرکز DIFC، برج ۴، واحد ۲۱۰" data-en="DIFC, Tower 4, Unit 210">مرکز DIFC، برج ۴، واحد ۲۱۰</p>
+        </div>
+
+        <div class="office-card">
+          <span class="office-flag">🇬🇧</span>
+          <span class="office-num">03</span>
+          <h3 class="office-city" data-fa="لندن" data-en="London">لندن</h3>
+          <div class="office-country" data-fa="اروپا — بریتانیا" data-en="Europe — UK">اروپا — بریتانیا</div>
+          <p class="office-address" data-fa="کاناری وارف، واحد ۱۲، طبقه ۵" data-en="Canary Wharf, Unit 12, Floor 5">کاناری وارف، واحد ۱۲، طبقه ۵</p>
+        </div>
+
+        <div class="office-card">
+          <span class="office-flag">🇺🇸</span>
+          <span class="office-num">04</span>
+          <h3 class="office-city" data-fa="نیویورک" data-en="New York">نیویورک</h3>
+          <div class="office-country" data-fa="آمریکا" data-en="USA">آمریکا</div>
+          <p class="office-address" data-fa="منهتن، خیابان پنجم، برج ۵۰، طبقه ۳۰" data-en="Manhattan, 5th Ave, Tower 50, Floor 30">منهتن، خیابان پنجم، برج ۵۰، طبقه ۳۰</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-section">
+    <div class="cta-inner reveal">
+      <div class="cta-eyebrow" data-fa="آماده‌اید شروع کنیم؟" data-en="Ready to start?">آماده‌اید شروع کنیم؟</div>
+      <h2 class="cta-title" data-fa="بیایید با هم <em>چیزی باحال</em> بسازیم" data-en="Let's build something <em>cool</em> together">بیایید با هم <em>چیزی باحال</em> بسازیم</h2>
+      <p class="cta-desc" data-fa="اگر به دنبال شریکی هستید که واقعاً به کارش اهمیت می‌دهد، ما همین‌جاییم. فقط یک پیام فاصله دارد." data-en="If you're looking for a partner who really cares about their work, we're right here. Just one message away.">
+        اگر به دنبال شریکی هستید که واقعاً به کارش اهمیت می‌دهد، ما همین‌جاییم. فقط یک پیام فاصله دارد.
+      </p>
+
+      <div class="cta-buttons">
+        <button class="cta-btn primary" onclick="contactUs()">
+          <span data-fa="شروع کنیم!" data-en="Let's go!">شروع کنیم!</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="cta-btn secondary" onclick="viewCareers()">
+          <span data-fa="فرصت‌های شغلی" data-en="View careers">فرصت‌های شغلی</span>
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">AURORA<span class="dot">.</span></div>
+          <p class="footer-desc" data-fa="استودیوی فناوری مستقل، ساخته‌شده در تهران. از ۱۳۹۷ در حال ساختن محصولات دیجیتال باحال برای کاربران سراسر جهان." data-en="Independent tech studio, built in Tehran. Since 2018 making cool digital products for users worldwide.">
+            استودیوی فناوری مستقل، ساخته‌شده در تهران. از ۱۳۹۷ در حال ساختن محصولات دیجیتال باحال برای کاربران سراسر جهان.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="شرکت" data-en="Company">شرکت</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="scrollToId('story')" data-fa="درباره ما" data-en="About">درباره ما</button>
+            <button class="footer-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+            <button class="footer-link" onclick="viewCareers()" data-fa="استخدام" data-en="Careers">استخدام</button>
+            <button class="footer-link" onclick="toast('Press')" data-fa="مطبوعات" data-en="Press">مطبوعات</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="محصولات" data-en="Products">محصولات</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="toast('Aurora Auth')">Aurora Auth</button>
+            <button class="footer-link" onclick="toast('Aurora Cloud')">Aurora Cloud</button>
+            <button class="footer-link" onclick="toast('Aurora API')">Aurora API</button>
+            <button class="footer-link" onclick="toast('Enterprise')" data-fa="سازمانی" data-en="Enterprise">سازمانی</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="ارتباط" data-en="Connect">ارتباط</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="contactUs()" data-fa="تماس" data-en="Contact">تماس</button>
+            <button class="footer-link" onclick="toast('Blog')" data-fa="وبلاگ" data-en="Blog">وبلاگ</button>
+            <button class="footer-link" onclick="toast('Docs')" data-fa="مستندات" data-en="Docs">مستندات</button>
+            <button class="footer-link" onclick="toast('Support')" data-fa="پشتیبانی" data-en="Support">پشتیبانی</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025 AURORA · <span data-fa="ساخته‌شده با ❤️ در تهران" data-en="Made with ❤️ in Tehran">ساخته‌شده با ❤️ در تهران</span></div>
+        <div class="footer-bottom-links">
+          <button class="footer-bottom-link" onclick="toast('Privacy')" data-fa="حریم خصوصی" data-en="Privacy">حریم خصوصی</button>
+          <button class="footer-bottom-link" onclick="toast('Terms')" data-fa="شرایط" data-en="Terms">شرایط</button>
+          <button class="footer-bottom-link" onclick="toast('Cookies')" data-fa="کوکی‌ها" data-en="Cookies">کوکی‌ها</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============ PALETTE SWITCHER ============ -->
+<div class="palette-switcher" role="group" aria-label="Palette">
+  <button class="palette-dot on" data-p="yellow" onclick="setPalette('yellow')" aria-label="Yellow"></button>
+  <button class="palette-dot" data-p="mint" onclick="setPalette('mint')" aria-label="Mint"></button>
+  <button class="palette-dot" data-p="pink" onclick="setPalette('pink')" aria-label="Pink"></button>
+  <button class="palette-dot" data-p="lilac" onclick="setPalette('lilac')" aria-label="Lilac"></button>
+  <button class="palette-dot" data-p="orange" onclick="setPalette('orange')" aria-label="Orange"></button>
+  <button class="palette-dot" data-p="sky" onclick="setPalette('sky')" aria-label="Sky"></button>
+  <button class="palette-dot" data-p="dark" onclick="setPalette('dark')" aria-label="Dark"></button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast-icon" id="toastIcon">
+    <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 8"/></svg>
+  </div>
+  <div id="toastMsg"></div>
+</div>
+
+<script>
+const S = { lang: 'fa', palette: 'yellow' };
+
+/* ============ LANGUAGE ============ */
+function toggleLang(){ S.lang = S.lang === 'fa' ? 'en' : 'fa'; applyLang(); }
+function applyLang(){
+  const h = document.documentElement;
+  const btn = document.getElementById('langBtn');
+  if(S.lang === 'fa'){ h.setAttribute('lang','fa'); h.setAttribute('dir','rtl'); btn.textContent = 'EN'; }
+  else { h.setAttribute('lang','en'); h.setAttribute('dir','ltr'); btn.textContent = 'FA'; }
+
+  document.querySelectorAll('[data-fa]').forEach(e => {
+    const t = S.lang === 'fa' ? e.dataset.fa : e.dataset.en;
+    if(!t) return;
+    if(t.includes('<em>') || t.includes('<strong>') || t.includes('<span')) e.innerHTML = t;
+    else e.textContent = t;
+  });
+
+  localStorage.setItem('neo_lang', S.lang);
+  updateCounters();
+}
+
+/* ============ PALETTE ============ */
+function setPalette(p){
+  S.palette = p;
+  document.body.setAttribute('data-palette', p);
+  document.querySelectorAll('.palette-dot').forEach(d => d.classList.toggle('on', d.dataset.p === p));
+  localStorage.setItem('neo_palette', p);
+}
+document.querySelectorAll('.palette-dot').forEach(d => {
+  d.addEventListener('click', () => setPalette(d.dataset.p));
+});
+
+/* ============ SCROLL ============ */
+function scrollToTop(){
+  document.getElementById('page').scrollTo({top:0, behavior:'smooth'});
+}
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const top = el.offsetTop - 80;
+  document.getElementById('page').scrollTo({top, behavior:'smooth'});
+  document.getElementById('mobileMenu').classList.remove('on');
+}
+
+/* ============ MOBILE MENU ============ */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('on');
+}
+
+/* ============ NAV SCROLL ============ */
+(function(){
+  const page = document.getElementById('page');
+  const sections = ['story','values','timeline','team','awards','offices'];
+
+  page.addEventListener('scroll', () => {
+    const scrollY = page.scrollTop + 200;
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      const link = document.querySelector(`.nav-link[onclick*="${id}"]`);
+      if(!link) return;
+      const top = el.offsetTop;
+      const bottom = top + el.offsetHeight;
+      if(scrollY >= top && scrollY < bottom){
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, {passive:true});
+})();
+
+/* ============ REVEAL ============ */
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        entry.target.querySelectorAll('[data-counter]').forEach(animateCounter);
+      }
+    });
+  }, {threshold:0.12, root:document.getElementById('page')});
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+/* ============ COUNTERS ============ */
+const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function toFa(n){ return String(n).replace(/\d/g, d => faDigits[d]) }
+
+function animateCounter(el){
+  if(el.dataset.animated === 'true') return;
+  el.dataset.animated = 'true';
+
+  const target = parseInt(el.dataset.counter);
+  const duration = 2200;
+  const start = performance.now();
+
+  function format(n){
+    let s;
+    if(target >= 1000000) s = (n/1000000).toFixed(1) + 'M';
+    else if(target >= 1000) s = n.toLocaleString('en-US');
+    else s = String(n);
+    return S.lang === 'fa' ? toFa(s) : s;
+  }
+
+  function tick(now){
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const current = Math.floor(target * eased);
+    el.textContent = format(current);
+    if(p < 1) requestAnimationFrame(tick);
+    else {
+      if(target >= 1000000) el.textContent = (S.lang==='fa'?toFa('1.2'):'1.2') + 'M+';
+      else el.textContent = S.lang==='fa' ? toFa(target) + '+' : target + '+';
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+function updateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.animated === 'true') return;
+    const t = parseInt(el.dataset.counter);
+    if(t >= 1000000) el.textContent = S.lang === 'fa' ? toFa('1.2') + 'M+' : '1.2M+';
+    else el.textContent = S.lang === 'fa' ? toFa(t) + '+' : t + '+';
+  });
+}
+
+/* ============ ACTIONS ============ */
+function contactUs(){ toast(S.lang === 'fa' ? '📞 باز کردن صفحه تماس...' : '📞 Opening contact page...'); }
+function viewCareers(){ toast(S.lang === 'fa' ? '🚀 باز کردن فرصت‌های شغلی...' : '🚀 Opening careers...'); }
+
+/* ============ TOAST ============ */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  const msgEl = document.getElementById('toastMsg');
+  msgEl.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 3000);
+}
+
+/* ============ INIT ============ */
+(function(){
+  const lg = localStorage.getItem('neo_lang');
+  const pl = localStorage.getItem('neo_palette');
+  if(lg) S.lang = lg;
+  if(pl) S.palette = pl;
+  setPalette(S.palette);
+  applyLang();
+  updateCounters();
+})();
+</script>
+</body>
+</html>
