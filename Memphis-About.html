@@ -1,0 +1,2424 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fdfcf7">
+<title>Aurora Memphis | درباره ما</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Bungee&family=Anton&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Vazirmatn','Space Mono',-apple-system,sans-serif;
+  background:#fdfcf7;
+  color:#1a1a1a;
+  min-height:100vh;min-height:100dvh;
+  position:relative;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+  font-weight:500;
+}
+
+/* ============================================================
+   MEMPHIS PALETTES
+   ============================================================ */
+:root{
+  --bg:#fdfcf7;
+  --bg-2:#f5f0e6;
+  --ink:#1a1a1a;
+  --c1:#ff5f5f; /* red */
+  --c2:#ffdd00; /* yellow */
+  --c3:#00c2d1; /* cyan */
+  --c4:#ff8fa3; /* pink */
+  --c5:#8aff80; /* green */
+  --c6:#ffb340; /* orange */
+  --c7:#b8a7ff; /* lavender */
+  --c8:#1a1a1a; /* black */
+}
+
+[data-palette="classic"]{
+  --bg:#fdfcf7;--bg-2:#f5f0e6;--ink:#1a1a1a;
+  --c1:#ff5f5f;--c2:#ffdd00;--c3:#00c2d1;--c4:#ff8fa3;
+  --c5:#8aff80;--c6:#ffb340;--c7:#b8a7ff;--c8:#1a1a1a;
+}
+[data-palette="pink"]{
+  --bg:#fff5f8;--bg-2:#ffe4ec;--ink:#3d1524;
+  --c1:#ff4785;--c2:#ffd23f;--c3:#00b8d9;--c4:#ff8fa3;
+  --c5:#c1ff72;--c6:#ff9a3c;--c7:#d4b3ff;--c8:#3d1524;
+}
+[data-palette="blue"]{
+  --bg:#f0f7ff;--bg-2:#e0eefc;--ink:#0a2540;
+  --c1:#3d6bff;--c2:#ffd23f;--c3:#00d4b4;--c4:#ff7eb6;
+  --c5:#c1ff72;--c6:#ff9a3c;--c7:#a78bff;--c8:#0a2540;
+}
+[data-palette="sunset"]{
+  --bg:#fff8f0;--bg-2:#ffeed9;--ink:#3d1a00;
+  --c1:#ff5c00;--c2:#ffcc00;--c3:#00b8a9;--c4:#ff8fa3;
+  --c5:#c1ff72;--c6:#ffa02e;--c7:#d4b3ff;--c8:#3d1a00;
+}
+[data-palette="cyber"]{
+  --bg:#f5f0ff;--bg-2:#ebe0ff;--ink:#1f0a3d;
+  --c1:#a855f7;--c2:#ffdd00;--c3:#06d6d6;--c4:#ff5fa3;
+  --c5:#a7ff5f;--c6:#ff8c42;--c7:#8b9dff;--c8:#1f0a3d;
+}
+[data-palette="mono"]{
+  --bg:#f7f7f7;--bg-2:#ebebeb;--ink:#0a0a0a;
+  --c1:#0a0a0a;--c2:#f7f7f7;--c3:#666666;--c4:#cccccc;
+  --c5:#333333;--c6:#999999;--c7:#e0e0e0;--c8:#000000;
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  background:var(--bg);
+  color:var(--ink);
+  transition:background .4s ease,color .4s ease;
+  scrollbar-width:auto;
+  scrollbar-color:var(--c1) var(--bg-2);
+  position:relative;
+}
+.page::-webkit-scrollbar{width:14px}
+.page::-webkit-scrollbar-track{background:var(--bg-2);border-left:3px solid var(--ink)}
+.page::-webkit-scrollbar-thumb{background:var(--c1);border:3px solid var(--ink)}
+.page::-webkit-scrollbar-thumb:hover{background:var(--c3)}
+
+/* ============================================================
+   DECORATIVE BACKGROUND SHAPES
+   ============================================================ */
+.bg-shapes{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  overflow:hidden;
+}
+.shape{
+  position:absolute;
+  animation:shapeFloat 8s ease-in-out infinite;
+}
+.shape.circle{border-radius:50%}
+.shape.square{border:3px solid var(--ink)}
+.shape.triangle{
+  width:0;height:0;
+  border-left:30px solid transparent;
+  border-right:30px solid transparent;
+  border-bottom:50px solid;
+}
+.shape.zigzag{
+  width:80px;height:20px;
+  background:
+    linear-gradient(135deg,transparent 25%,var(--ink) 25%,var(--ink) 30%,transparent 30%,transparent 45%,var(--ink) 45%,var(--ink) 50%,transparent 50%,transparent 65%,var(--ink) 65%,var(--ink) 70%,transparent 70%);
+}
+.shape.dots{
+  width:60px;height:60px;
+  background-image:radial-gradient(circle,var(--ink) 2px,transparent 2px);
+  background-size:12px 12px;
+}
+.shape.lines{
+  width:70px;height:40px;
+  background:
+    repeating-linear-gradient(0deg,var(--ink) 0,var(--ink) 2px,transparent 2px,transparent 8px);
+}
+.shape.wave{
+  width:60px;height:20px;
+  background:
+    radial-gradient(circle at 10px 10px,transparent 8px,var(--ink) 8px,var(--ink) 10px,transparent 10px),
+    radial-gradient(circle at 30px 10px,transparent 8px,var(--ink) 8px,var(--ink) 10px,transparent 10px),
+    radial-gradient(circle at 50px 10px,transparent 8px,var(--ink) 8px,var(--ink) 10px,transparent 10px);
+}
+@keyframes shapeFloat{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  33%{transform:translate(10px,-10px) rotate(6deg)}
+  66%{transform:translate(-8px,8px) rotate(-4deg)}
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--c2);
+  border-bottom:4px solid var(--ink);
+  transition:all .3s ease;
+}
+.nav.scrolled{
+  box-shadow:0 6px 0 var(--ink);
+}
+.nav-inner{
+  max-width:1400px;
+  margin:0 auto;
+  padding:16px 32px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+}
+
+.logo{
+  display:flex;align-items:center;gap:14px;
+  cursor:pointer;
+  transition:transform .2s ease;
+}
+.logo:hover{transform:rotate(-3deg) scale(1.05)}
+
+.logo-mark{
+  width:56px;height:56px;
+  background:var(--c1);
+  border:3px solid var(--ink);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:4px 4px 0 var(--ink);
+  position:relative;
+  transition:all .3s ease;
+}
+.logo:hover .logo-mark{
+  background:var(--c3);
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.logo-mark::before{
+  content:'';
+  position:absolute;
+  top:6px;left:6px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--c2);
+  border:2px solid var(--ink);
+}
+.logo-mark span{
+  font-family:'Bungee',sans-serif;
+  font-size:24px;
+  color:#fff;
+  -webkit-text-stroke:1px var(--ink);
+  text-shadow:2px 2px 0 var(--ink);
+  position:relative;
+  z-index:1;
+}
+.logo-text{
+  display:flex;flex-direction:column;line-height:1;
+}
+.logo-title{
+  font-family:'Bungee',sans-serif;
+  font-size:22px;
+  font-weight:400;
+  letter-spacing:2px;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .logo-title{font-family:'Vazirmatn',sans-serif;font-weight:900;letter-spacing:1px}
+.logo-sub{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:3px;
+  color:var(--ink);
+  opacity:.7;
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-link{
+  background:var(--bg);
+  border:3px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  color:var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:10px 16px;
+  transition:all .15s ease;
+  border-radius:0;
+}
+html[dir="rtl"] .nav-link{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  font-size:12px;
+}
+.nav-link:hover{
+  background:var(--c4);
+  transform:translate(3px,3px);
+  box-shadow:0 0 0 var(--ink);
+}
+.nav-link.active{
+  background:var(--ink);
+  color:var(--c2);
+}
+
+.nav-actions{display:flex;align-items:center;gap:14px}
+.nav-lang{
+  background:var(--c5);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  color:var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  padding:10px 16px;
+  transition:all .15s ease;
+  border-radius:0;
+}
+.nav-lang:hover{
+  background:var(--c6);
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.nav-cta{
+  background:var(--c1);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  color:#fff;
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  padding:12px 24px;
+  transition:all .15s ease;
+  display:inline-flex;align-items:center;gap:10px;
+}
+html[dir="rtl"] .nav-cta{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13px;
+}
+.nav-cta:hover{
+  background:var(--c3);
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.nav-cta svg{
+  width:14px;height:14px;
+  stroke:currentColor;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.menu-btn{
+  display:none;
+  background:var(--c7);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  cursor:pointer;
+  padding:10px;
+  transition:all .15s ease;
+}
+.menu-btn:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+}
+.menu-btn svg{
+  width:24px;height:24px;
+  stroke:var(--ink);fill:none;stroke-width:3.5;
+  stroke-linecap:round;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding:60px 32px 80px;
+  max-width:1400px;
+  margin:0 auto;
+  position:relative;
+  z-index:2;
+}
+
+.hero-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 24px;
+  background:var(--c3);
+  border:3px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:40px;
+  transform:rotate(-2deg);
+  transition:transform .2s ease;
+}
+html[dir="rtl"] .hero-tag{font-family:'Vazirmatn',sans-serif;letter-spacing:0}
+.hero-tag:hover{transform:rotate(2deg) scale(1.02)}
+.hero-tag-star{
+  font-size:16px;
+  animation:spinStar 3s linear infinite;
+}
+@keyframes spinStar{to{transform:rotate(360deg)}}
+
+.hero-title{
+  font-family:'Bungee','Anton',sans-serif;
+  font-size:clamp(48px, 9vw, 140px);
+  font-weight:400;
+  line-height:.9;
+  letter-spacing:-1px;
+  color:var(--ink);
+  margin-bottom:32px;
+  text-transform:uppercase;
+  position:relative;
+}
+html[dir="rtl"] .hero-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-2px;
+  text-transform:none;
+  font-size:clamp(40px, 8vw, 120px);
+}
+.hero-title .word{
+  display:inline-block;
+  padding:8px 20px;
+  margin:4px;
+  border:4px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  transition:all .2s ease;
+  position:relative;
+}
+.hero-title .word:hover{
+  transform:translate(-3px,-3px) rotate(-2deg);
+  box-shadow:9px 9px 0 var(--ink);
+}
+.hero-title .w1{background:var(--c2);color:var(--ink)}
+.hero-title .w2{background:var(--c1);color:#fff}
+.hero-title .w3{background:var(--c5);color:var(--ink)}
+.hero-title .w4{background:var(--c7);color:var(--ink)}
+.hero-title .w5{background:var(--c6);color:var(--ink)}
+
+.hero-desc{
+  font-family:'Vazirmatn','Space Mono',sans-serif;
+  font-size:17px;
+  line-height:1.85;
+  font-weight:500;
+  color:var(--ink);
+  max-width:720px;
+  padding:28px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  margin-bottom:40px;
+  position:relative;
+}
+.hero-desc::before{
+  content:'';
+  position:absolute;
+  top:-14px;
+  right:20px;
+  width:20px;
+  height:20px;
+  background:var(--c4);
+  border:3px solid var(--ink);
+  transform:rotate(45deg);
+}
+html[dir="ltr"] .hero-desc::before{right:auto;left:20px}
+
+.hero-actions{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.hero-btn{
+  padding:20px 40px;
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  font-family:'Bungee','Space Mono',sans-serif;
+  font-size:16px;
+  font-weight:400;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:inline-flex;align-items:center;gap:14px;
+  position:relative;
+}
+html[dir="rtl"] .hero-btn{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:16px;
+}
+.hero-btn.primary{
+  background:var(--c1);
+  color:#fff;
+}
+.hero-btn.secondary{
+  background:var(--bg);
+  color:var(--ink);
+}
+.hero-btn:hover{
+  transform:translate(4px,4px);
+  box-shadow:4px 4px 0 var(--ink);
+}
+.hero-btn.primary:hover{background:var(--c6)}
+.hero-btn.secondary:hover{background:var(--c2)}
+.hero-btn svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee-wrap{
+  background:var(--ink);
+  color:var(--c2);
+  padding:20px 0;
+  overflow:hidden;
+  margin:60px 0;
+  border-top:4px solid var(--ink);
+  border-bottom:4px solid var(--ink);
+  transform:rotate(-1deg) scale(1.02);
+  position:relative;
+  z-index:2;
+}
+.marquee-track{
+  display:flex;
+  gap:60px;
+  animation:marquee 30s linear infinite;
+  width:max-content;
+}
+.marquee-item{
+  font-family:'Bungee',sans-serif;
+  font-size:28px;
+  font-weight:400;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:60px;
+  white-space:nowrap;
+}
+html[dir="rtl"] .marquee-item{font-family:'Vazirmatn',sans-serif;font-size:24px;letter-spacing:0}
+.marquee-item::after{
+  content:'★';
+  color:var(--c1);
+  font-size:20px;
+}
+@keyframes marquee{to{transform:translateX(-50%)}}
+html[dir="rtl"] .marquee-track{animation-direction:reverse}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{
+  padding:100px 32px;
+  position:relative;
+  z-index:2;
+}
+.section-inner{max-width:1400px;margin:0 auto}
+
+.section-header{
+  margin-bottom:80px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:32px;
+  align-items:end;
+}
+.section-num{
+  font-family:'Bungee',sans-serif;
+  font-size:80px;
+  font-weight:400;
+  line-height:1;
+  color:var(--c1);
+  -webkit-text-stroke:4px var(--ink);
+  paint-order:stroke fill;
+  transform:rotate(-4deg);
+}
+html[dir="rtl"] .section-num{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+}
+.section-title{
+  font-family:'Bungee','Anton',sans-serif;
+  font-size:clamp(36px, 5vw, 68px);
+  font-weight:400;
+  line-height:.95;
+  letter-spacing:-1px;
+  color:var(--ink);
+  text-transform:uppercase;
+  padding:12px 20px;
+  background:var(--c2);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  display:inline-block;
+  transform:rotate(-1deg);
+  max-width:900px;
+}
+html[dir="rtl"] .section-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  letter-spacing:-1px;
+  text-transform:none;
+  line-height:1.15;
+  font-size:clamp(28px, 4vw, 52px);
+}
+.section-desc{
+  font-size:16px;
+  line-height:1.8;
+  font-weight:500;
+  color:var(--ink);
+  max-width:680px;
+  margin-bottom:60px;
+  padding:20px 24px;
+  border-right:6px solid var(--c1);
+  background:var(--bg-2);
+}
+html[dir="rtl"] .section-desc{border-right:none;border-left:6px solid var(--c1)}
+
+/* ============================================================
+   STORY
+   ============================================================ */
+.story-grid{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:40px;
+  align-items:start;
+}
+.story-main{
+  padding:48px 40px;
+  background:var(--c7);
+  border:4px solid var(--ink);
+  box-shadow:10px 10px 0 var(--ink);
+  position:relative;
+}
+.story-main::before{
+  content:'';
+  position:absolute;
+  top:-20px;
+  left:40px;
+  width:40px;
+  height:40px;
+  background:var(--c2);
+  border:3px solid var(--ink);
+  border-radius:50%;
+}
+.story-main p{
+  font-size:16px;
+  line-height:1.85;
+  color:var(--ink);
+  margin-bottom:22px;
+  font-weight:500;
+}
+.story-main p:first-of-type::first-letter{
+  font-family:'Bungee',sans-serif;
+  font-size:88px;
+  font-weight:400;
+  float:right;
+  line-height:.85;
+  margin-left:14px;
+  margin-top:8px;
+  color:var(--c1);
+  -webkit-text-stroke:3px var(--ink);
+  paint-order:stroke fill;
+  padding:4px 8px 0 0;
+}
+html[dir="ltr"] .story-main p:first-of-type::first-letter{
+  float:left;
+  margin-right:14px;
+  margin-left:0;
+  padding:4px 0 0 8px;
+}
+
+.story-quote{
+  margin-top:32px;
+  padding:32px;
+  background:var(--c8);
+  color:var(--c2);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--c1);
+  transform:rotate(-1deg);
+  position:relative;
+}
+.story-quote::before{
+  content:'"';
+  position:absolute;
+  top:-30px;
+  right:24px;
+  font-family:'Bungee',sans-serif;
+  font-size:100px;
+  color:var(--c2);
+  line-height:1;
+  -webkit-text-stroke:2px var(--ink);
+  paint-order:stroke fill;
+}
+html[dir="ltr"] .story-quote::before{right:auto;left:24px}
+.story-quote p{
+  font-family:'Bungee',sans-serif;
+  font-size:22px;
+  font-weight:400;
+  line-height:1.4;
+  color:var(--c2);
+  letter-spacing:-.5px;
+  margin:0;
+}
+html[dir="rtl"] .story-quote p{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:800;
+  font-size:18px;
+  line-height:1.6;
+}
+.story-quote-author{
+  display:block;
+  margin-top:20px;
+  padding-top:16px;
+  border-top:3px solid var(--c1);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--c2);
+}
+
+.story-side{display:flex;flex-direction:column;gap:24px}
+.story-badge{
+  padding:32px 28px;
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  position:relative;
+  overflow:hidden;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.story-badge:hover{
+  transform:translate(-4px,-4px) rotate(-1deg);
+  box-shadow:12px 12px 0 var(--ink);
+}
+.story-badge.b1{background:var(--c1);color:#fff}
+.story-badge.b2{background:var(--c5);color:var(--ink)}
+.story-badge.b3{background:var(--c3);color:var(--ink)}
+.story-badge::before{
+  content:'★';
+  position:absolute;
+  top:-40px;left:-20px;
+  font-size:140px;
+  color:rgba(255,255,255,.15);
+  line-height:1;
+}
+.story-badge-label{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  opacity:.85;
+}
+html[dir="rtl"] .story-badge-label{font-family:'Vazirmatn',sans-serif;letter-spacing:0}
+.story-badge-num{
+  font-family:'Bungee',sans-serif;
+  font-size:64px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-2px;
+  margin-bottom:8px;
+}
+html[dir="rtl"] .story-badge-num{font-family:'Vazirmatn',sans-serif;font-weight:900}
+.story-badge-text{
+  font-size:14px;
+  font-weight:600;
+  line-height:1.5;
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+.stats-strip{
+  background:var(--c2);
+  padding:80px 32px;
+  border-top:4px solid var(--ink);
+  border-bottom:4px solid var(--ink);
+  transform:rotate(1deg) scale(1.02);
+  margin:60px -20px;
+  position:relative;
+  z-index:2;
+}
+.stats-inner{
+  max-width:1400px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.stat{
+  padding:32px 24px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  text-align:center;
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+}
+.stat:hover{
+  transform:translate(-4px,-4px);
+  box-shadow:12px 12px 0 var(--ink);
+}
+.stat:nth-child(1){background:var(--c4)}
+.stat:nth-child(2){background:var(--c3)}
+.stat:nth-child(3){background:var(--c1);color:#fff}
+.stat:nth-child(4){background:var(--c5)}
+.stat-value{
+  font-family:'Bungee',sans-serif;
+  font-size:44px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-2px;
+  margin-bottom:12px;
+  color:inherit;
+}
+html[dir="rtl"] .stat-value{font-family:'Vazirmatn',sans-serif;font-weight:900}
+.stat-label{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  line-height:1.4;
+}
+html[dir="rtl"] .stat-label{font-family:'Vazirmatn',sans-serif;letter-spacing:0;font-size:13px}
+
+/* ============================================================
+   VALUES
+   ============================================================ */
+.values-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:32px;
+}
+.value-card{
+  padding:36px 28px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.value-card:hover{
+  transform:translate(-6px,-6px) rotate(-1deg);
+  box-shadow:14px 14px 0 var(--ink);
+}
+.value-card:nth-child(1){background:var(--c1);color:#fff}
+.value-card:nth-child(2){background:var(--c3)}
+.value-card:nth-child(3){background:var(--c5)}
+.value-card:nth-child(4){background:var(--c2)}
+.value-card:nth-child(5){background:var(--c7)}
+.value-card:nth-child(6){background:var(--c6)}
+.value-card::before{
+  content:'';
+  position:absolute;
+  top:-30px;right:-30px;
+  width:100px;height:100px;
+  border-radius:50%;
+  background:rgba(0,0,0,.08);
+}
+.value-num{
+  font-family:'Space Mono',monospace;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:2px;
+  padding:6px 14px;
+  background:var(--ink);
+  color:var(--c2);
+  display:inline-block;
+  border:3px solid var(--ink);
+  margin-bottom:24px;
+  position:relative;
+  z-index:1;
+}
+.value-icon{
+  font-size:60px;
+  line-height:1;
+  margin-bottom:20px;
+  position:relative;
+  z-index:1;
+  filter:drop-shadow(3px 3px 0 rgba(0,0,0,.2));
+}
+.value-title{
+  font-family:'Bungee',sans-serif;
+  font-size:24px;
+  font-weight:400;
+  line-height:1.1;
+  letter-spacing:-.5px;
+  margin-bottom:14px;
+  text-transform:uppercase;
+  color:inherit;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .value-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  font-size:22px;
+}
+.value-desc{
+  font-size:14px;
+  line-height:1.7;
+  font-weight:500;
+  color:inherit;
+  opacity:.9;
+  position:relative;
+  z-index:1;
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline{
+  display:flex;
+  gap:24px;
+  overflow-x:auto;
+  padding:40px 0;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;
+}
+.timeline::-webkit-scrollbar{display:none}
+.tl-item{
+  flex:0 0 320px;
+  padding:36px 28px;
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  scroll-snap-align:start;
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  background:var(--bg);
+}
+.tl-item:hover{
+  transform:translate(-4px,-4px);
+  box-shadow:12px 12px 0 var(--ink);
+}
+.tl-item:nth-child(1){background:var(--c5)}
+.tl-item:nth-child(2){background:var(--c3)}
+.tl-item:nth-child(3){background:var(--c4)}
+.tl-item:nth-child(4){background:var(--c2)}
+.tl-item:nth-child(5){background:var(--c7)}
+.tl-item:nth-child(6){background:var(--c6)}
+
+.tl-year{
+  font-family:'Bungee',sans-serif;
+  font-size:44px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-2px;
+  margin-bottom:20px;
+  color:var(--ink);
+  -webkit-text-stroke:2px var(--ink);
+  paint-order:stroke fill;
+}
+html[dir="rtl"] .tl-year{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  -webkit-text-stroke:0;
+}
+.tl-title{
+  font-family:'Bungee',sans-serif;
+  font-size:20px;
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:-.3px;
+  margin-bottom:14px;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+html[dir="rtl"] .tl-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  font-size:18px;
+}
+.tl-desc{
+  font-size:13.5px;
+  line-height:1.7;
+  font-weight:500;
+  color:var(--ink);
+  opacity:.85;
+}
+.tl-index{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--ink);
+  margin-top:24px;
+  padding-top:20px;
+  border-top:3px solid var(--ink);
+  opacity:.6;
+}
+
+/* ============================================================
+   TEAM
+   ============================================================ */
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.member{
+  padding:0;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  overflow:hidden;
+  position:relative;
+}
+.member:hover{
+  transform:translate(-6px,-6px) rotate(-1deg);
+  box-shadow:14px 14px 0 var(--ink);
+}
+.member-photo{
+  aspect-ratio:1;
+  border-bottom:4px solid var(--ink);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.member:nth-child(1) .member-photo{background:var(--c1)}
+.member:nth-child(2) .member-photo{background:var(--c5)}
+.member:nth-child(3) .member-photo{background:var(--c7)}
+.member:nth-child(4) .member-photo{background:var(--c2)}
+
+.member-letter{
+  font-family:'Bungee',sans-serif;
+  font-size:120px;
+  font-weight:400;
+  line-height:1;
+  color:#fff;
+  -webkit-text-stroke:5px var(--ink);
+  paint-order:stroke fill;
+  transition:transform .3s ease;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .member-letter{font-family:'Vazirmatn',sans-serif;font-weight:900}
+.member:hover .member-letter{transform:rotate(-10deg) scale(1.15)}
+
+.member-photo::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0,transparent 15px,rgba(0,0,0,.08) 15px,rgba(0,0,0,.08) 16px);
+}
+
+.member-info{
+  padding:24px 20px;
+}
+.member-name{
+  font-family:'Bungee',sans-serif;
+  font-size:18px;
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:-.3px;
+  margin-bottom:8px;
+  color:var(--ink);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .member-name{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+}
+.member-role{
+  display:inline-block;
+  padding:5px 12px;
+  background:var(--ink);
+  color:var(--c2);
+  font-family:'Space Mono',monospace;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .member-role{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+
+/* ============================================================
+   AWARDS
+   ============================================================ */
+.awards-list{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.award-row{
+  display:grid;
+  grid-template-columns:120px 1fr auto;
+  gap:28px;
+  padding:28px 32px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow:6px 6px 0 var(--ink);
+  align-items:center;
+  transition:all .2s ease;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+}
+.award-row:nth-child(1){background:var(--c2)}
+.award-row:nth-child(2){background:var(--c4)}
+.award-row:nth-child(3){background:var(--c5)}
+.award-row:nth-child(4){background:var(--c7)}
+.award-row:hover{
+  transform:translate(-4px,-4px);
+  box-shadow:10px 10px 0 var(--ink);
+}
+.award-year{
+  font-family:'Bungee',sans-serif;
+  font-size:32px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-1px;
+  color:var(--ink);
+  -webkit-text-stroke:2px var(--ink);
+  paint-order:stroke fill;
+}
+html[dir="rtl"] .award-year{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  -webkit-text-stroke:0;
+}
+.award-content h3{
+  font-family:'Bungee',sans-serif;
+  font-size:20px;
+  font-weight:400;
+  line-height:1.15;
+  letter-spacing:-.3px;
+  color:var(--ink);
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .award-content h3{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  font-size:17px;
+}
+.award-content p{
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--ink);
+  opacity:.7;
+  text-transform:uppercase;
+}
+html[dir="rtl"] .award-content p{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13px;
+}
+.award-icon{
+  font-size:48px;
+  transition:transform .4s ease;
+  filter:drop-shadow(3px 3px 0 rgba(0,0,0,.2));
+}
+.award-row:hover .award-icon{transform:rotate(360deg) scale(1.2)}
+
+/* ============================================================
+   OFFICES
+   ============================================================ */
+.offices-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:24px;
+}
+.office{
+  padding:36px 24px;
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  transition:all .2s ease;
+  cursor:pointer;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.office:hover{
+  transform:translate(-6px,-6px) rotate(-1deg);
+  box-shadow:14px 14px 0 var(--ink);
+}
+.office:nth-child(1){background:var(--c5)}
+.office:nth-child(2){background:var(--c2)}
+.office:nth-child(3){background:var(--c3)}
+.office:nth-child(4){background:var(--c4)}
+
+.office-flag{
+  font-size:56px;
+  line-height:1;
+  margin-bottom:20px;
+  display:block;
+  filter:drop-shadow(3px 3px 0 rgba(0,0,0,.2));
+}
+.office-num{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  padding:4px 10px;
+  background:var(--ink);
+  color:var(--c2);
+  display:inline-block;
+  margin-bottom:16px;
+  border:2px solid var(--ink);
+}
+.office-city{
+  font-family:'Bungee',sans-serif;
+  font-size:26px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-1px;
+  margin-bottom:10px;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+html[dir="rtl"] .office-city{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  font-size:24px;
+}
+.office-country{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  padding-bottom:16px;
+  margin-bottom:16px;
+  border-bottom:3px solid var(--ink);
+  color:var(--ink);
+  opacity:.9;
+}
+html[dir="rtl"] .office-country{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+.office-address{
+  font-size:13.5px;
+  line-height:1.6;
+  font-weight:500;
+  color:var(--ink);
+  opacity:.85;
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta{
+  background:var(--c1);
+  color:#fff;
+  padding:100px 32px;
+  border-top:4px solid var(--ink);
+  border-bottom:4px solid var(--ink);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  z-index:2;
+}
+.cta::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent 0,transparent 40px,rgba(255,255,255,.06) 40px,rgba(255,255,255,.06) 41px),
+    repeating-linear-gradient(-45deg,transparent 0,transparent 40px,rgba(255,255,255,.06) 40px,rgba(255,255,255,.06) 41px);
+}
+.cta-inner{
+  max-width:900px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
+.cta-label{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 22px;
+  background:var(--c2);
+  color:var(--ink);
+  border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-bottom:32px;
+  transform:rotate(-2deg);
+}
+html[dir="rtl"] .cta-label{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13px;
+}
+.cta-title{
+  font-family:'Bungee',sans-serif;
+  font-size:clamp(44px, 7vw, 100px);
+  font-weight:400;
+  line-height:.95;
+  letter-spacing:-2px;
+  color:#fff;
+  margin-bottom:32px;
+  text-transform:uppercase;
+  text-shadow:
+    5px 5px 0 var(--ink),
+    -2px -2px 0 var(--ink);
+}
+html[dir="rtl"] .cta-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:900;
+  text-transform:none;
+  line-height:1.1;
+  font-size:clamp(36px, 6vw, 80px);
+  letter-spacing:-1px;
+}
+.cta-desc{
+  font-size:17px;
+  line-height:1.7;
+  font-weight:500;
+  max-width:600px;
+  margin:0 auto 40px;
+  color:#fff;
+}
+.cta-buttons{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background:var(--ink);
+  color:var(--c2);
+  padding:80px 32px 32px;
+  position:relative;
+  z-index:2;
+}
+.footer-inner{max-width:1400px;margin:0 auto}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;
+  padding-bottom:60px;
+  border-bottom:3px dashed rgba(255,221,0,.3);
+  margin-bottom:40px;
+}
+.footer-brand{
+  font-family:'Bungee',sans-serif;
+  font-size:52px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-2px;
+  color:var(--c2);
+  margin-bottom:20px;
+  text-transform:uppercase;
+}
+.footer-brand .dot{color:var(--c1)}
+.footer-desc{
+  font-size:14.5px;
+  line-height:1.7;
+  color:var(--c2);
+  opacity:.7;
+  max-width:340px;
+  font-weight:500;
+}
+.footer-col-title{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--c1);
+  margin-bottom:24px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--c1);
+}
+html[dir="rtl"] .footer-col-title{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:13px;
+}
+.footer-links{display:flex;flex-direction:column;gap:14px}
+.footer-link{
+  background:none;border:none;
+  color:var(--c2);
+  font-family:inherit;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  padding:0;
+  text-align:inherit;
+  transition:all .2s ease;
+  display:inline-flex;align-items:center;gap:10px;
+  width:fit-content;
+}
+.footer-link:hover{
+  color:var(--c1);
+  transform:translateX(-6px);
+}
+html[dir="ltr"] .footer-link:hover{transform:translateX(6px)}
+.footer-link::before{
+  content:'→';
+  opacity:0;
+  transition:opacity .2s ease;
+}
+html[dir="rtl"] .footer-link::before{content:'←'}
+.footer-link:hover::before{opacity:1}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:32px;
+  border-top:3px dashed rgba(255,221,0,.3);
+  font-family:'Space Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--c2);
+  opacity:.7;
+}
+html[dir="rtl"] .footer-bottom{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  font-size:13px;
+}
+.footer-bottom-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-bottom-link{
+  background:none;border:none;
+  color:var(--c2);
+  font-family:inherit;
+  font-size:inherit;
+  cursor:pointer;
+  transition:color .2s ease;
+  opacity:.7;
+  padding:0;
+}
+.footer-bottom-link:hover{color:var(--c1);opacity:1}
+
+/* ============================================================
+   PALETTE SWITCHER
+   ============================================================ */
+.palette-switcher{
+  position:fixed;
+  bottom:32px;
+  left:32px;
+  z-index:200;
+  display:flex;
+  gap:10px;
+  padding:14px 18px;
+  background:var(--bg);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+}
+.palette-dot{
+  width:32px;height:32px;
+  border:3px solid var(--ink);
+  cursor:pointer;
+  padding:0;
+  transition:all .15s ease;
+  border-radius:0;
+}
+.palette-dot:hover{
+  transform:translate(-2px,-2px);
+  box-shadow:3px 3px 0 var(--ink);
+}
+.palette-dot.on{
+  box-shadow:inset 0 0 0 4px var(--bg),4px 4px 0 var(--ink);
+  transform:translate(-2px,-2px);
+}
+.palette-dot[data-p="classic"]{background:linear-gradient(135deg,#ff5f5f 0%,#ffdd00 25%,#00c2d1 50%,#ff8fa3 75%,#8aff80 100%)}
+.palette-dot[data-p="pink"]{background:linear-gradient(135deg,#ff4785,#ffd23f,#00b8d9)}
+.palette-dot[data-p="blue"]{background:linear-gradient(135deg,#3d6bff,#ffd23f,#00d4b4)}
+.palette-dot[data-p="sunset"]{background:linear-gradient(135deg,#ff5c00,#ffcc00,#00b8a9)}
+.palette-dot[data-p="cyber"]{background:linear-gradient(135deg,#a855f7,#ffdd00,#06d6d6)}
+.palette-dot[data-p="mono"]{background:linear-gradient(135deg,#0a0a0a,#666666,#f7f7f7)}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%) translateY(200px);
+  padding:18px 32px;
+  background:var(--c2);
+  color:var(--ink);
+  border:4px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  font-family:'Bungee',sans-serif;
+  font-size:14px;
+  font-weight:400;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  display:flex;align-items:center;gap:16px;
+  opacity:0;
+  transition:all .4s cubic-bezier(.68,-.55,.265,1.55);
+  z-index:1000;
+  pointer-events:none;
+  max-width:90vw;
+}
+html[dir="rtl"] .toast{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-weight:800;
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-icon{
+  width:32px;height:32px;
+  background:var(--c1);
+  border:3px solid var(--ink);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.toast-icon svg{
+  width:16px;height:16px;
+  stroke:#fff;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in-view{opacity:1;transform:translateY(0)}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+.mobile-menu{
+  position:fixed;
+  inset:80px 0 auto 0;
+  background:var(--c7);
+  border-bottom:4px solid var(--ink);
+  padding:24px 32px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  z-index:99;
+  transform:translateY(-100%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.mobile-menu.on{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.mobile-link{
+  background:var(--bg);
+  border:3px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  color:var(--ink);
+  font-family:inherit;
+  font-size:15px;
+  font-weight:800;
+  padding:16px 20px;
+  text-align:inherit;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+.mobile-link:hover{
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--ink);
+  background:var(--c2);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1100px){
+  .story-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .offices-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .section-header{grid-template-columns:1fr !important;gap:20px}
+}
+
+@media(max-width:768px){
+  .nav-inner{padding:14px 20px}
+  .nav-links{display:none}
+  .nav-lang{display:none}
+  .nav-cta{padding:10px 16px;font-size:11px}
+  .nav-cta span{display:none}
+  .nav-cta::after{content:'→';font-size:14px}
+  .menu-btn{display:flex}
+  .mobile-menu{padding:20px}
+
+  .hero{padding:40px 20px 60px}
+  .hero-title{font-size:40px}
+  .hero-title .word{padding:6px 12px;margin:2px}
+  .hero-desc{padding:20px;font-size:14.5px}
+  .hero-btn{padding:16px 28px;font-size:13px}
+  .marquee-item{font-size:20px}
+
+  .section{padding:60px 20px}
+  .section-num{font-size:56px}
+  .section-title{font-size:26px;padding:10px 14px}
+  .section-desc{padding:16px 18px;font-size:14.5px}
+
+  .story-main{padding:28px 22px}
+  .story-main p{font-size:14.5px}
+  .story-main p:first-of-type::first-letter{font-size:64px}
+  .story-quote{padding:24px}
+  .story-quote::before{font-size:80px;top:-24px}
+  .story-quote p{font-size:17px}
+  .story-badge{padding:24px 20px}
+  .story-badge-num{font-size:48px}
+
+  .values-grid{grid-template-columns:1fr;gap:20px}
+  .value-card{padding:28px 22px}
+
+  .stats-strip{padding:50px 20px;transform:rotate(0) scale(1);margin:40px -10px}
+  .stats-inner{grid-template-columns:repeat(2,1fr);gap:16px}
+  .stat{padding:22px 16px}
+  .stat-value{font-size:32px}
+
+  .timeline{padding:20px 0;gap:16px}
+  .tl-item{flex:0 0 260px;padding:26px 20px}
+  .tl-year{font-size:32px}
+
+  .team-grid{grid-template-columns:1fr 1fr;gap:16px}
+  .member-letter{font-size:80px;-webkit-text-stroke:3px var(--ink)}
+  .member-info{padding:18px 14px}
+  .member-name{font-size:15px}
+
+  .award-row{grid-template-columns:80px 1fr;gap:16px;padding:22px 20px}
+  .award-year{font-size:24px}
+  .award-content h3{font-size:15px}
+  .award-icon{position:absolute;top:14px;left:14px;font-size:28px}
+  html[dir="rtl"] .award-icon{left:auto;right:14px}
+
+  .offices-grid{grid-template-columns:1fr}
+  .office{padding:28px 20px}
+  .office-city{font-size:22px}
+
+  .cta{padding:60px 20px}
+  .cta-title{font-size:28px;text-shadow:4px 4px 0 var(--ink)}
+  .cta-btn{padding:14px 22px;font-size:12px}
+
+  .footer{padding:60px 20px 30px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-brand{font-size:34px}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+
+  .palette-switcher{bottom:16px;left:16px;padding:10px 14px;gap:8px}
+  .palette-dot{width:24px;height:24px}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:32px}
+  .hero-btn{padding:14px 22px;font-size:12px}
+  .section-title{font-size:22px}
+  .team-grid{grid-template-columns:1fr}
+  .member-letter{font-size:96px}
+  .stats-inner{grid-template-columns:1fr}
+  .cta-title{font-size:22px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body data-palette="classic">
+
+<div class="page" id="page">
+
+  <!-- ============================================================
+       DECORATIVE BACKGROUND SHAPES
+       ============================================================ -->
+  <div class="bg-shapes" aria-hidden="true">
+    <div class="shape circle" style="width:60px;height:60px;background:#ff5f5f;top:15%;left:8%;border:3px solid #1a1a1a;"></div>
+    <div class="shape square" style="width:40px;height:40px;background:#ffdd00;top:70%;left:12%;"></div>
+    <div class="shape triangle" style="border-bottom-color:#00c2d1;top:35%;right:6%;"></div>
+    <div class="shape zigzag" style="top:80%;right:10%;"></div>
+    <div class="shape dots" style="top:12%;right:20%;"></div>
+    <div class="shape lines" style="bottom:20%;right:4%;"></div>
+    <div class="shape circle" style="width:30px;height:30px;background:#8aff80;top:55%;left:3%;border:3px solid #1a1a1a;"></div>
+    <div class="shape square" style="width:50px;height:50px;background:#b8a7ff;top:45%;right:3%;"></div>
+    <div class="shape wave" style="top:25%;left:15%;"></div>
+  </div>
+
+  <!-- ============================================================
+       NAV
+       ============================================================ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="scrollToTop()">
+        <div class="logo-mark"><span>A</span></div>
+        <div class="logo-text">
+          <span class="logo-title">AURORA</span>
+          <span class="logo-sub">★ Memphis Design ★</span>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-link active" onclick="scrollToId('story')" data-fa="داستان" data-en="Story">داستان</button>
+        <button class="nav-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+        <button class="nav-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="History">تاریخچه</button>
+        <button class="nav-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+        <button class="nav-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-lang" onclick="toggleLang()" id="langBtn">EN</button>
+        <button class="nav-cta" onclick="contactUs()">
+          <span data-fa="تماس" data-en="Contact">تماس</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       MOBILE MENU
+       ============================================================ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="scrollToId('story')" data-fa="داستان ما" data-en="Our Story">داستان ما</button>
+    <button class="mobile-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+    <button class="mobile-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="History">تاریخچه</button>
+    <button class="mobile-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+    <button class="mobile-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+    <button class="mobile-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="Offices">دفاتر</button>
+  </div>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero-tag">
+      <span class="hero-tag-star">✦</span>
+      <span data-fa="استودیوی طراحی ممفیس" data-en="Memphis Design Studio">استودیوی طراحی ممفیس</span>
+      <span class="hero-tag-star">✦</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="word w1" data-fa="ما" data-en="WE">ما</span>
+      <span class="word w2" data-fa="باحال" data-en="MAKE">باحال</span>
+      <span class="word w3" data-fa="می‌سازیم" data-en="COOL">می‌سازیم</span><br>
+      <span class="word w4" data-fa="و" data-en="&">و</span>
+      <span class="word w5" data-fa="رنگی!" data-en="COLORFUL!">رنگی!</span>
+    </h1>
+
+    <div class="hero-desc">
+      <p data-fa="Aurora یک استودیوی طراحی و فناوری است که از سال ۱۳۹۷ با روحیه ممفیس کار می‌کند. ما به طراحی جسورانه، رنگ‌های زنده، و اشکال بازیگوش باور داریم. هر محصولی که می‌سازیم، یک جشن رنگ است." data-en="Aurora is a design and technology studio that has been working with Memphis spirit since 2018. We believe in bold design, vivid colors, and playful shapes. Every product we craft is a celebration of color.">
+        Aurora یک استودیوی طراحی و فناوری است که از سال ۱۳۹۷ با روحیه ممفیس کار می‌کند. ما به طراحی جسورانه، رنگ‌های زنده، و اشکال بازیگوش باور داریم. هر محصولی که می‌سازیم، یک جشن رنگ است.
+      </p>
+    </div>
+
+    <div class="hero-actions">
+      <button class="hero-btn primary" onclick="scrollToId('story')">
+        <span data-fa="دیدن داستان" data-en="See story">دیدن داستان</span>
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+      <button class="hero-btn secondary" onclick="contactUs()">
+        <span data-fa="تماس با ما" data-en="Contact us">تماس با ما</span>
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MARQUEE
+       ============================================================ -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item" data-fa="طراحی جسورانه" data-en="BOLD DESIGN">طراحی جسورانه</div>
+      <div class="marquee-item" data-fa="رنگ‌های زنده" data-en="VIVID COLORS">رنگ‌های زنده</div>
+      <div class="marquee-item" data-fa="اشکال بازیگوش" data-en="PLAYFUL SHAPES">اشکال بازیگوش</div>
+      <div class="marquee-item" data-fa="طراحی جسورانه" data-en="BOLD DESIGN">طراحی جسورانه</div>
+      <div class="marquee-item" data-fa="رنگ‌های زنده" data-en="VIVID COLORS">رنگ‌های زنده</div>
+      <div class="marquee-item" data-fa="اشکال بازیگوش" data-en="PLAYFUL SHAPES">اشکال بازیگوش</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       STORY
+       ============================================================ -->
+  <section class="section" id="story">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-num">01</div>
+        <h2 class="section-title" data-fa="داستان ما را ببینید!" data-en="Check Our Story!">داستان ما را ببینید!</h2>
+      </div>
+
+      <p class="section-desc reveal" data-fa="داستان Aurora یک داستان پر از رنگ، شکل، و انرژی است. از یک اتاق کوچک در تهران تا چهار دفتر در چهار قاره." data-en="Aurora's story is a story full of color, shape, and energy. From a small room in Tehran to four offices on four continents.">
+        داستان Aurora یک داستان پر از رنگ، شکل، و انرژی است. از یک اتاق کوچک در تهران تا چهار دفتر در چهار قاره.
+      </p>
+
+      <div class="story-grid">
+        <div class="story-main reveal">
+          <p data-fa="سال ۱۳۹۷، چهار دوست که عاشق طراحی ممفیس و فناوری بودند، تصمیم گرفتند چیزی متفاوت بسازند. آن روزها، اکثر محصولات دیجیتال یا خسته‌کننده بودند یا بی‌روح. ما می‌خواستیم چیزی بسازیم که مردم با دیدنش لبخند بزنند." data-en="In 2018, four friends who loved Memphis design and technology decided to build something different. Back then, most digital products were either boring or lifeless. We wanted to build something that made people smile.">
+            سال ۱۳۹۷، چهار دوست که عاشق طراحی ممفیس و فناوری بودند، تصمیم گرفتند چیزی متفاوت بسازند. آن روزها، اکثر محصولات دیجیتال یا خسته‌کننده بودند یا بی‌روح. ما می‌خواستیم چیزی بسازیم که مردم با دیدنش لبخند بزنند.
+          </p>
+
+          <p data-fa="اولین محصول ما یک زیرساخت امنیتی بود که با رنگ‌های ممفیس طراحی شده بود. همه گفتند که رنگ‌ها با امنیت جور در نمی‌آیند. اما کاربران عاشقش شدند. ما ثابت کردیم که امنیت و زیبایی می‌توانند با هم باشند." data-en="Our first product was a security infrastructure designed with Memphis colors. Everyone said colors don't fit with security. But users loved it. We proved that security and beauty can coexist.">
+            اولین محصول ما یک زیرساخت امنیتی بود که با رنگ‌های ممفیس طراحی شده بود. همه گفتند که رنگ‌ها با امنیت جور در نمی‌آیند. اما کاربران عاشقش شدند. ما ثابت کردیم که امنیت و زیبایی می‌توانند با هم باشند.
+          </p>
+
+          <p data-fa="امروز، بیش از یک میلیون کاربر در ۴۵ کشور جهان از محصولات Aurora استفاده می‌کنند. هر روز صبح با رنگ‌های جدید و اشکال تازه بیدار می‌شویم. این بهترین شغل دنیاست!" data-en="Today, more than a million users in 45 countries use Aurora products. Every morning we wake up with new colors and fresh shapes. This is the best job in the world!">
+            امروز، بیش از یک میلیون کاربر در ۴۵ کشور جهان از محصولات Aurora استفاده می‌کنند. هر روز صبح با رنگ‌های جدید و اشکال تازه بیدار می‌شویم. این بهترین شغل دنیاست!
+          </p>
+
+          <div class="story-quote">
+            <p data-fa="«طراحی خوب، دیده می‌شود. طراحی ممفیس، حس می‌شود.»" data-en="«Good design is seen. Memphis design is felt.»">
+              «طراحی خوب، دیده می‌شود. طراحی ممفیس، حس می‌شود.»
+            </p>
+            <span class="story-quote-author" data-fa="— علی رضایی، بنیان‌گذار" data-en="— Ali Rezaei, Founder">— علی رضایی، بنیان‌گذار</span>
+          </div>
+        </div>
+
+        <aside class="story-side reveal">
+          <div class="story-badge b1">
+            <div class="story-badge-label" data-fa="روز اول" data-en="Day One">روز اول</div>
+            <div class="story-badge-num">4</div>
+            <div class="story-badge-text" data-fa="نفر بنیان‌گذار، یک اتاق" data-en="founders, one room">نفر بنیان‌گذار، یک اتاق</div>
+          </div>
+          <div class="story-badge b2">
+            <div class="story-badge-label" data-fa="امروز" data-en="Today">امروز</div>
+            <div class="story-badge-num">247</div>
+            <div class="story-badge-text" data-fa="عضو تیم در سراسر جهان" data-en="team members worldwide">عضو تیم در سراسر جهان</div>
+          </div>
+          <div class="story-badge b3">
+            <div class="story-badge-label" data-fa="رضایت" data-en="Satisfaction">رضایت</div>
+            <div class="story-badge-num">99%</div>
+            <div class="story-badge-text" data-fa="از کاربران توصیه می‌کنند" data-en="of users recommend us">از کاربران توصیه می‌کنند</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS STRIP
+       ============================================================ -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat reveal">
+        <div class="stat-value" data-counter="1250000">0</div>
+        <div class="stat-label" data-fa="کاربر فعال" data-en="Active users">کاربر فعال</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-value" data-counter="45">0</div>
+        <div class="stat-label" data-fa="کشور" data-en="Countries">کشور</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-value" data-counter="247">0</div>
+        <div class="stat-label" data-fa="عضو تیم" data-en="Team">عضو تیم</div>
+      </div>
+      <div class="stat reveal">
+        <div class="stat-value"><span data-counter="99">0</span>%</div>
+        <div class="stat-label" data-fa="رضایت مشتری" data-en="Satisfaction">رضایت مشتری</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       VALUES
+       ============================================================ -->
+  <section class="section" id="values">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-num">02</div>
+        <h2 class="section-title" data-fa="چیزی که ما را متفاوت می‌کند" data-en="What Makes Us Different">چیزی که ما را متفاوت می‌کند</h2>
+      </div>
+
+      <p class="section-desc reveal" data-fa="شش اصل که هر روز صبح با آن‌ها بیدار می‌شویم و هر شب با آن‌ها می‌خوابیم." data-en="Six principles we wake up with every morning and go to sleep with every night.">
+        شش اصل که هر روز صبح با آن‌ها بیدار می‌شویم و هر شب با آن‌ها می‌خوابیم.
+      </p>
+
+      <div class="values-grid reveal">
+        <div class="value-card">
+          <span class="value-num">01</span>
+          <div class="value-icon">🎨</div>
+          <h3 class="value-title" data-fa="طراحی جسورانه" data-en="Bold Design">طراحی جسورانه</h3>
+          <p class="value-desc" data-fa="ما از رنگ‌های ترسناک، اشکال عجیب، و طراحی‌های متفاوت نمی‌ترسیم. جسور بودن، هنر ماست." data-en="We're not afraid of scary colors, weird shapes, and different designs. Being bold is our art.">ما از رنگ‌های ترسناک، اشکال عجیب، و طراحی‌های متفاوت نمی‌ترسیم. جسور بودن، هنر ماست.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">02</span>
+          <div class="value-icon">⚡</div>
+          <h3 class="value-title" data-fa="انرژی مثبت" data-en="Positive Energy">انرژی مثبت</h3>
+          <p class="value-desc" data-fa="کار ما باید شادی‌آور باشد. هر خط کد، هر شکل، هر رنگ — باید به مردم انرژی بدهد." data-en="Our work must be joyful. Every line of code, every shape, every color — must give people energy.">کار ما باید شادی‌آور باشد. هر خط کد، هر شکل، هر رنگ — باید به مردم انرژی بدهد.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">03</span>
+          <div class="value-icon">🚀</div>
+          <h3 class="value-title" data-fa="کیفیت درجه یک" data-en="Top Quality">کیفیت درجه یک</h3>
+          <p class="value-desc" data-fa="طراحی زیبا بدون کیفیت، بی‌ارزش است. ما هر دو را می‌خواهیم — و همیشه هر دو را می‌دهیم." data-en="Beautiful design without quality is worthless. We want both — and always deliver both.">طراحی زیبا بدون کیفیت، بی‌ارزش است. ما هر دو را می‌خواهیم — و همیشه هر دو را می‌دهیم.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">04</span>
+          <div class="value-icon">💖</div>
+          <h3 class="value-title" data-fa="با عشق کار کن" data-en="Work with Love">با عشق کار کن</h3>
+          <p class="value-desc" data-fa="اگر کاری را با عشق انجام ندهی، در نتیجه دیده می‌شود. ما عاشق کارمان هستیم." data-en="If you don't do work with love, it shows in the result. We love our work.">اگر کاری را با عشق انجام ندهی، در نتیجه دیده می‌شود. ما عاشق کارمان هستیم.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">05</span>
+          <div class="value-icon">🤝</div>
+          <h3 class="value-title" data-fa="تیم، خانواده" data-en="Team = Family">تیم، خانواده</h3>
+          <p class="value-desc" data-fa="تیم Aurora یک خانواده است. ما با هم می‌خندیم، با هم گریه می‌کنیم، و با هم می‌سازیم." data-en="The Aurora team is a family. We laugh together, cry together, and build together.">تیم Aurora یک خانواده است. ما با هم می‌خندیم، با هم گریه می‌کنیم، و با هم می‌سازیم.</p>
+        </div>
+
+        <div class="value-card">
+          <span class="value-num">06</span>
+          <div class="value-icon">🎉</div>
+          <h3 class="value-title" data-fa="لذت ببر!" data-en="Have Fun!">لذت ببر!</h3>
+          <p class="value-desc" data-fa="زندگی خیلی کوتاه است که جدی بگیری. ما با لبخند کار می‌کنیم و از هر لحظه لذت می‌بریم." data-en="Life is too short to be serious. We work with smiles and enjoy every moment.">زندگی خیلی کوتاه است که جدی بگیری. ما با لبخند کار می‌کنیم و از هر لحظه لذت می‌بریم.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TIMELINE
+       ============================================================ -->
+  <section class="section" id="timeline">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-num">03</div>
+        <h2 class="section-title" data-fa="سفر رنگی ما" data-en="Our Colorful Journey">سفر رنگی ما</h2>
+      </div>
+
+      <p class="section-desc reveal" data-fa="از سال ۱۳۹۷ تا امروز، هر سال یک رنگ جدید به داستان ما اضافه شده." data-en="From 2018 to today, every year a new color has been added to our story.">
+        از سال ۱۳۹۷ تا امروز، هر سال یک رنگ جدید به داستان ما اضافه شده.
+      </p>
+
+      <div class="timeline reveal">
+        <div class="tl-item">
+          <div class="tl-year">1397</div>
+          <h3 class="tl-title" data-fa="تأسیس Aurora" data-en="Aurora Founded">تأسیس Aurora</h3>
+          <p class="tl-desc" data-fa="چهار دوست، یک اتاق کوچک، و یک دنیا رنگ!" data-en="Four friends, one small room, and a world of color!">چهار دوست، یک اتاق کوچک، و یک دنیا رنگ!</p>
+          <div class="tl-index">— 01 / 06</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1398</div>
+          <h3 class="tl-title" data-fa="اولین ۱۰۰۰ کاربر" data-en="First 1000 Users">اولین ۱۰۰۰ کاربر</h3>
+          <p class="tl-desc" data-fa="یک سال بعد، اولین هزار نفر عاشق طراحی ما شدند." data-en="A year later, our first thousand users fell in love with our design.">یک سال بعد، اولین هزار نفر عاشق طراحی ما شدند.</p>
+          <div class="tl-index">— 02 / 06</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1400</div>
+          <h3 class="tl-title" data-fa="دفتر دبی" data-en="Dubai Office">دفتر دبی</h3>
+          <p class="tl-desc" data-fa="اولین دفتر بین‌المللی با رنگ‌های زنده و طراحی ممفیس." data-en="First international office with vivid colors and Memphis design.">اولین دفتر بین‌المللی با رنگ‌های زنده و طراحی ممفیس.</p>
+          <div class="tl-index">— 03 / 06</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1401</div>
+          <h3 class="tl-title" data-fa="دفتر لندن" data-en="London Office">دفتر لندن</h3>
+          <p class="tl-desc" data-fa="گسترش به اروپا. حالا در دو قاره رنگ می‌پاشیم!" data-en="Expansion to Europe. Now spreading color on two continents!">گسترش به اروپا. حالا در دو قاره رنگ می‌پاشیم!</p>
+          <div class="tl-index">— 04 / 06</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1402</div>
+          <h3 class="tl-title" data-fa="یک میلیون کاربر" data-en="One Million Users">یک میلیون کاربر</h3>
+          <p class="tl-desc" data-fa="مهم‌ترین نقطه عطف. یک میلیون نفر به طراحی ما اعتماد کردند." data-en="Most important milestone. One million people trusted our design.">مهم‌ترین نقطه عطف. یک میلیون نفر به طراحی ما اعتماد کردند.</p>
+          <div class="tl-index">— 05 / 06</div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-year">1404</div>
+          <h3 class="tl-title" data-fa="Aurora 4.0" data-en="Aurora 4.0">Aurora 4.0</h3>
+          <p class="tl-desc" data-fa="نسخه جدید با هوش مصنوعی و طراحی ممفیس." data-en="New version with AI and Memphis design.">نسخه جدید با هوش مصنوعی و طراحی ممفیس.</p>
+          <div class="tl-index">— 06 / 06</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TEAM
+       ============================================================ -->
+  <section class="section" id="team">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-num">04</div>
+        <h2 class="section-title" data-fa="تیم رنگی ما" data-en="Our Colorful Team">تیم رنگی ما</h2>
+      </div>
+
+      <p class="section-desc reveal" data-fa="چهار رهبر که هر کدام یک رنگ متفاوت به تیم Aurora اضافه می‌کنند." data-en="Four leaders, each adding a different color to the Aurora team.">
+        چهار رهبر که هر کدام یک رنگ متفاوت به تیم Aurora اضافه می‌کنند.
+      </p>
+
+      <div class="team-grid reveal">
+        <div class="member">
+          <div class="member-photo">
+            <span class="member-letter">A</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</h3>
+            <div class="member-role" data-fa="بنیان‌گذار" data-en="Founder">بنیان‌گذار</div>
+          </div>
+        </div>
+
+        <div class="member">
+          <div class="member-photo">
+            <span class="member-letter">S</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</h3>
+            <div class="member-role" data-fa="مدیر فنی" data-en="CTO">مدیر فنی</div>
+          </div>
+        </div>
+
+        <div class="member">
+          <div class="member-photo">
+            <span class="member-letter">R</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</h3>
+            <div class="member-role" data-fa="مدیر طراحی" data-en="Design Lead">مدیر طراحی</div>
+          </div>
+        </div>
+
+        <div class="member">
+          <div class="member-photo">
+            <span class="member-letter">M</span>
+          </div>
+          <div class="member-info">
+            <h3 class="member-name" data-fa="مریم تهرانی" data-en="Maryam Tehrani">مریم تهرانی</h3>
+            <div class="member-role" data-fa="مدیر محصول" data-en="Product Lead">مدیر محصول</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AWARDS
+       ============================================================ -->
+  <section class="section" id="awards">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-num">05</div>
+        <h2 class="section-title" data-fa="جوایز رنگارنگ ما" data-en="Our Colorful Awards">جوایز رنگارنگ ما</h2>
+      </div>
+
+      <p class="section-desc reveal" data-fa="ما برای جایزه کار نمی‌کنیم. اما وقتی جایزه می‌گیریم، خیلی خوشحال می‌شویم!" data-en="We don't work for awards. But when we win, we're super happy!">
+        ما برای جایزه کار نمی‌کنیم. اما وقتی جایزه می‌گیریم، خیلی خوشحال می‌شویم!
+      </p>
+
+      <div class="awards-list reveal">
+        <div class="award-row">
+          <div class="award-year">1400</div>
+          <div class="award-content">
+            <h3 data-fa="بهترین استارتاپ فناوری سال" data-en="Best Tech Startup of the Year">بهترین استارتاپ فناوری سال</h3>
+            <p data-fa="جایزه ملی فناوری اطلاعات" data-en="National IT Award">جایزه ملی فناوری اطلاعات</p>
+          </div>
+          <div class="award-icon">🏆</div>
+        </div>
+
+        <div class="award-row">
+          <div class="award-year">1401</div>
+          <div class="award-content">
+            <h3 data-fa="جایزه نوآوری در امنیت" data-en="Security Innovation Award">جایزه نوآوری در امنیت</h3>
+            <p data-fa="انجمن امنیت دیجیتال خاورمیانه" data-en="Middle East Digital Security Association">انجمن امنیت دیجیتال خاورمیانه</p>
+          </div>
+          <div class="award-icon">🥇</div>
+        </div>
+
+        <div class="award-row">
+          <div class="award-year">1402</div>
+          <div class="award-content">
+            <h3 data-fa="بهترین تجربه کاربری سال" data-en="Best UX of the Year">بهترین تجربه کاربری سال</h3>
+            <p data-fa="فستیوال طراحی تهران" data-en="Tehran Design Festival">فستیوال طراحی تهران</p>
+          </div>
+          <div class="award-icon">⭐</div>
+        </div>
+
+        <div class="award-row">
+          <div class="award-year">1403</div>
+          <div class="award-content">
+            <h3 data-fa="شرکت برگزیده فناوری منطقه" data-en="Regional Tech Company of Choice">شرکت برگزیده فناوری منطقه</h3>
+            <p data-fa="مجمع جهانی فناوری دبی" data-en="Dubai Global Tech Forum">مجمع جهانی فناوری دبی</p>
+          </div>
+          <div class="award-icon">🌟</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       OFFICES
+       ============================================================ -->
+  <section class="section" id="offices">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <div class="section-num">06</div>
+        <h2 class="section-title" data-fa="دفاتر رنگی ما" data-en="Our Colorful Offices">دفاتر رنگی ما</h2>
+      </div>
+
+      <p class="section-desc reveal" data-fa="چهار دفتر، چهار قاره، چهار رنگ متفاوت. هر دفتر یک شخصیت دارد." data-en="Four offices, four continents, four different colors. Each office has a personality.">
+        چهار دفتر، چهار قاره، چهار رنگ متفاوت. هر دفتر یک شخصیت دارد.
+      </p>
+
+      <div class="offices-grid reveal">
+        <div class="office">
+          <span class="office-flag">🇮🇷</span>
+          <div class="office-num">01</div>
+          <h3 class="office-city" data-fa="تهران" data-en="Tehran">تهران</h3>
+          <div class="office-country" data-fa="ایران — مرکزی" data-en="Iran — HQ">ایران — مرکزی</div>
+          <p class="office-address" data-fa="خیابان ولیعصر، برج آرورا، طبقه ۱۵" data-en="Valiasr St, Aurora Tower, Floor 15">خیابان ولیعصر، برج آرورا، طبقه ۱۵</p>
+        </div>
+
+        <div class="office">
+          <span class="office-flag">🇦🇪</span>
+          <div class="office-num">02</div>
+          <h3 class="office-city" data-fa="دبی" data-en="Dubai">دبی</h3>
+          <div class="office-country" data-fa="امارات — خاورمیانه" data-en="UAE — Middle East">امارات — خاورمیانه</div>
+          <p class="office-address" data-fa="مرکز DIFC، برج ۴، واحد ۲۱۰" data-en="DIFC, Tower 4, Unit 210">مرکز DIFC، برج ۴، واحد ۲۱۰</p>
+        </div>
+
+        <div class="office">
+          <span class="office-flag">🇬🇧</span>
+          <div class="office-num">03</div>
+          <h3 class="office-city" data-fa="لندن" data-en="London">لندن</h3>
+          <div class="office-country" data-fa="بریتانیا — اروپا" data-en="UK — Europe">بریتانیا — اروپا</div>
+          <p class="office-address" data-fa="کاناری وارف، واحد ۱۲، طبقه ۵" data-en="Canary Wharf, Unit 12, Floor 5">کاناری وارف، واحد ۱۲، طبقه ۵</p>
+        </div>
+
+        <div class="office">
+          <span class="office-flag">🇺🇸</span>
+          <div class="office-num">04</div>
+          <h3 class="office-city" data-fa="نیویورک" data-en="New York">نیویورک</h3>
+          <div class="office-country" data-fa="آمریکا" data-en="USA">آمریکا</div>
+          <p class="office-address" data-fa="منهتن، خیابان پنجم، برج ۵۰، طبقه ۳۰" data-en="Manhattan, 5th Ave, Tower 50, Floor 30">منهتن، خیابان پنجم، برج ۵۰، طبقه ۳۰</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA
+       ============================================================ -->
+  <section class="cta">
+    <div class="cta-inner reveal">
+      <div class="cta-label">
+        <span>✦</span>
+        <span data-fa="بیایید با هم بسازیم!" data-en="Let's build together!">بیایید با هم بسازیم!</span>
+        <span>✦</span>
+      </div>
+      <h2 class="cta-title" data-fa="داستان شما رنگی می‌شود!" data-en="Your Story Gets Colorful!">داستان شما رنگی می‌شود!</h2>
+      <p class="cta-desc" data-fa="اگر به دنبال شریکی پرانرژی، خلاق و رنگارنگ برای پروژه بعدی خود هستید، با ما تماس بگیرید." data-en="If you're looking for an energetic, creative, and colorful partner for your next project, contact us.">
+        اگر به دنبال شریکی پرانرژی، خلاق و رنگارنگ برای پروژه بعدی خود هستید، با ما تماس بگیرید.
+      </p>
+
+      <div class="cta-buttons">
+        <button class="hero-btn primary" onclick="contactUs()">
+          <span data-fa="شروع کنیم!" data-en="Let's go!">شروع کنیم!</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="hero-btn secondary" onclick="viewCareers()">
+          <span data-fa="فرصت‌های شغلی" data-en="Careers">فرصت‌های شغلی</span>
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">AURORA<span class="dot">.</span></div>
+          <p class="footer-desc" data-fa="استودیوی طراحی و فناوری مستقل، ساخته‌شده در تهران. از ۱۳۹۷ در حال ساختن محصولات دیجیتال رنگی و باحال برای کاربران سراسر جهان." data-en="Independent design & technology studio, built in Tehran. Since 2018 making colorful, cool digital products for users worldwide.">
+            استودیوی طراحی و فناوری مستقل، ساخته‌شده در تهران. از ۱۳۹۷ در حال ساختن محصولات دیجیتال رنگی و باحال برای کاربران سراسر جهان.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="شرکت" data-en="Company">شرکت</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="scrollToId('story')" data-fa="درباره ما" data-en="About">درباره ما</button>
+            <button class="footer-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+            <button class="footer-link" onclick="viewCareers()" data-fa="استخدام" data-en="Careers">استخدام</button>
+            <button class="footer-link" onclick="toast('Press Kit')" data-fa="مطبوعات" data-en="Press">مطبوعات</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="محصولات" data-en="Products">محصولات</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="toast('Aurora Auth')">Aurora Auth</button>
+            <button class="footer-link" onclick="toast('Aurora Cloud')">Aurora Cloud</button>
+            <button class="footer-link" onclick="toast('Aurora API')">Aurora API</button>
+            <button class="footer-link" onclick="toast('Enterprise')" data-fa="سازمانی" data-en="Enterprise">سازمانی</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="ارتباط" data-en="Connect">ارتباط</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="contactUs()" data-fa="تماس" data-en="Contact">تماس</button>
+            <button class="footer-link" onclick="toast('Blog')" data-fa="وبلاگ" data-en="Blog">وبلاگ</button>
+            <button class="footer-link" onclick="toast('Docs')" data-fa="مستندات" data-en="Docs">مستندات</button>
+            <button class="footer-link" onclick="toast('Support')" data-fa="پشتیبانی" data-en="Support">پشتیبانی</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025 AURORA · <span data-fa="ساخته‌شده با رنگ در تهران" data-en="Made with color in Tehran">ساخته‌شده با رنگ در تهران</span></div>
+        <div class="footer-bottom-links">
+          <button class="footer-bottom-link" onclick="toast('Privacy')" data-fa="حریم خصوصی" data-en="Privacy">حریم خصوصی</button>
+          <button class="footer-bottom-link" onclick="toast('Terms')" data-fa="شرایط" data-en="Terms">شرایط</button>
+          <button class="footer-bottom-link" onclick="toast('Cookies')" data-fa="کوکی‌ها" data-en="Cookies">کوکی‌ها</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============================================================
+     PALETTE SWITCHER
+     ============================================================ -->
+<div class="palette-switcher" role="group" aria-label="Palette">
+  <button class="palette-dot on" data-p="classic" onclick="setPalette('classic')" aria-label="Classic"></button>
+  <button class="palette-dot" data-p="pink" onclick="setPalette('pink')" aria-label="Pink"></button>
+  <button class="palette-dot" data-p="blue" onclick="setPalette('blue')" aria-label="Blue"></button>
+  <button class="palette-dot" data-p="sunset" onclick="setPalette('sunset')" aria-label="Sunset"></button>
+  <button class="palette-dot" data-p="cyber" onclick="setPalette('cyber')" aria-label="Cyber"></button>
+  <button class="palette-dot" data-p="mono" onclick="setPalette('mono')" aria-label="Mono"></button>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast-icon" id="toastIcon">
+    <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 8"/></svg>
+  </div>
+  <div id="toastMsg"></div>
+</div>
+
+<script>
+const S = { lang: 'fa', palette: 'classic' };
+
+/* ============ LANGUAGE ============ */
+function toggleLang(){ S.lang = S.lang === 'fa' ? 'en' : 'fa'; applyLang(); }
+function applyLang(){
+  const h = document.documentElement;
+  const btn = document.getElementById('langBtn');
+  if(S.lang === 'fa'){ h.setAttribute('lang','fa'); h.setAttribute('dir','rtl'); btn.textContent = 'EN'; }
+  else { h.setAttribute('lang','en'); h.setAttribute('dir','ltr'); btn.textContent = 'FA'; }
+
+  document.querySelectorAll('[data-fa]').forEach(e => {
+    const t = S.lang === 'fa' ? e.dataset.fa : e.dataset.en;
+    if(!t) return;
+    if(t.includes('<span') || t.includes('<em>') || t.includes('<strong>')) e.innerHTML = t;
+    else e.textContent = t;
+  });
+
+  localStorage.setItem('mem_lang', S.lang);
+  updateCounters();
+}
+
+/* ============ PALETTE ============ */
+function setPalette(p){
+  S.palette = p;
+  document.body.setAttribute('data-palette', p);
+  document.querySelectorAll('.palette-dot').forEach(d => d.classList.toggle('on', d.dataset.p === p));
+  localStorage.setItem('mem_palette', p);
+}
+document.querySelectorAll('.palette-dot').forEach(d => {
+  d.addEventListener('click', () => setPalette(d.dataset.p));
+});
+
+/* ============ SCROLL ============ */
+function scrollToTop(){
+  document.getElementById('page').scrollTo({top:0, behavior:'smooth'});
+}
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const top = el.offsetTop - 100;
+  document.getElementById('page').scrollTo({top, behavior:'smooth'});
+  document.getElementById('mobileMenu').classList.remove('on');
+}
+
+/* ============ MOBILE MENU ============ */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('on');
+}
+
+/* ============ NAV SCROLL ============ */
+(function(){
+  const nav = document.getElementById('nav');
+  const page = document.getElementById('page');
+  const sections = ['story','values','timeline','team','awards','offices'];
+
+  page.addEventListener('scroll', () => {
+    if(page.scrollTop > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+
+    const scrollY = page.scrollTop + 200;
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      const link = document.querySelector(`.nav-link[onclick*="${id}"]`);
+      if(!link) return;
+      const top = el.offsetTop;
+      const bottom = top + el.offsetHeight;
+      if(scrollY >= top && scrollY < bottom){
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, {passive:true});
+})();
+
+/* ============ REVEAL ============ */
+(function(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        entry.target.querySelectorAll('[data-counter]').forEach(animateCounter);
+      }
+    });
+  }, {threshold:0.12, root:document.getElementById('page')});
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+/* ============ COUNTERS ============ */
+const faDigits = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+function toFa(n){ return String(n).replace(/\d/g, d => faDigits[d]) }
+
+function animateCounter(el){
+  if(el.dataset.animated === 'true') return;
+  el.dataset.animated = 'true';
+
+  const target = parseInt(el.dataset.counter);
+  const duration = 2000;
+  const start = performance.now();
+
+  function format(n){
+    let s;
+    if(target >= 1000000) s = (n/1000000).toFixed(1) + 'M';
+    else if(target >= 1000) s = n.toLocaleString('en-US');
+    else s = String(n);
+    return S.lang === 'fa' ? toFa(s) : s;
+  }
+
+  function tick(now){
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    const current = Math.floor(target * eased);
+    el.textContent = format(current);
+    if(p < 1) requestAnimationFrame(tick);
+    else {
+      if(target >= 1000000) el.textContent = (S.lang==='fa'?toFa('1.2'):'1.2') + 'M+';
+      else el.textContent = S.lang==='fa' ? toFa(target) + '+' : target + '+';
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+function updateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.animated === 'true') return;
+    const t = parseInt(el.dataset.counter);
+    if(t >= 1000000) el.textContent = S.lang === 'fa' ? toFa('1.2') + 'M+' : '1.2M+';
+    else el.textContent = S.lang === 'fa' ? toFa(t) + '+' : t + '+';
+  });
+}
+
+/* ============ ACTIONS ============ */
+function contactUs(){ toast(S.lang === 'fa' ? 'در حال باز کردن صفحه تماس...' : 'Opening contact page...'); }
+function viewCareers(){ toast(S.lang === 'fa' ? 'در حال باز کردن فرصت‌های شغلی...' : 'Opening careers page...'); }
+
+/* ============ TOAST ============ */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  const msgEl = document.getElementById('toastMsg');
+  msgEl.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 3000);
+}
+
+/* ============ INIT ============ */
+(function(){
+  const lg = localStorage.getItem('mem_lang');
+  const pl = localStorage.getItem('mem_palette');
+  if(lg) S.lang = lg;
+  if(pl) S.palette = pl;
+  setPalette(S.palette);
+  applyLang();
+  updateCounters();
+})();
+</script>
+</body>
+</html>
