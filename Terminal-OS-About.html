@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>root@nexus:~$ about | NEXUS Corp</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'JetBrains Mono','Vazirmatn',monospace;
+  background:#000000;
+  color:#00ff41;
+  min-height:100vh;min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+  font-weight:400;
+  overflow-x:hidden;
+  text-shadow:0 0 2px currentColor;
+}
+
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#000000;
+  --bg-2:#0a0a0a;
+  --bg-3:#111111;
+  --bg-4:#1a1a1a;
+
+  --green:#00ff41;
+  --green-2:#00cc33;
+  --green-3:#008822;
+  --green-4:#004411;
+
+  --amber:#ffb000;
+  --amber-2:#cc8800;
+  --cyan:#00e5ff;
+  --red:#ff3333;
+  --blue:#3b82f6;
+  --magenta:#ff00ff;
+  --white:#e5e5e5;
+  --gray:#666666;
+  --gray-2:#333333;
+
+  --font-mono:'JetBrains Mono','IBM Plex Mono','Vazirmatn',monospace;
+  --font-body:'Vazirmatn','JetBrains Mono',monospace;
+}
+
+/* ============================================================
+   PAGE — CRT effect
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  background:var(--bg);
+  position:relative;
+  scrollbar-width:thin;
+  scrollbar-color:var(--green) var(--bg-2);
+}
+.page::-webkit-scrollbar{width:10px}
+.page::-webkit-scrollbar-track{background:var(--bg-2);border-left:1px solid var(--green-4)}
+.page::-webkit-scrollbar-thumb{
+  background:var(--green-3);
+  border:1px solid var(--green);
+}
+.page::-webkit-scrollbar-thumb:hover{background:var(--green-2)}
+
+/* CRT scanlines */
+.crt-lines{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,255,65,.03) 2px,
+    rgba(0,255,65,.03) 3px
+  );
+  mix-blend-mode:screen;
+}
+.crt-vignette{
+  position:fixed;
+  inset:0;
+  z-index:998;
+  pointer-events:none;
+  background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 60%,rgba(0,0,0,.8) 100%);
+}
+.crt-flicker{
+  position:fixed;
+  inset:0;
+  z-index:997;
+  pointer-events:none;
+  background:rgba(0,255,65,.015);
+  animation:flicker 0.15s infinite;
+}
+@keyframes flicker{
+  0%{opacity:.15}
+  20%{opacity:.1}
+  40%{opacity:.18}
+  60%{opacity:.08}
+  80%{opacity:.15}
+  100%{opacity:.12}
+}
+
+/* ============================================================
+   TERMINAL TOP BAR
+   ============================================================ */
+.term-bar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--bg-3);
+  border-bottom:1px solid var(--green-3);
+  padding:0;
+}
+.term-bar-inner{
+  max-width:1600px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  height:38px;
+  padding:0 12px;
+  gap:8px;
+}
+.term-dots{
+  display:flex;
+  gap:6px;
+  padding-inline-end:12px;
+  border-inline-end:1px solid var(--green-4);
+}
+.term-dot{
+  width:11px;height:11px;
+  border-radius:50%;
+  background:var(--gray-2);
+  border:1px solid #000;
+}
+.term-dot.red{background:#ff5f57}
+.term-dot.yellow{background:#febc2e}
+.term-dot.green{background:#28c840}
+
+.term-title{
+  flex:1;
+  text-align:center;
+  font-size:11.5px;
+  font-weight:500;
+  color:var(--gray);
+  letter-spacing:.5px;
+  padding:0 12px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.term-meta{
+  font-size:10.5px;
+  color:var(--green-3);
+  padding-inline-start:12px;
+  border-inline-start:1px solid var(--green-4);
+  display:flex;
+  gap:16px;
+}
+.term-meta-item{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.term-meta-item::before{
+  content:'';
+  width:6px;height:6px;
+  background:var(--green);
+  animation:blink 1.2s steps(2) infinite;
+}
+@keyframes blink{
+  0%,50%{opacity:1}
+  51%,100%{opacity:0}
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;
+  top:38px;
+  z-index:99;
+  background:var(--bg-2);
+  border-bottom:1px solid var(--green-4);
+  padding:0;
+}
+.nav-inner{
+  max-width:1600px;
+  margin:0 auto;
+  display:flex;
+  align-items:stretch;
+  height:48px;
+  padding:0 12px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  padding-inline-end:20px;
+  border-inline-end:1px solid var(--green-4);
+}
+.logo-mark{
+  font-family:var(--font-mono);
+  font-size:13px;
+  font-weight:700;
+  color:var(--green);
+  background:transparent;
+  padding:2px 6px;
+  border:1px solid var(--green);
+  text-shadow:0 0 8px var(--green);
+}
+.logo-text{
+  font-family:var(--font-mono);
+  font-size:14px;
+  font-weight:700;
+  color:var(--green);
+  letter-spacing:2px;
+  text-shadow:0 0 8px var(--green);
+}
+.logo-cursor{
+  display:inline-block;
+  width:8px;
+  height:16px;
+  background:var(--green);
+  margin-inline-start:4px;
+  animation:blink 1s steps(2) infinite;
+  vertical-align:middle;
+}
+
+.nav-links{
+  display:flex;
+  align-items:stretch;
+  flex:1;
+}
+.nav-link{
+  background:transparent;
+  border:none;
+  border-inline-end:1px solid var(--green-4);
+  color:var(--green-3);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  padding:0 18px;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  position:relative;
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .nav-link{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  font-size:13px;
+}
+.nav-link-prompt{
+  color:var(--green-3);
+  font-weight:700;
+}
+.nav-link:hover{
+  color:var(--green);
+  background:rgba(0,255,65,.05);
+}
+.nav-link.active{
+  color:var(--bg);
+  background:var(--green);
+  text-shadow:none;
+}
+.nav-link.active .nav-link-prompt{color:var(--bg)}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding-inline-start:20px;
+  border-inline-start:1px solid var(--green-4);
+}
+.nav-lang{
+  background:transparent;
+  border:1px solid var(--green-3);
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+  padding:6px 12px;
+  transition:all .15s ease;
+  letter-spacing:1px;
+}
+.nav-lang:hover{
+  background:var(--green);
+  color:var(--bg);
+  box-shadow:0 0 12px var(--green);
+}
+
+.nav-cta{
+  background:var(--green);
+  border:1px solid var(--green);
+  color:var(--bg);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  font-weight:700;
+  cursor:pointer;
+  padding:7px 14px;
+  transition:all .15s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  letter-spacing:.5px;
+  text-shadow:none;
+}
+html[dir="rtl"] .nav-cta{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  font-size:12.5px;
+}
+.nav-cta:hover{
+  background:transparent;
+  color:var(--green);
+  box-shadow:0 0 20px var(--green),inset 0 0 20px rgba(0,255,65,.2);
+}
+
+.menu-btn{
+  display:none;
+  background:transparent;
+  border:1px solid var(--green-3);
+  color:var(--green);
+  cursor:pointer;
+  padding:8px;
+}
+.menu-btn svg{
+  width:18px;height:18px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:square;
+}
+
+/* ============================================================
+   HERO — Terminal Boot
+   ============================================================ */
+.hero{
+  padding:80px 32px 60px;
+  max-width:1600px;
+  margin:0 auto;
+  position:relative;
+  z-index:5;
+  font-family:var(--font-mono);
+}
+
+.hero-prompt{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  color:var(--green-3);
+  margin-bottom:32px;
+  padding-bottom:12px;
+  border-bottom:1px dashed var(--green-4);
+}
+.hero-prompt-path{color:var(--cyan)}
+.hero-prompt-sep{color:var(--gray)}
+.hero-prompt-user{color:var(--green)}
+.hero-prompt-cmd{color:var(--white)}
+
+.hero-boot{
+  font-size:12.5px;
+  line-height:2;
+  color:var(--green-3);
+  margin-bottom:32px;
+  white-space:pre;
+}
+.hero-boot .ok{color:var(--green)}
+.hero-boot .warn{color:var(--amber)}
+.hero-boot .info{color:var(--cyan)}
+.hero-boot .time{color:var(--gray)}
+
+.hero-title{
+  font-family:var(--font-mono);
+  font-size:clamp(28px, 4.5vw, 56px);
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:-.02em;
+  color:var(--green);
+  margin-bottom:24px;
+  text-shadow:
+    0 0 12px var(--green),
+    0 0 30px rgba(0,255,65,.5);
+  animation:flickerIn 2s steps(1) both;
+}
+html[dir="rtl"] .hero-title{
+  font-family:'Vazirmatn',monospace;
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1.25;
+}
+@keyframes flickerIn{
+  0%{opacity:0}
+  10%{opacity:1}
+  15%{opacity:0}
+  20%{opacity:1}
+  25%{opacity:0}
+  30%{opacity:1}
+  100%{opacity:1}
+}
+.hero-title .prefix{
+  color:var(--amber);
+  font-weight:400;
+  text-shadow:0 0 8px var(--amber);
+}
+.hero-title .slash{
+  color:var(--gray);
+  font-weight:400;
+  text-shadow:none;
+}
+.hero-title .accent{
+  color:var(--cyan);
+  text-shadow:0 0 12px var(--cyan);
+}
+
+.hero-desc{
+  font-family:var(--font-mono);
+  font-size:14px;
+  line-height:1.95;
+  color:var(--green-2);
+  font-weight:400;
+  max-width:800px;
+  margin-bottom:32px;
+  padding:16px 20px;
+  background:rgba(0,255,65,.03);
+  border-inline-start:3px solid var(--green);
+}
+html[dir="rtl"] .hero-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:14.5px;
+  letter-spacing:0;
+}
+.hero-desc .kw{color:var(--amber);font-weight:600}
+.hero-desc .str{color:var(--cyan)}
+.hero-desc .num{color:var(--magenta)}
+
+.hero-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:32px;
+}
+
+.btn{
+  padding:12px 22px;
+  border:1px solid var(--green);
+  background:transparent;
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  letter-spacing:.5px;
+  text-shadow:0 0 4px currentColor;
+  position:relative;
+}
+html[dir="rtl"] .btn{
+  font-family:'Vazirmatn',monospace;
+  font-size:13.5px;
+  letter-spacing:0;
+}
+.btn::before{
+  content:'$';
+  color:var(--green-3);
+  font-weight:700;
+  margin-inline-end:2px;
+}
+.btn.primary{
+  background:var(--green);
+  color:var(--bg);
+  text-shadow:none;
+  box-shadow:0 0 20px rgba(0,255,65,.4);
+}
+.btn.primary::before{color:var(--bg)}
+.btn.primary:hover{
+  background:transparent;
+  color:var(--green);
+  text-shadow:0 0 8px var(--green);
+  box-shadow:0 0 30px rgba(0,255,65,.6),inset 0 0 20px rgba(0,255,65,.15);
+}
+.btn.primary:hover::before{color:var(--green-3)}
+.btn.secondary:hover{
+  background:rgba(0,255,65,.08);
+  box-shadow:0 0 20px rgba(0,255,65,.3),inset 0 0 20px rgba(0,255,65,.1);
+}
+
+/* Live stats in hero */
+.hero-live{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1px solid var(--green-4);
+  margin-top:40px;
+}
+.live-cell{
+  padding:20px 24px;
+  border-inline-end:1px solid var(--green-4);
+  background:rgba(0,255,65,.02);
+}
+.live-cell:last-child{border-inline-end:none}
+.live-cell-label{
+  font-size:10.5px;
+  color:var(--green-3);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.live-cell-label::before{
+  content:'';
+  width:6px;height:6px;
+  background:var(--green);
+  box-shadow:0 0 6px var(--green);
+  animation:blink 1s steps(2) infinite;
+}
+.live-cell-value{
+  font-size:26px;
+  font-weight:700;
+  color:var(--green);
+  text-shadow:0 0 8px var(--green);
+  font-family:var(--font-mono);
+  line-height:1;
+}
+.live-cell-value .unit{
+  font-size:.55em;
+  color:var(--green-2);
+  margin-inline-start:2px;
+}
+.live-cell-value .caret{
+  display:inline-block;
+  width:10px;
+  height:18px;
+  background:var(--green);
+  margin-inline-start:4px;
+  vertical-align:middle;
+  animation:blink 1s steps(2) infinite;
+}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{
+  padding:60px 32px;
+  position:relative;
+  z-index:5;
+  max-width:1600px;
+  margin:0 auto;
+}
+
+.section-line{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--green-3);
+  padding-bottom:12px;
+  border-bottom:1px solid var(--green-4);
+  margin-bottom:32px;
+}
+.section-line::before{
+  content:'>>>';
+  color:var(--green);
+  font-weight:700;
+  letter-spacing:2px;
+}
+.section-line-path{color:var(--cyan)}
+.section-line-sep{color:var(--gray)}
+.section-line-tag{color:var(--amber)}
+.section-line-blocks{
+  margin-inline-start:auto;
+  color:var(--green-4);
+  letter-spacing:1px;
+}
+
+.section-title{
+  font-family:var(--font-mono);
+  font-size:clamp(24px, 3.5vw, 44px);
+  font-weight:700;
+  line-height:1.2;
+  letter-spacing:-.02em;
+  color:var(--green);
+  margin-bottom:16px;
+  text-shadow:0 0 10px var(--green),0 0 30px rgba(0,255,65,.3);
+}
+html[dir="rtl"] .section-title{
+  font-family:'Vazirmatn',monospace;
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1.3;
+  font-size:clamp(22px, 3vw, 36px);
+}
+.section-title .accent{color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.section-title .warn{color:var(--amber);text-shadow:0 0 10px var(--amber)}
+
+.section-desc{
+  font-family:var(--font-mono);
+  font-size:13px;
+  line-height:1.9;
+  color:var(--green-2);
+  margin-bottom:48px;
+  max-width:720px;
+  padding:12px 16px;
+  border-inline-start:2px solid var(--green-3);
+  background:rgba(0,255,65,.02);
+}
+html[dir="rtl"] .section-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+  letter-spacing:0;
+}
+.section-desc .comment{color:var(--gray)}
+
+/* ============================================================
+   STORY — Split View: File tree + editor
+   ============================================================ */
+.story-layout{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:0;
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+}
+.story-tree{
+  border-inline-end:1px solid var(--green-4);
+  background:var(--bg);
+  padding:20px 0;
+  font-family:var(--font-mono);
+  font-size:12.5px;
+}
+.tree-header{
+  padding:0 16px 12px;
+  color:var(--green-3);
+  font-size:10.5px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--green-4);
+  margin-bottom:12px;
+}
+.tree-item{
+  padding:6px 16px;
+  color:var(--green-3);
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--font-mono);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.tree-item:hover{
+  background:rgba(0,255,65,.05);
+  color:var(--green);
+}
+.tree-item.active{
+  background:rgba(0,255,65,.08);
+  color:var(--green);
+  border-inline-start:2px solid var(--green);
+  padding-inline-start:14px;
+}
+.tree-item-prefix{color:var(--gray)}
+.tree-item-file{color:var(--green-2)}
+
+.story-content{
+  padding:32px 36px;
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+  overflow:hidden;
+}
+.story-file-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding-bottom:12px;
+  border-bottom:1px dashed var(--green-4);
+  margin-bottom:24px;
+  font-size:12px;
+  color:var(--green-3);
+}
+.story-file-header .file-name{color:var(--cyan)}
+.story-file-header .file-meta{margin-inline-start:auto;color:var(--gray)}
+
+.code-line{
+  display:flex;
+  gap:16px;
+  font-size:13px;
+  line-height:1.9;
+  padding:2px 0;
+  font-family:var(--font-mono);
+}
+.code-line-num{
+  color:var(--gray-2);
+  font-size:12px;
+  min-width:32px;
+  text-align:end;
+  user-select:none;
+  flex-shrink:0;
+}
+.code-line-content{
+  color:var(--green-2);
+  flex:1;
+  word-break:break-word;
+}
+html[dir="rtl"] .code-line-content{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.code-line-content .kw{color:var(--magenta);font-weight:600}
+.code-line-content .str{color:var(--cyan)}
+.code-line-content .num{color:var(--amber)}
+.code-line-content .comment{color:var(--gray-2);font-style:italic}
+.code-line-content .fn{color:var(--amber)}
+.code-line-content .op{color:var(--red)}
+.code-line-content .punc{color:var(--green-3)}
+
+/* ============================================================
+   STATS — Output
+   ============================================================ */
+.stats-output{
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+  padding:0;
+  font-family:var(--font-mono);
+}
+.output-header{
+  padding:12px 20px;
+  border-bottom:1px solid var(--green-4);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:11.5px;
+  color:var(--green-3);
+  background:var(--bg);
+}
+.output-header-dot{
+  width:8px;height:8px;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:blink 1s steps(2) infinite;
+}
+.output-header-title{color:var(--green)}
+.output-header-code{margin-inline-start:auto;color:var(--gray)}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+.stat-cell{
+  padding:28px 24px;
+  border-inline-end:1px solid var(--green-4);
+  border-bottom:none;
+  position:relative;
+}
+.stat-cell:last-child{border-inline-end:none}
+.stat-cell::before{
+  content:attr(data-key);
+  position:absolute;
+  top:12px;
+  inset-inline-end:16px;
+  font-size:10px;
+  color:var(--green-4);
+  letter-spacing:1px;
+}
+.stat-value{
+  font-family:var(--font-mono);
+  font-size:38px;
+  font-weight:700;
+  line-height:1;
+  color:var(--green);
+  margin-bottom:10px;
+  text-shadow:0 0 12px var(--green);
+  letter-spacing:-.02em;
+}
+.stat-value .unit{
+  font-size:.5em;
+  color:var(--green-2);
+  margin-inline-start:2px;
+}
+.stat-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:1px;
+  color:var(--green-3);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .stat-label{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+
+/* ============================================================
+   VALUES — Config file style
+   ============================================================ */
+.values-config{
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.config-header{
+  padding:12px 20px;
+  border-bottom:1px solid var(--green-4);
+  background:var(--bg);
+  color:var(--green-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.config-header .path{color:var(--cyan)}
+.config-header .meta{margin-inline-start:auto;color:var(--gray)}
+
+.config-body{
+  padding:20px 0;
+}
+.config-comment{
+  padding:0 24px 16px;
+  color:var(--gray);
+  font-size:12.5px;
+  line-height:1.8;
+}
+.config-comment::before{content:'// ';color:var(--green-4)}
+
+.config-block{
+  padding:16px 24px;
+  border-bottom:1px solid var(--green-4);
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:20px;
+  align-items:start;
+  transition:all .2s ease;
+}
+.config-block:last-child{border-bottom:none}
+.config-block:hover{
+  background:rgba(0,255,65,.03);
+}
+.config-key{
+  font-size:13px;
+  font-weight:600;
+  color:var(--amber);
+  white-space:nowrap;
+  padding-top:2px;
+}
+.config-key::before{content:'> ';color:var(--green-3);font-weight:400}
+.config-val{
+  font-size:13px;
+  color:var(--green-2);
+  line-height:1.85;
+}
+.config-val strong{
+  color:var(--green);
+  font-weight:700;
+}
+.config-val .val-tag{
+  display:inline-block;
+  padding:1px 7px;
+  border:1px solid var(--green-4);
+  font-size:11px;
+  color:var(--green-3);
+  margin-inline-end:6px;
+  letter-spacing:1px;
+}
+html[dir="rtl"] .config-key,
+html[dir="rtl"] .config-val{
+  font-family:'Vazirmatn',monospace;
+  font-size:13.5px;
+}
+
+/* ============================================================
+   TIMELINE — Git log style
+   ============================================================ */
+.git-log{
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.git-header{
+  padding:12px 20px;
+  border-bottom:1px solid var(--green-4);
+  background:var(--bg);
+  color:var(--green-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.git-header::before{
+  content:'$';
+  color:var(--green);
+  font-weight:700;
+}
+.git-header .cmd{color:var(--white)}
+.git-header .meta{margin-inline-start:auto;color:var(--gray)}
+
+.git-log-body{
+  padding:20px 24px;
+  font-size:12.5px;
+  line-height:1.85;
+}
+
+.git-commit{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:16px;
+  padding:16px 0;
+  border-bottom:1px dashed var(--green-4);
+  transition:background .2s ease;
+}
+.git-commit:last-child{border-bottom:none}
+.git-commit:hover{
+  background:rgba(0,255,65,.03);
+}
+.git-hash{
+  color:var(--amber);
+  font-weight:600;
+  font-family:var(--font-mono);
+  white-space:nowrap;
+}
+.git-hash::before{
+  content:'commit ';
+  color:var(--green-4);
+  font-weight:400;
+}
+.git-content{}
+.git-branch{
+  display:inline-block;
+  padding:1px 8px;
+  background:var(--green-4);
+  color:var(--green);
+  font-size:10.5px;
+  letter-spacing:1px;
+  margin-inline-end:8px;
+  border:1px solid var(--green-3);
+}
+.git-title{
+  color:var(--green);
+  font-weight:700;
+  font-size:13.5px;
+  margin-bottom:6px;
+  display:inline-block;
+}
+html[dir="rtl"] .git-title{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.git-date{
+  color:var(--gray);
+  font-size:11.5px;
+  margin-inline-end:12px;
+}
+.git-desc{
+  color:var(--green-2);
+  font-size:12.5px;
+  line-height:1.8;
+  margin-top:6px;
+}
+html[dir="rtl"] .git-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:13px;
+}
+
+/* ============================================================
+   TEAM — Process list
+   ============================================================ */
+.team-process{
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.process-header{
+  padding:12px 20px;
+  border-bottom:1px solid var(--green-4);
+  background:var(--bg);
+  display:grid;
+  grid-template-columns:80px 1fr 200px 100px;
+  gap:20px;
+  font-size:10.5px;
+  color:var(--green-3);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+.process-row{
+  display:grid;
+  grid-template-columns:80px 1fr 200px 100px;
+  gap:20px;
+  padding:20px;
+  border-bottom:1px solid var(--green-4);
+  align-items:center;
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.process-row:last-child{border-bottom:none}
+.process-row:hover{
+  background:rgba(0,255,65,.05);
+}
+.process-row:hover .process-user{color:var(--green);text-shadow:0 0 8px var(--green)}
+
+.process-pid{
+  color:var(--gray);
+  font-size:12px;
+}
+.process-user{
+  color:var(--green-2);
+  font-weight:700;
+  font-size:13.5px;
+  transition:all .2s ease;
+}
+html[dir="rtl"] .process-user{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.process-role{
+  color:var(--green-3);
+  font-size:12px;
+}
+html[dir="rtl"] .process-role{
+  font-family:'Vazirmatn',monospace;
+  font-size:13px;
+}
+.process-status{
+  font-size:11px;
+  color:var(--amber);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  letter-spacing:1px;
+}
+.process-status::before{
+  content:'';
+  width:6px;height:6px;
+  background:var(--amber);
+  box-shadow:0 0 6px var(--amber);
+}
+.process-status.online{
+  color:var(--green);
+}
+.process-status.online::before{
+  background:var(--green);
+  box-shadow:0 0 6px var(--green);
+}
+
+/* ============================================================
+   AWARDS — Package list
+   ============================================================ */
+.awards-pkg{
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.pkg-header{
+  padding:12px 20px;
+  border-bottom:1px solid var(--green-4);
+  background:var(--bg);
+  color:var(--green-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.pkg-header::before{
+  content:'$';
+  color:var(--green);
+  font-weight:700;
+}
+.pkg-header .cmd{color:var(--white)}
+.pkg-header .meta{margin-inline-start:auto;color:var(--gray)}
+
+.pkg-list{
+  padding:16px 0;
+}
+.pkg-item{
+  padding:14px 24px;
+  display:grid;
+  grid-template-columns:auto 1fr auto auto;
+  gap:20px;
+  align-items:center;
+  border-bottom:1px dashed var(--green-4);
+  transition:all .2s ease;
+  cursor:pointer;
+}
+.pkg-item:last-child{border-bottom:none}
+.pkg-item:hover{
+  background:rgba(0,255,65,.05);
+}
+.pkg-arrow{
+  color:var(--green-3);
+  font-weight:700;
+}
+.pkg-arrow::before{content:'>>>'}
+
+.pkg-year{
+  color:var(--amber);
+  font-weight:700;
+  font-size:14px;
+  letter-spacing:1px;
+}
+.pkg-name{
+  color:var(--green);
+  font-weight:600;
+  font-size:13px;
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .pkg-name{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.pkg-issuer{
+  color:var(--green-3);
+  font-size:12px;
+  text-align:end;
+}
+html[dir="rtl"] .pkg-issuer{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+.pkg-badge{
+  color:var(--green);
+  font-size:11px;
+  padding:2px 8px;
+  border:1px solid var(--green-3);
+  letter-spacing:1px;
+}
+
+/* ============================================================
+   OFFICES — Network nodes
+   ============================================================ */
+.network-map{
+  border:1px solid var(--green-4);
+  background:var(--bg-2);
+  font-family:var(--font-mono);
+}
+.network-header{
+  padding:12px 20px;
+  border-bottom:1px solid var(--green-4);
+  background:var(--bg);
+  color:var(--green-3);
+  font-size:11.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.network-header::before{
+  content:'$';
+  color:var(--green);
+  font-weight:700;
+}
+.network-header .cmd{color:var(--white)}
+.network-header .meta{margin-inline-start:auto;color:var(--gray)}
+
+.network-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+}
+.node{
+  padding:24px 20px;
+  border-inline-end:1px solid var(--green-4);
+  border-bottom:1px solid var(--green-4);
+  transition:background .2s ease;
+  cursor:pointer;
+}
+.node:nth-child(4n){border-inline-end:none}
+.node:hover{
+  background:rgba(0,255,65,.05);
+}
+.node-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:14px;
+  font-size:11px;
+  color:var(--green-3);
+  letter-spacing:1px;
+}
+.node-header::before{
+  content:'';
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 8px var(--green);
+  animation:blink 1.5s steps(2) infinite;
+}
+.node-id{color:var(--amber)}
+
+.node-city{
+  font-family:var(--font-mono);
+  font-size:20px;
+  font-weight:700;
+  color:var(--green);
+  text-shadow:0 0 8px var(--green);
+  margin-bottom:6px;
+  letter-spacing:-.01em;
+}
+html[dir="rtl"] .node-city{
+  font-family:'Vazirmatn',monospace;
+  font-size:18px;
+  letter-spacing:0;
+}
+.node-country{
+  font-size:11.5px;
+  color:var(--green-3);
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px dashed var(--green-4);
+  letter-spacing:1px;
+}
+html[dir="rtl"] .node-country{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+  letter-spacing:0;
+}
+.node-address{
+  font-size:11.5px;
+  line-height:1.75;
+  color:var(--green-2);
+}
+html[dir="rtl"] .node-address{
+  font-family:'Vazirmatn',monospace;
+  font-size:12px;
+}
+
+/* ============================================================
+   CTA — Command prompt
+   ============================================================ */
+.cta-terminal{
+  border:1px solid var(--green);
+  background:var(--bg);
+  padding:48px;
+  font-family:var(--font-mono);
+  position:relative;
+  box-shadow:
+    0 0 60px rgba(0,255,65,.15),
+    inset 0 0 60px rgba(0,255,65,.03);
+}
+.cta-terminal::before{
+  content:'';
+  position:absolute;
+  top:0;inset-inline-start:0;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  animation:scan 3s linear infinite;
+}
+@keyframes scan{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(100%)}
+}
+html[dir="rtl"] .cta-terminal::before{
+  animation-direction:reverse;
+}
+
+.cta-prompt-line{
+  font-size:13px;
+  color:var(--green-3);
+  margin-bottom:24px;
+  padding-bottom:12px;
+  border-bottom:1px dashed var(--green-4);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.cta-prompt-line .user{color:var(--green)}
+.cta-prompt-line .path{color:var(--cyan)}
+.cta-prompt-line .cmd{color:var(--white)}
+.cta-prompt-line .cursor{
+  display:inline-block;
+  width:8px;height:16px;
+  background:var(--green);
+  animation:blink 1s steps(2) infinite;
+}
+
+.cta-title{
+  font-family:var(--font-mono);
+  font-size:clamp(24px, 3.5vw, 42px);
+  font-weight:700;
+  line-height:1.2;
+  color:var(--green);
+  margin-bottom:20px;
+  text-shadow:0 0 12px var(--green);
+  letter-spacing:-.01em;
+}
+html[dir="rtl"] .cta-title{
+  font-family:'Vazirmatn',monospace;
+  font-weight:800;
+  font-size:clamp(22px, 3vw, 34px);
+  letter-spacing:0;
+  line-height:1.3;
+}
+.cta-title .accent{color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+
+.cta-desc{
+  font-size:13.5px;
+  line-height:1.85;
+  color:var(--green-2);
+  margin-bottom:32px;
+  max-width:640px;
+}
+html[dir="rtl"] .cta-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+
+.cta-buttons{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  padding:40px 32px 24px;
+  background:var(--bg-2);
+  border-top:1px solid var(--green-4);
+  position:relative;
+  z-index:5;
+  font-family:var(--font-mono);
+}
+.footer-inner{max-width:1600px;margin:0 auto}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:40px;
+  padding-bottom:32px;
+  border-bottom:1px dashed var(--green-4);
+  margin-bottom:24px;
+}
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.footer-logo{
+  font-size:13px;
+  font-weight:700;
+  color:var(--green);
+  padding:2px 6px;
+  border:1px solid var(--green);
+}
+.footer-brand-name{
+  font-size:14px;
+  font-weight:700;
+  color:var(--green);
+  letter-spacing:2px;
+}
+.footer-desc{
+  font-size:12px;
+  line-height:1.8;
+  color:var(--green-3);
+  max-width:340px;
+}
+html[dir="rtl"] .footer-desc{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+.footer-col-title{
+  font-size:10.5px;
+  color:var(--amber);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+.footer-col-title::before{content:'## ';color:var(--green-3)}
+html[dir="rtl"] .footer-col-title{
+  font-family:'Vazirmatn',monospace;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+.footer-links{display:flex;flex-direction:column;gap:8px}
+.footer-link{
+  background:none;border:none;
+  color:var(--green-3);
+  font-family:var(--font-mono);
+  font-size:12px;
+  cursor:pointer;
+  text-align:inherit;
+  padding:2px 0;
+  transition:all .15s ease;
+  width:fit-content;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+html[dir="rtl"] .footer-link{
+  font-family:'Vazirmatn',monospace;
+  font-size:12.5px;
+}
+.footer-link::before{
+  content:'$';
+  color:var(--green-4);
+  transition:color .15s ease;
+}
+.footer-link:hover{
+  color:var(--green);
+  text-shadow:0 0 6px var(--green);
+}
+.footer-link:hover::before{color:var(--green)}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:20px;
+  border-top:1px dashed var(--green-4);
+  font-size:11px;
+  color:var(--green-3);
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .footer-bottom{
+  font-family:'Vazirmatn',monospace;
+  font-size:12px;
+}
+.footer-bottom-links{display:flex;gap:20px;flex-wrap:wrap}
+.footer-bottom-link{
+  background:none;border:none;
+  color:var(--green-3);
+  font-family:inherit;
+  font-size:inherit;
+  cursor:pointer;
+  padding:0;
+  transition:all .15s ease;
+}
+.footer-bottom-link:hover{
+  color:var(--green);
+  text-shadow:0 0 6px var(--green);
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.in-view{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+.mobile-menu{
+  position:fixed;
+  inset:86px 0 auto 0;
+  background:var(--bg);
+  border-bottom:2px solid var(--green);
+  padding:0;
+  display:flex;
+  flex-direction:column;
+  z-index:98;
+  transform:translateY(-120%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s ease;
+  font-family:var(--font-mono);
+}
+.mobile-menu.on{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.mobile-link{
+  background:transparent;
+  border:none;
+  border-bottom:1px solid var(--green-4);
+  color:var(--green-3);
+  font-family:var(--font-mono);
+  font-size:13px;
+  font-weight:600;
+  padding:18px 24px;
+  text-align:inherit;
+  cursor:pointer;
+  transition:all .15s ease;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+html[dir="rtl"] .mobile-link{
+  font-family:'Vazirmatn',monospace;
+  font-size:14px;
+}
+.mobile-link::before{
+  content:'$';
+  color:var(--green);
+  font-weight:700;
+}
+.mobile-link:hover,
+.mobile-link:active{
+  background:var(--green);
+  color:var(--bg);
+  text-shadow:none;
+}
+.mobile-link:hover::before{color:var(--bg)}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:24px;
+  inset-inline-start:24px;
+  padding:14px 20px;
+  background:var(--bg-3);
+  border:1px solid var(--green);
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  transform:translateY(200px);
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+  z-index:1000;
+  pointer-events:none;
+  max-width:90vw;
+  box-shadow:0 0 30px rgba(0,255,65,.3);
+}
+html[dir="rtl"] .toast{
+  font-family:'Vazirmatn',monospace;
+  font-size:13.5px;
+}
+.toast.on{
+  opacity:1;
+  transform:translateY(0);
+}
+.toast::before{
+  content:'[OK]';
+  color:var(--green);
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1100px){
+  .story-layout{grid-template-columns:1fr}
+  .story-tree{border-inline-end:none;border-bottom:1px solid var(--green-4)}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:nth-child(2n){border-inline-end:none}
+  .stat-cell:nth-child(1),.stat-cell:nth-child(2){border-bottom:1px solid var(--green-4)}
+  .network-grid{grid-template-columns:repeat(2,1fr)}
+  .node:nth-child(2n){border-inline-end:none}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+
+@media(max-width:768px){
+  .term-bar-inner{padding:0 8px;height:34px}
+  .term-meta{display:none}
+  .term-title{font-size:10px}
+  .nav{top:34px}
+  .nav-inner{height:44px;padding:0 8px;gap:0}
+  .nav-links{display:none}
+  .nav-lang{display:none}
+  .nav-cta{padding:6px 10px;font-size:11px}
+  .nav-cta span{display:none}
+  .nav-cta::after{content:'>';font-size:14px}
+  .menu-btn{display:flex;padding:6px 8px}
+  .logo{padding-inline-end:10px}
+  .logo-text{font-size:12px;letter-spacing:1px}
+  .nav-actions{padding-inline-start:8px;gap:6px}
+  .mobile-menu{inset:78px 0 auto 0}
+
+  .hero{padding:40px 16px 40px}
+  .hero-prompt{font-size:11.5px;flex-wrap:wrap}
+  .hero-boot{font-size:11px;line-height:1.9}
+  .hero-title{font-size:26px;line-height:1.25}
+  .hero-desc{font-size:12.5px;padding:14px 16px}
+  .btn{padding:10px 16px;font-size:12px;width:100%;justify-content:center}
+  .hero-actions{flex-direction:column}
+  .hero-live{grid-template-columns:1fr 1fr}
+  .live-cell:nth-child(2){border-inline-end:none}
+  .live-cell:nth-child(1),.live-cell:nth-child(2){border-bottom:1px solid var(--green-4)}
+  .live-cell{padding:14px 16px}
+  .live-cell-value{font-size:20px}
+
+  .section{padding:40px 16px}
+  .section-line{font-size:11px;flex-wrap:wrap}
+  .section-line-blocks{display:none}
+  .section-title{font-size:22px}
+  .section-desc{font-size:12.5px;padding:10px 14px;margin-bottom:32px}
+
+  .story-content{padding:20px 16px}
+  .code-line{font-size:11.5px;gap:10px}
+  .code-line-num{min-width:24px;font-size:10.5px}
+  .tree-item{font-size:11.5px}
+
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-cell{padding:18px 14px}
+  .stat-value{font-size:26px}
+  .stat-label{font-size:10.5px}
+
+  .config-block{grid-template-columns:1fr;gap:6px;padding:14px 16px}
+  .config-key{font-size:12px}
+  .config-val{font-size:12px}
+
+  .git-log-body{padding:14px 14px}
+  .git-commit{grid-template-columns:1fr;gap:6px}
+  .git-hash{font-size:11.5px}
+  .git-title{font-size:12.5px}
+
+  .process-header{display:none}
+  .process-row{
+    grid-template-columns:1fr;
+    gap:6px;
+    padding:16px;
+  }
+  .process-pid{font-size:10.5px}
+  .process-user{font-size:13px}
+  .process-role{font-size:11.5px}
+
+  .pkg-item{grid-template-columns:1fr;gap:6px;padding:14px 16px}
+  .pkg-arrow{display:none}
+  .pkg-issuer{text-align:start}
+
+  .network-grid{grid-template-columns:1fr}
+  .node{border-inline-end:none;padding:18px 16px}
+  .node-city{font-size:17px}
+
+  .cta-terminal{padding:28px 20px}
+  .cta-title{font-size:20px}
+  .cta-desc{font-size:12.5px}
+  .cta-buttons{flex-direction:column}
+
+  .footer{padding:32px 16px 20px}
+  .footer-top{grid-template-columns:1fr;gap:24px;padding-bottom:24px}
+  .footer-bottom{flex-direction:column;gap:12px;align-items:flex-start}
+  .footer-bottom-links{flex-wrap:wrap;gap:14px}
+
+  .toast{inset-inline-start:16px;inset-inline-end:16px;bottom:16px}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:22px}
+  .section-title{font-size:19px}
+  .stats-grid{grid-template-columns:1fr}
+  .stat-cell{border-inline-end:none !important;border-bottom:1px solid var(--green-4)}
+  .stat-cell:last-child{border-bottom:none}
+  .hero-live{grid-template-columns:1fr}
+  .live-cell{border-inline-end:none !important;border-bottom:1px solid var(--green-4)}
+  .cta-title{font-size:18px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+  .crt-flicker{animation:none;opacity:.1}
+}
+</style>
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <!-- CRT EFFECTS -->
+  <div class="crt-lines" aria-hidden="true"></div>
+  <div class="crt-vignette" aria-hidden="true"></div>
+  <div class="crt-flicker" aria-hidden="true"></div>
+
+  <!-- ============ TERMINAL TOP BAR ============ -->
+  <div class="term-bar">
+    <div class="term-bar-inner">
+      <div class="term-dots">
+        <span class="term-dot red"></span>
+        <span class="term-dot yellow"></span>
+        <span class="term-dot green"></span>
+      </div>
+      <div class="term-title">root@nexus: ~/about --verbose | NEXUS Corp</div>
+      <div class="term-meta">
+        <span class="term-meta-item" id="clock">00:00:00</span>
+        <span class="term-meta-item">UTF-8</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="scrollToTop()">
+        <span class="logo-mark">N</span>
+        <span class="logo-text">NEXUS<span class="logo-cursor"></span></span>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-link active" onclick="scrollToId('story')">
+          <span class="nav-link-prompt">./</span><span data-fa="داستان" data-en="story">داستان</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('values')">
+          <span class="nav-link-prompt">./</span><span data-fa="ارزش‌ها" data-en="values">ارزش‌ها</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('timeline')">
+          <span class="nav-link-prompt">./</span><span data-fa="تاریخچه" data-en="log">تاریخچه</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('team')">
+          <span class="nav-link-prompt">./</span><span data-fa="تیم" data-en="ps">تیم</span>
+        </button>
+        <button class="nav-link" onclick="scrollToId('awards')">
+          <span class="nav-link-prompt">./</span><span data-fa="جوایز" data-en="pkg">جوایز</span>
+        </button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-lang" onclick="toggleLang()"><span id="langBtn">EN</span></button>
+        <button class="nav-cta" onclick="contactUs()">
+          <span data-fa="تماس" data-en="Contact">تماس</span>
+          <span style="color:var(--green-4)">$</span>
+        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="scrollToId('story')" data-fa="داستان ما" data-en="our story">داستان ما</button>
+    <button class="mobile-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="values">ارزش‌ها</button>
+    <button class="mobile-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="timeline">تاریخچه</button>
+    <button class="mobile-link" onclick="scrollToId('team')" data-fa="تیم" data-en="team">تیم</button>
+    <button class="mobile-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="awards">جوایز</button>
+    <button class="mobile-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="offices">دفاتر</button>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-prompt">
+      <span class="hero-prompt-path">~/nexus</span>
+      <span class="hero-prompt-sep">::</span>
+      <span class="hero-prompt-user">root</span>
+      <span class="hero-prompt-sep">></span>
+      <span class="hero-prompt-cmd">cat about.md --format=md --verbose</span>
+    </div>
+
+    <div class="hero-boot">
+<span class="time">[00.000]</span> <span class="ok">[ OK ]</span> Booting NEXUS Corp systemd...
+<span class="time">[00.142]</span> <span class="ok">[ OK ]</span> Mounted /dev/soul
+<span class="time">[00.287]</span> <span class="ok">[ OK ]</span> Loaded 247 modules (team members)
+<span class="time">[00.415]</span> <span class="info">[INFO]</span> Connecting to global network...
+<span class="time">[00.612]</span> <span class="ok">[ OK ]</span> Connected: 45 countries active
+<span class="time">[00.756]</span> <span class="warn">[WARN]</span> Uptime: 7 years and counting
+<span class="time">[00.891]</span> <span class="ok">[ OK ]</span> Ready.
+    </div>
+
+    <h1 class="hero-title">
+      <span class="prefix">$</span>
+      <span data-fa="ما هستیم" data-en="we are">ما هستیم</span>
+      <span class="slash">/</span>
+      <span class="accent" data-fa="نکسوس" data-en="NEXUS">نکسوس</span>
+      <span class="slash">/</span>
+      <span data-fa="شرکت فناوری" data-en="tech corp">شرکت فناوری</span>
+      <span class="prefix">_</span>
+    </h1>
+
+    <p class="hero-desc" data-fa="<span class='kw'>NEXUS Corp</span> یک شرکت فناوری مستقل است که از سال <span class='num'>2018</span> در حوزه‌ی <span class='str'>معماری نرم‌افزار</span>، <span class='str'>امنیت سایبری</span>، و <span class='str'>هوش مصنوعی</span> فعالیت می‌کند. ما محصولاتی می‌سازیم که برای <span class='num'>1.2M+</span> کاربر در <span class='num'>45</span> کشور جهان، <span class='str'>زیرساخت حیاتی</span> فراهم می‌کنند." data-en="<span class='kw'>NEXUS Corp</span> is an independent technology company operating since <span class='num'>2018</span> in <span class='str'>software architecture</span>, <span class='str'>cybersecurity</span>, and <span class='str'>artificial intelligence</span>. We build products that provide <span class='str'>critical infrastructure</span> for <span class='num'>1.2M+</span> users in <span class='num'>45</span> countries.">
+      <span class="kw">NEXUS Corp</span> یک شرکت فناوری مستقل است که از سال <span class="num">2018</span> در حوزه‌ی <span class="str">معماری نرم‌افزار</span>، <span class="str">امنیت سایبری</span>، و <span class="str">هوش مصنوعی</span> فعالیت می‌کند. ما محصولاتی می‌سازیم که برای <span class="num">1.2M+</span> کاربر در <span class="num">45</span> کشور جهان، <span class="str">زیرساخت حیاتی</span> فراهم می‌کنند.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn primary" onclick="scrollToId('story')">
+        <span data-fa="اجرای داستان" data-en="Run Story">اجرای داستان</span>
+      </button>
+      <button class="btn secondary" onclick="contactUs()">
+        <span data-fa="شروع همکاری" data-en="Start Partnership">شروع همکاری</span>
+      </button>
+    </div>
+
+    <div class="hero-live">
+      <div class="live-cell">
+        <div class="live-cell-label" data-fa="کاربران فعال" data-en="active users">کاربران فعال</div>
+        <div class="live-cell-value"><span data-counter="1250000">0</span><span class="caret"></span></div>
+      </div>
+      <div class="live-cell">
+        <div class="live-cell-label" data-fa="کشور" data-en="countries">کشور</div>
+        <div class="live-cell-value">45<span class="caret"></span></div>
+      </div>
+      <div class="live-cell">
+        <div class="live-cell-label" data-fa="اعضای تیم" data-en="team members">اعضای تیم</div>
+        <div class="live-cell-value">247<span class="caret"></span></div>
+      </div>
+      <div class="live-cell">
+        <div class="live-cell-label" data-fa="آپ‌تایم" data-en="uptime">آپ‌تایم</div>
+        <div class="live-cell-value">99.99<span class="unit">%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="section" id="story">
+    <div class="section-line">
+      <span class="section-line-path">~/nexus</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="story --verbose" data-en="story --verbose">story --verbose</span>
+      <span class="section-line-blocks">▓▓▓▓▓░░░░░ 50%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="ما از یک <span class='accent'>اتاق کوچک</span> شروع کردیم" data-en="We started from a <span class='accent'>small room</span>">ما از یک <span class="accent">اتاق کوچک</span> شروع کردیم</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='comment'># داستان NEXUS در سال 2018 آغاز شد — با چهار مهندس، یک لپ‌تاپ، و یک هدف مشترک.</span>" data-en="<span class='comment'># The NEXUS story began in 2018 — with four engineers, one laptop, and a shared goal.</span>">
+      <span class="comment"># داستان NEXUS در سال 2018 آغاز شد — با چهار مهندس، یک لپ‌تاپ، و یک هدف مشترک.</span>
+    </p>
+
+    <div class="story-layout reveal">
+      <aside class="story-tree">
+        <div class="tree-header">~/nexus/history</div>
+        <div class="tree-item active">
+          <span class="tree-item-prefix">▸</span>
+          <span class="tree-item-file">story.md</span>
+        </div>
+        <div class="tree-item">
+          <span class="tree-item-prefix">▸</span>
+          <span class="tree-item-file">founding.txt</span>
+        </div>
+        <div class="tree-item">
+          <span class="tree-item-prefix">▸</span>
+          <span class="tree-item-file">milestones.log</span>
+        </div>
+        <div class="tree-item">
+          <span class="tree-item-prefix">▸</span>
+          <span class="tree-item-file">philosophy.md</span>
+        </div>
+        <div class="tree-item">
+          <span class="tree-item-prefix">▸</span>
+          <span class="tree-item-file">manifesto.json</span>
+        </div>
+        <div class="tree-item">
+          <span class="tree-item-prefix">▸</span>
+          <span class="tree-item-file">legacy.toml</span>
+        </div>
+      </aside>
+
+      <div class="story-content">
+        <div class="story-file-header">
+          <span class="tree-item-prefix">▸</span>
+          <span class="file-name">~/nexus/history/story.md</span>
+          <span class="file-meta">UTF-8 · LF · 2.1 KB</span>
+        </div>
+
+        <div class="code-line">
+          <span class="code-line-num">001</span>
+          <span class="code-line-content"><span class="comment"># The NEXUS Story</span></span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">002</span>
+          <span class="code-line-content"></span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">003</span>
+          <span class="code-line-content" data-fa="<span class='kw'>در سال 2018</span>، چهار مهندس از شرکت‌های برتر فناوری در یک اتاق کوچک گرد هم آمدند." data-en="<span class='kw'>In 2018</span>, four engineers from top tech companies gathered in a small room.">
+            <span class="kw">در سال 2018</span>، چهار مهندس از شرکت‌های برتر فناوری در یک اتاق کوچک گرد هم آمدند.
+          </span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">004</span>
+          <span class="code-line-content" data-fa="هر کدام از جای متفاوتی آمده بودند، اما یک چیز مشترک داشتند:" data-en="Each came from a different place, but shared one thing:">
+            هر کدام از جای متفاوتی آمده بودند، اما یک چیز مشترک داشتند:
+          </span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">005</span>
+          <span class="code-line-content" data-fa="<span class='str'>'باور به این‌که فناوری می‌تواند زیبا و بی‌رحم باشد'</span>." data-en="<span class='str'>'a belief that technology can be beautiful and ruthless'</span>.">
+            <span class="str">'باور به این‌که فناوری می‌تواند زیبا و بی‌رحم باشد'</span>.
+          </span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">006</span>
+          <span class="code-line-content"></span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">007</span>
+          <span class="code-line-content" data-fa="نام <span class='fn'>NEXUS</span> را انتخاب کردیم چون اینترنت، گره‌ای است که همه چیز را به هم متصل می‌کند." data-en="We chose the name <span class='fn'>NEXUS</span> because the internet is the node that connects everything.">
+            نام <span class="fn">NEXUS</span> را انتخاب کردیم چون اینترنت، گره‌ای است که همه چیز را به هم متصل می‌کند.
+          </span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">008</span>
+          <span class="code-line-content" data-fa="اولین محصول ما یک زیرساخت امنیتی بود که در <span class='num'>90</span> روز ساخته شد." data-en="Our first product was a security infrastructure built in <span class='num'>90</span> days.">
+            اولین محصول ما یک زیرساخت امنیتی بود که در <span class="num">90</span> روز ساخته شد.
+          </span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">009</span>
+          <span class="code-line-content"></span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">010</span>
+          <span class="code-line-content" data-fa="امروز، پس از <span class='num'>7</span> سال، بیش از <span class='num'>1.2M</span> کاربر در <span class='num'>45</span> کشور به ما اعتماد می‌کنند." data-en="Today, after <span class='num'>7</span> years, over <span class='num'>1.2M</span> users in <span class='num'>45</span> countries trust us.">
+            امروز، پس از <span class="num">7</span> سال، بیش از <span class="num">1.2M</span> کاربر در <span class="num">45</span> کشور به ما اعتماد می‌کنند.
+          </span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">011</span>
+          <span class="code-line-content"></span>
+        </div>
+        <div class="code-line">
+          <span class="code-line-num">012</span>
+          <span class="code-line-content"><span class="comment"># EOF</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="stats-output reveal">
+      <div class="output-header">
+        <span class="output-header-dot"></span>
+        <span class="output-header-title">$ nexus-stats --live --format=table</span>
+        <span class="output-header-code">exit 0</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-cell" data-key="users">
+          <div class="stat-value"><span data-counter="1250000">0</span></div>
+          <div class="stat-label" data-fa="کاربر فعال" data-en="Active Users">کاربر فعال</div>
+        </div>
+        <div class="stat-cell" data-key="countries">
+          <div class="stat-value">45</div>
+          <div class="stat-label" data-fa="کشور" data-en="Countries">کشور</div>
+        </div>
+        <div class="stat-cell" data-key="team">
+          <div class="stat-value">247</div>
+          <div class="stat-label" data-fa="اعضای تیم" data-en="Team Members">اعضای تیم</div>
+        </div>
+        <div class="stat-cell" data-key="uptime">
+          <div class="stat-value">99.99<span class="unit">%</span></div>
+          <div class="stat-label" data-fa="رضایت" data-en="Uptime">رضایت</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="section" id="values">
+    <div class="section-line">
+      <span class="section-line-path">~/nexus</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="cat values.conf" data-en="cat values.conf">cat values.conf</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="اصول <span class='warn'>غیرقابل‌مذاکره</span> ما" data-en="Our <span class='warn'>non-negotiable</span> principles">اصول <span class="warn">غیرقابل‌مذاکره</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='comment'># شش اصلی که در تمام تصمیمات NEXUS جاری هستند.</span>" data-en="<span class='comment'># Six principles running through every NEXUS decision.</span>">
+      <span class="comment"># شش اصلی که در تمام تصمیمات NEXUS جاری هستند.</span>
+    </p>
+
+    <div class="values-config reveal">
+      <div class="config-header">
+        <span class="path">/etc/nexus/values.conf</span>
+        <span class="meta">6 rules · 0 errors</span>
+      </div>
+
+      <div class="config-body">
+        <div class="config-comment" data-fa="فایل تنظیمات اصلی NEXUS — قابل ویرایش فقط توسط تیم اصلی" data-en="NEXUS main configuration file — editable only by core team">
+          فایل تنظیمات اصلی NEXUS — قابل ویرایش فقط توسط تیم اصلی
+        </div>
+
+        <div class="config-block">
+          <div class="config-key">security</div>
+          <div class="config-val" data-fa="<span class='val-tag'>CRITICAL</span> <strong>امنیت مطلق</strong> — رمزنگاری AES-256، معماری Zero-Trust، ممیزی مستقل فصلی." data-en="<span class='val-tag'>CRITICAL</span> <strong>Absolute Security</strong> — AES-256 encryption, Zero-Trust architecture, quarterly independent audits.">
+            <span class="val-tag">CRITICAL</span> <strong>امنیت مطلق</strong> — رمزنگاری AES-256، معماری Zero-Trust، ممیزی مستقل فصلی.
+          </div>
+        </div>
+
+        <div class="config-block">
+          <div class="config-key">innovation</div>
+          <div class="config-val" data-fa="<span class='val-tag'>DAILY</span> <strong>نوآوری مداوم</strong> — هر سه ماه یک قابلیت جدید، هر سال یک بازآفرینی." data-en="<span class='val-tag'>DAILY</span> <strong>Continuous Innovation</strong> — a new feature every three months, a reinvention every year.">
+            <span class="val-tag">DAILY</span> <strong>نوآوری مداوم</strong> — هر سه ماه یک قابلیت جدید، هر سال یک بازآفرینی.
+          </div>
+        </div>
+
+        <div class="config-block">
+          <div class="config-key">quality</div>
+          <div class="config-val" data-fa="<span class='val-tag'>STRICT</span> <strong>کیفیت بی‌نقص</strong> — هر خط کد، هر پیکسل، هر میلی‌ثانیه اندازه‌گیری می‌شود." data-en="<span class='val-tag'>STRICT</span> <strong>Flawless Quality</strong> — every line of code, every pixel, every millisecond is measured.">
+            <span class="val-tag">STRICT</span> <strong>کیفیت بی‌نقص</strong> — هر خط کد، هر پیکسل، هر میلی‌ثانیه اندازه‌گیری می‌شود.
+          </div>
+        </div>
+
+        <div class="config-block">
+          <div class="config-key">transparency</div>
+          <div class="config-val" data-fa="<span class='val-tag'>ALWAYS</span> <strong>شفافیت کامل</strong> — تمام داده‌ها متعلق به کاربران است؛ ما امانت‌داریم." data-en="<span class='val-tag'>ALWAYS</span> <strong>Radical Transparency</strong> — all data belongs to users; we are guardians.">
+            <span class="val-tag">ALWAYS</span> <strong>شفافیت کامل</strong> — تمام داده‌ها متعلق به کاربران است؛ ما امانت‌داریم.
+          </div>
+        </div>
+
+        <div class="config-block">
+          <div class="config-key">team</div>
+          <div class="config-val" data-fa="<span class='val-tag'>PRIORITY</span> <strong>تیم محور</strong> — بدون تیم، هیچ موفقیتی ممکن نیست." data-en="<span class='val-tag'>PRIORITY</span> <strong>Team First</strong> — without a team, no success is possible.">
+            <span class="val-tag">PRIORITY</span> <strong>تیم محور</strong> — بدون تیم، هیچ موفقیتی ممکن نیست.
+          </div>
+        </div>
+
+        <div class="config-block">
+          <div class="config-key">long_term</div>
+          <div class="config-val" data-fa="<span class='val-tag'>DECADE</span> <strong>تفکر بلندمدت</strong> — برنامه‌ریزی برای ده سال آینده، نه سه ماه." data-en="<span class='val-tag'>DECADE</span> <strong>Long-Term Thinking</strong> — planning for the next ten years, not three months.">
+            <span class="val-tag">DECADE</span> <strong>تفکر بلندمدت</strong> — برنامه‌ریزی برای ده سال آینده، نه سه ماه.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline">
+    <div class="section-line">
+      <span class="section-line-path">~/nexus</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="git log --all" data-en="git log --all">git log --all</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="تاریخچه <span class='accent'>commit</span> های ما" data-en="Our <span class='accent'>commit</span> history">تاریخچه <span class="accent">commit</span> های ما</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='comment'># هر commit یک نقطه‌ی عطف در سفر هفت‌ساله‌ی ما است.</span>" data-en="<span class='comment'># Every commit is a milestone in our seven-year journey.</span>">
+      <span class="comment"># هر commit یک نقطه‌ی عطف در سفر هفت‌ساله‌ی ما است.</span>
+    </p>
+
+    <div class="git-log reveal">
+      <div class="git-header">
+        <span class="cmd">$ git log --oneline --all --graph</span>
+        <span class="meta">7 commits · main</span>
+      </div>
+
+      <div class="git-log-body">
+        <div class="git-commit">
+          <div class="git-hash">a3f9c21</div>
+          <div class="git-content">
+            <span class="git-date">2018-03-15</span>
+            <span class="git-branch">HEAD</span>
+            <div class="git-title" data-fa="تأسیس NEXUS Corp" data-en="NEXUS Corp Founded">تأسیس NEXUS Corp</div>
+            <div class="git-desc" data-fa="چهار بنیان‌گذار، یک اتاق کوچک در تهران، و یک رویای مشترک." data-en="Four founders, a small room in Tehran, and a shared dream.">چهار بنیان‌گذار، یک اتاق کوچک در تهران، و یک رویای مشترک.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">b7e2f45</div>
+          <div class="git-content">
+            <span class="git-date">2019-08-22</span>
+            <span class="git-branch">v0.1</span>
+            <div class="git-title" data-fa="اولین 1000 کاربر" data-en="First 1000 Users">اولین 1000 کاربر</div>
+            <div class="git-desc" data-fa="اولین محصول منتشر شد و در کمتر از 90 روز به 1000 کاربر رسید." data-en="The first product shipped and reached 1000 users in under 90 days.">اولین محصول منتشر شد و در کمتر از 90 روز به 1000 کاربر رسید.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">c1a8d92</div>
+          <div class="git-content">
+            <span class="git-date">2020-05-10</span>
+            <span class="git-branch">v0.5</span>
+            <div class="git-title" data-fa="افتتاح دفتر دبی" data-en="Dubai Office Opened">افتتاح دفتر دبی</div>
+            <div class="git-desc" data-fa="اولین دفتر بین‌المللی در دبی افتتاح شد." data-en="First international office opened in Dubai.">اولین دفتر بین‌المللی در دبی افتتاح شد.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">d5f3b71</div>
+          <div class="git-content">
+            <span class="git-date">2021-11-03</span>
+            <span class="git-branch">v1.0</span>
+            <div class="git-title" data-fa="انتشار موتور هوش مصنوعی NEXUS" data-en="NEXUS AI Engine Released">انتشار موتور هوش مصنوعی NEXUS</div>
+            <div class="git-desc" data-fa="موتور هوش مصنوعی اختصاصی ما رونمایی شد." data-en="Our proprietary AI engine was unveiled.">موتور هوش مصنوعی اختصاصی ما رونمایی شد.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">e9d4c05</div>
+          <div class="git-content">
+            <span class="git-date">2022-07-18</span>
+            <span class="git-branch">v2.0</span>
+            <div class="git-title" data-fa="گسترش به برلین و سانفرانسیسکو" data-en="Expansion to Berlin & San Francisco">گسترش به برلین و سانفرانسیسکو</div>
+            <div class="git-desc" data-fa="گسترش به اروپا و آمریکای شمالی." data-en="Expansion into Europe and North America.">گسترش به اروپا و آمریکای شمالی.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">f2b6a48</div>
+          <div class="git-content">
+            <span class="git-date">2023-09-12</span>
+            <span class="git-branch">v3.0</span>
+            <div class="git-title" data-fa="مرز یک میلیون کاربر" data-en="One Million Users Milestone">مرز یک میلیون کاربر</div>
+            <div class="git-desc" data-fa="بیش از یک میلیون کاربر فعال در 45 کشور جهان." data-en="Over one million active users in 45 countries.">بیش از یک میلیون کاربر فعال در 45 کشور جهان.</div>
+          </div>
+        </div>
+
+        <div class="git-commit">
+          <div class="git-hash">a8e1f93</div>
+          <div class="git-content">
+            <span class="git-date">2025-01-01</span>
+            <span class="git-branch">v4.0</span>
+            <div class="git-title" data-fa="نسخه چهارم — امروز" data-en="Volume IV — Today">نسخه چهارم — امروز</div>
+            <div class="git-desc" data-fa="با 247 متخصص در چهار قاره، در حال ساختن نسل بعدی هستیم." data-en="With 247 experts across four continents, we are building the next generation.">با 247 متخصص در چهار قاره، در حال ساختن نسل بعدی هستیم.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section" id="team">
+    <div class="section-line">
+      <span class="section-line-path">~/nexus</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="ps aux --team" data-en="ps aux --team">ps aux --team</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="لیست <span class='accent'>فرایندهای</span> فعال" data-en="List of <span class='accent'>active processes</span>">لیست <span class="accent">فرایندهای</span> فعال</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='comment'># تیم رهبری NEXUS — همه در وضعیت آنلاین.</span>" data-en="<span class='comment'># NEXUS leadership team — all in online state.</span>">
+      <span class="comment"># تیم رهبری NEXUS — همه در وضعیت آنلاین.</span>
+    </p>
+
+    <div class="team-process reveal">
+      <div class="process-header">
+        <span>PID</span>
+        <span>USER</span>
+        <span>ROLE</span>
+        <span>STATUS</span>
+      </div>
+
+      <div class="process-row">
+        <div class="process-pid">0001</div>
+        <div class="process-user" data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</div>
+        <div class="process-role" data-fa="بنیان‌گذار · مدیرعامل" data-en="Founder · CEO">بنیان‌گذار · مدیرعامل</div>
+        <div class="process-status online">ONLINE</div>
+      </div>
+
+      <div class="process-row">
+        <div class="process-pid">0002</div>
+        <div class="process-user" data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</div>
+        <div class="process-role" data-fa="مدیر ارشد فناوری" data-en="Chief Technology Officer">مدیر ارشد فناوری</div>
+        <div class="process-status online">ONLINE</div>
+      </div>
+
+      <div class="process-row">
+        <div class="process-pid">0003</div>
+        <div class="process-user" data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</div>
+        <div class="process-role" data-fa="مدیر طراحی" data-en="Head of Design">مدیر طراحی</div>
+        <div class="process-status online">ONLINE</div>
+      </div>
+
+      <div class="process-row">
+        <div class="process-pid">0004</div>
+        <div class="process-user" data-fa="مریم حسینی" data-en="Maryam Hosseini">مریم حسینی</div>
+        <div class="process-role" data-fa="مدیر محصول" data-en="Head of Product">مدیر محصول</div>
+        <div class="process-status online">ONLINE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section class="section" id="awards">
+    <div class="section-line">
+      <span class="section-line-path">~/nexus</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="pkg list --awards" data-en="pkg list --awards">pkg list --awards</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="جوایز <span class='accent'>دریافت‌شده</span>" data-en="<span class='accent'>Received</span> awards">جوایز <span class="accent">دریافت‌شده</span></h2>
+
+    <p class="section-desc reveal" data-fa="<span class='comment'># جوایز و افتخارات بین‌المللی NEXUS Corp.</span>" data-en="<span class='comment'># NEXUS Corp international awards and honors.</span>">
+      <span class="comment"># جوایز و افتخارات بین‌المللی NEXUS Corp.</span>
+    </p>
+
+    <div class="awards-pkg reveal">
+      <div class="pkg-header">
+        <span class="cmd">$ nexus-pkg --list-installed --awards</span>
+        <span class="meta">4 packages installed</span>
+      </div>
+
+      <div class="pkg-list">
+        <div class="pkg-item">
+          <span class="pkg-arrow"></span>
+          <span class="pkg-year">2023</span>
+          <span class="pkg-name" data-fa="بهترین استودیوی فناوری خاورمیانه" data-en="Best Tech Studio in the Middle East">بهترین استودیوی فناوری خاورمیانه</span>
+          <span class="pkg-issuer">Middle East Tech Awards</span>
+          <span class="pkg-badge">🏆</span>
+        </div>
+
+        <div class="pkg-item">
+          <span class="pkg-arrow"></span>
+          <span class="pkg-year">2022</span>
+          <span class="pkg-name" data-fa="نوآوری برتر در هوش مصنوعی" data-en="Top Innovation in AI">نوآوری برتر در هوش مصنوعی</span>
+          <span class="pkg-issuer">Global AI Summit</span>
+          <span class="pkg-badge">🥇</span>
+        </div>
+
+        <div class="pkg-item">
+          <span class="pkg-arrow"></span>
+          <span class="pkg-year">2021</span>
+          <span class="pkg-name" data-fa="طراحی تجربه کاربری برتر" data-en="Best UX Design">طراحی تجربه کاربری برتر</span>
+          <span class="pkg-issuer">UX Design Awards</span>
+          <span class="pkg-badge">🎨</span>
+        </div>
+
+        <div class="pkg-item">
+          <span class="pkg-arrow"></span>
+          <span class="pkg-year">2020</span>
+          <span class="pkg-name" data-fa="استارتاپ برتر امنیتی" data-en="Top Security Startup">استارتاپ برتر امنیتی</span>
+          <span class="pkg-issuer">CyberSec Global</span>
+          <span class="pkg-badge">🛡️</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICES ============ -->
+  <section class="section" id="offices">
+    <div class="section-line">
+      <span class="section-line-path">~/nexus</span>
+      <span class="section-line-sep">::</span>
+      <span class="section-line-tag" data-fa="netstat -nodes" data-en="netstat -nodes">netstat -nodes</span>
+      <span class="section-line-blocks">▓▓▓▓▓▓▓▓▓▓ 100%</span>
+    </div>
+
+    <h2 class="section-title reveal" data-fa="گره‌های <span class='accent'>شبکه</span> ما" data-en="Our <span class='accent'>network</span> nodes">گره‌های <span class="accent">شبکه</span> ما</h2>
+
+    <p class="section-desc reveal" data-fa="<span class='comment'># چهار دفتر در چهار قاره — همه متصل، همه فعال.</span>" data-en="<span class='comment'># Four offices on four continents — all connected, all active.</span>">
+      <span class="comment"># چهار دفتر در چهار قاره — همه متصل، همه فعال.</span>
+    </p>
+
+    <div class="network-map reveal">
+      <div class="network-header">
+        <span class="cmd">$ ping -c 4 node-*.nexus.global</span>
+        <span class="meta">4/4 online</span>
+      </div>
+
+      <div class="network-grid">
+        <div class="node">
+          <div class="node-header"><span class="node-id">TECH-01</span></div>
+          <div class="node-city" data-fa="تهران" data-en="Tehran">تهران</div>
+          <div class="node-country" data-fa="ایران · مرکز اصلی" data-en="Iran · HQ">ایران · مرکز اصلی</div>
+          <div class="node-address" data-fa="خیابان ولیعصر، برج فناوری، طبقه ۱۸" data-en="Valiasr St, Tech Tower, 18F">خیابان ولیعصر، برج فناوری، طبقه ۱۸</div>
+        </div>
+
+        <div class="node">
+          <div class="node-header"><span class="node-id">MEA-02</span></div>
+          <div class="node-city" data-fa="دبی" data-en="Dubai">دبی</div>
+          <div class="node-country" data-fa="امارات · خاورمیانه" data-en="UAE · Middle East">امارات · خاورمیانه</div>
+          <div class="node-address" data-fa="DIFC، برج Gate، طبقه ۲۴" data-en="DIFC, Gate Tower, 24F">DIFC، برج Gate، طبقه ۲۴</div>
+        </div>
+
+        <div class="node">
+          <div class="node-header"><span class="node-id">EU-03</span></div>
+          <div class="node-city" data-fa="برلین" data-en="Berlin">برلین</div>
+          <div class="node-country" data-fa="آلمان · اروپا" data-en="Germany · Europe">آلمان · اروپا</div>
+          <div class="node-address" data-fa="Mitte، Torstraße ۱۲" data-en="Mitte, Torstraße 12">Mitte، Torstraße ۱۲</div>
+        </div>
+
+        <div class="node">
+          <div class="node-header"><span class="node-id">NA-04</span></div>
+          <div class="node-city" data-fa="سانفرانسیسکو" data-en="San Francisco">سانفرانسیسکو</div>
+          <div class="node-country" data-fa="آمریکا · آمریکای شمالی" data-en="USA · North America">آمریکا · آمریکای شمالی</div>
+          <div class="node-address" data-fa="Market St، Salesforce Tower، 30F" data-en="Market St, Salesforce Tower, 30F">Market St، Salesforce Tower، 30F</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="section" id="contact">
+    <div class="cta-terminal reveal">
+      <div class="cta-prompt-line">
+        <span class="user">root@nexus</span>
+        <span>:</span>
+        <span class="path">~/contact</span>
+        <span>$</span>
+        <span class="cmd">./start-partnership.sh</span>
+        <span class="cursor"></span>
+      </div>
+
+      <h2 class="cta-title" data-fa="آماده‌اید <span class='accent'>کد</span> را با هم بنویسیم؟" data-en="Ready to write <span class='accent'>code</span> together?">آماده‌اید <span class="accent">کد</span> را با هم بنویسیم؟</h2>
+
+      <p class="cta-desc" data-fa="چه یک استارتاپ نوپا باشید و چه یک شرکت بزرگ، NEXUS آماده است تا زیرساخت فناوری شما را طراحی و پیاده‌سازی کند." data-en="Whether you're a startup or a large enterprise, NEXUS is ready to design and implement your technology infrastructure.">
+        چه یک استارتاپ نوپا باشید و چه یک شرکت بزرگ، NEXUS آماده است تا زیرساخت فناوری شما را طراحی و پیاده‌سازی کند.
+      </p>
+
+      <div class="cta-buttons">
+        <button class="btn primary" onclick="contactUs()">
+          <span data-fa="تماس با ما" data-en="Contact Us">تماس با ما</span>
+        </button>
+        <button class="btn secondary" onclick="scrollToId('story')">
+          <span data-fa="بازگشت به بالا" data-en="Back to Top">بازگشت به بالا</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <span class="footer-logo">N</span>
+            <span class="footer-brand-name">NEXUS CORP</span>
+          </div>
+          <p class="footer-desc" data-fa="شرکت فناوری مستقل با تمرکز بر معماری نرم‌افزار، امنیت سایبری، و هوش مصنوعی. از سال 2018." data-en="Independent technology company focused on software architecture, cybersecurity, and AI. Since 2018.">
+            شرکت فناوری مستقل با تمرکز بر معماری نرم‌افزار، امنیت سایبری، و هوش مصنوعی. از سال 2018.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="محصولات" data-en="products">محصولات</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="موتور هوش مصنوعی" data-en="ai-engine">موتور هوش مصنوعی</button>
+            <button class="footer-link" data-fa="امنیت" data-en="security">امنیت</button>
+            <button class="footer-link" data-fa="زیرساخت" data-en="infrastructure">زیرساخت</button>
+            <button class="footer-link" data-fa="پژوهش" data-en="research">پژوهش</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="شرکت" data-en="company">شرکت</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="scrollToId('story')" data-fa="درباره ما" data-en="about">درباره ما</button>
+            <button class="footer-link" onclick="scrollToId('team')" data-fa="تیم" data-en="team">تیم</button>
+            <button class="footer-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="awards">جوایز</button>
+            <button class="footer-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="offices">دفاتر</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="ارتباط" data-en="connect">ارتباط</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="تماس" data-en="contact">تماس</button>
+            <button class="footer-link" data-fa="همکاری" data-en="partnership">همکاری</button>
+            <button class="footer-link" data-fa="رسانه" data-en="press">رسانه</button>
+            <button class="footer-link" data-fa="فرصت‌های شغلی" data-en="careers">فرصت‌های شغلی</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2025 NEXUS CORP · <span data-fa="تمام حقوق محفوظ است." data-en="All rights reserved.">تمام حقوق محفوظ است.</span> · v4.0.0</div>
+        <div class="footer-bottom-links">
+          <button class="footer-bottom-link" data-fa="حریم خصوصی" data-en="privacy">حریم خصوصی</button>
+          <button class="footer-bottom-link" data-fa="شرایط" data-en="terms">شرایط</button>
+          <button class="footer-bottom-link" data-fa="کوکی‌ها" data-en="cookies">کوکی‌ها</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+  <span id="toastMsg" data-fa="انجام شد!" data-en="Done!">انجام شد!</span>
+</div>
+
+<script>
+/* ============================================================
+   CLOCK
+   ============================================================ */
+function updateClock(){
+  const el = document.getElementById('clock');
+  if(!el) return;
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  el.textContent = `${h}:${m}:${s}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ============================================================
+   PAGE / NAV
+   ============================================================ */
+const page = document.getElementById('page');
+const nav = document.getElementById('nav');
+
+page.addEventListener('scroll', () => {
+  if(page.scrollTop > 40){
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+function scrollToTop(){
+  page.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(el){
+    const offset = 100;
+    const top = el.getBoundingClientRect().top + page.scrollTop - offset;
+    page.scrollTo({ top, behavior: 'smooth' });
+  }
+  document.getElementById('mobileMenu').classList.remove('on');
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('on');
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+let lang = 'fa';
+
+function toggleLang(){
+  lang = lang === 'fa' ? 'en' : 'fa';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  document.getElementById('langBtn').textContent = lang === 'fa' ? 'EN' : 'FA';
+
+  document.querySelectorAll('[data-fa]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if(val !== null && val !== undefined){
+      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+        el.placeholder = val;
+      } else {
+        el.innerHTML = val;
+      }
+    }
+  });
+
+  showToast(lang === 'fa' ? 'lang: fa → en' : 'lang: en → fa');
+}
+
+/* ============================================================
+   COUNTER
+   ============================================================ */
+function animateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.done) return;
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      el.dataset.done = '1';
+      const target = parseInt(el.getAttribute('data-counter'));
+      const duration = 1800;
+      const start = performance.now();
+      const isLarge = target > 10000;
+
+      function update(now){
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        let val = Math.floor(eased * target);
+        if(isLarge){
+          el.textContent = val >= 1000000
+            ? (val / 1000000).toFixed(1).replace('.0','') + 'M'
+            : val.toLocaleString('en-US');
+        } else {
+          el.textContent = val.toLocaleString('en-US');
+        }
+        if(t < 1){
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = isLarge
+            ? (target / 1000000).toFixed(1).replace('.0','') + 'M'
+            : target.toLocaleString('en-US');
+        }
+      }
+      requestAnimationFrame(update);
+    }
+  });
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================================================
+   NAV ACTIVE STATE
+   ============================================================ */
+const sections = ['story','values','timeline','team','awards'];
+const navLinks = document.querySelectorAll('.nav-link');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const onclick = link.getAttribute('onclick') || '';
+        if(onclick.includes(id)){
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-80px 0px -60px 0px' });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) sectionObserver.observe(el);
+});
+
+/* ============================================================
+   SCROLL HANDLER
+   ============================================================ */
+page.addEventListener('scroll', () => {
+  animateCounters();
+}, { passive: true });
+
+window.addEventListener('scroll', animateCounters, { passive: true });
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  toastMsg.textContent = msg;
+  toast.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('on');
+  }, 2600);
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+function contactUs(){
+  showToast(lang === 'fa' ? 'اتصال برقرار شد — منتظر تماس باشید' : 'Connection established — expect contact');
+  const btn = event && event.target ? event.target.closest('.btn, .nav-cta') : null;
+  if(btn){
+    btn.style.transition = 'transform .1s ease';
+    btn.style.transform = 'scale(.96)';
+    setTimeout(() => { btn.style.transform = ''; }, 120);
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load', () => {
+  animateCounters();
+  if(lang === 'fa'){
+    document.querySelectorAll('[data-fa]').forEach(el => {
+      const val = el.getAttribute('data-fa');
+      if(val && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA'){
+        el.innerHTML = val;
+      }
+    });
+  }
+});
+
+if(!window.IntersectionObserver){
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    el.textContent = el.getAttribute('data-counter');
+  });
+}
+</script>
+</body>
+</html>
