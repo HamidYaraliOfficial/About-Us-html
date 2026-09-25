@@ -1,0 +1,2496 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e8ecf5">
+<title>Æther Studio | درباره ما</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Vazirmatn','Manrope',-apple-system,sans-serif;
+  background:#e8ecf5;
+  color:#1a1f2e;
+  min-height:100vh;min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.65;
+  font-weight:400;
+  overflow-x:hidden;
+}
+
+/* ============================================================
+   TOKENS — Liquid Glass
+   ============================================================ */
+:root{
+  --bg-1:#e8ecf5;
+  --bg-2:#dce4f0;
+  --bg-3:#cfd9e8;
+  --ink:#1a1f2e;
+  --ink-2:#4a5468;
+  --ink-3:#8892a6;
+  --ink-4:#b5bdd0;
+
+  --glass:rgba(255,255,255,.55);
+  --glass-2:rgba(255,255,255,.35);
+  --glass-3:rgba(255,255,255,.75);
+  --glass-border:rgba(255,255,255,.85);
+  --glass-shadow:rgba(80,100,140,.12);
+
+  --blur-1:blur(24px) saturate(180%);
+  --blur-2:blur(40px) saturate(200%);
+
+  --accent:#5b6cff;
+  --accent-2:#7c4dff;
+  --accent-3:#ff5da2;
+  --accent-4:#4dd0e1;
+  --accent-5:#ffb84d;
+
+  --radius-sm:14px;
+  --radius-md:22px;
+  --radius-lg:32px;
+  --radius-xl:44px;
+
+  --font-body:'Vazirmatn','Manrope',sans-serif;
+  --font-mono:'JetBrains Mono','Vazirmatn',monospace;
+}
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+.page{
+  height:100vh;height:100dvh;
+  overflow-y:auto;overflow-x:hidden;
+  scroll-behavior:smooth;
+  position:relative;
+  background:var(--bg-1);
+  scrollbar-width:thin;
+  scrollbar-color:var(--accent) transparent;
+}
+.page::-webkit-scrollbar{width:8px}
+.page::-webkit-scrollbar-track{background:transparent}
+.page::-webkit-scrollbar-thumb{
+  background:var(--accent);
+  border-radius:4px;
+}
+
+/* ============================================================
+   AURORA BACKGROUND — Liquid Color Blobs
+   ============================================================ */
+.bg-blobs{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  filter:blur(80px);
+  opacity:.7;
+}
+.blob{
+  position:absolute;
+  border-radius:50%;
+  mix-blend-mode:multiply;
+  will-change:transform;
+}
+.blob.b1{
+  width:600px;height:600px;
+  background:radial-gradient(circle,#a8b4ff,transparent 70%);
+  top:-100px;left:-100px;
+  animation:blobFloat1 22s ease-in-out infinite;
+}
+.blob.b2{
+  width:700px;height:700px;
+  background:radial-gradient(circle,#d4a8ff,transparent 70%);
+  top:20%;right:-200px;
+  animation:blobFloat2 26s ease-in-out infinite;
+}
+.blob.b3{
+  width:550px;height:550px;
+  background:radial-gradient(circle,#a8e4ff,transparent 70%);
+  bottom:-150px;left:20%;
+  animation:blobFloat3 24s ease-in-out infinite;
+}
+.blob.b4{
+  width:500px;height:500px;
+  background:radial-gradient(circle,#ffc8e0,transparent 70%);
+  bottom:10%;right:10%;
+  animation:blobFloat4 28s ease-in-out infinite;
+}
+.blob.b5{
+  width:400px;height:400px;
+  background:radial-gradient(circle,#ffe4a8,transparent 70%);
+  top:50%;left:40%;
+  animation:blobFloat5 20s ease-in-out infinite;
+}
+
+@keyframes blobFloat1{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(120px,80px) scale(1.1)}
+  66%{transform:translate(60px,180px) scale(.95)}
+}
+@keyframes blobFloat2{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(-150px,100px) scale(1.15)}
+  66%{transform:translate(-80px,-100px) scale(.9)}
+}
+@keyframes blobFloat3{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(100px,-120px) scale(1.05)}
+  66%{transform:translate(-60px,-60px) scale(1.1)}
+}
+@keyframes blobFloat4{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(-100px,-80px) scale(.9)}
+  66%{transform:translate(80px,-150px) scale(1.1)}
+}
+@keyframes blobFloat5{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(-80px,120px) scale(1.15)}
+  66%{transform:translate(120px,60px) scale(.95)}
+}
+
+.bg-grain{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:sticky;
+  top:20px;
+  z-index:100;
+  padding:0 32px;
+  margin:0 auto 32px;
+  max-width:1400px;
+  transition:all .4s ease;
+}
+.nav-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:32px;
+  padding:12px 12px 12px 24px;
+  background:var(--glass);
+  backdrop-filter:var(--blur-1);
+  -webkit-backdrop-filter:var(--blur-1);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-xl);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 rgba(255,255,255,.8);
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.nav.scrolled .nav-inner{
+  box-shadow:
+    0 12px 48px rgba(80,100,140,.18),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  cursor:pointer;
+  padding:4px 8px;
+}
+.logo-mark{
+  width:44px;height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:22px;
+  font-weight:800;
+  box-shadow:
+    0 6px 20px rgba(91,108,255,.4),
+    inset 0 1px 0 rgba(255,255,255,.4);
+  position:relative;
+  overflow:hidden;
+}
+.logo-mark::after{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:linear-gradient(45deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);
+  animation:shine 4s ease-in-out infinite;
+}
+@keyframes shine{
+  0%{transform:translate(-50%,-50%) rotate(0deg)}
+  100%{transform:translate(-50%,-50%) rotate(360deg)}
+}
+.logo-text{display:flex;flex-direction:column;line-height:1.1}
+.logo-title{
+  font-family:'Manrope',sans-serif;
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+.logo-sub{
+  font-family:var(--font-mono);
+  font-size:9.5px;
+  font-weight:600;
+  letter-spacing:2px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+
+.nav-links{
+  display:flex;
+  gap:4px;
+  align-items:center;
+  background:rgba(255,255,255,.3);
+  padding:4px;
+  border-radius:100px;
+  border:1px solid rgba(255,255,255,.6);
+}
+.nav-link{
+  background:transparent;
+  border:none;
+  color:var(--ink-2);
+  font-family:var(--font-body);
+  font-size:13.5px;
+  font-weight:500;
+  cursor:pointer;
+  padding:9px 18px;
+  border-radius:100px;
+  transition:all .3s cubic-bezier(.16,1,.3,1);
+  position:relative;
+}
+.nav-link:hover{
+  color:var(--ink);
+  background:rgba(255,255,255,.5);
+}
+.nav-link.active{
+  color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  box-shadow:
+    0 4px 16px rgba(91,108,255,.4),
+    inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-lang{
+  background:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.8);
+  color:var(--ink-2);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  cursor:pointer;
+  padding:10px 14px;
+  border-radius:100px;
+  transition:all .3s ease;
+}
+.nav-lang:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+}
+
+.nav-cta{
+  background:var(--ink);
+  border:none;
+  color:#fff;
+  font-family:var(--font-body);
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  padding:11px 22px;
+  border-radius:100px;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  box-shadow:
+    0 6px 20px rgba(26,31,46,.25),
+    inset 0 1px 0 rgba(255,255,255,.15);
+}
+.nav-cta:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 12px 32px rgba(26,31,46,.35),
+    inset 0 1px 0 rgba(255,255,255,.2);
+}
+.nav-cta svg{
+  width:14px;height:14px;
+  stroke:currentColor;fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+.menu-btn{
+  display:none;
+  background:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.8);
+  color:var(--ink);
+  cursor:pointer;
+  padding:10px;
+  border-radius:100px;
+}
+.menu-btn svg{
+  width:20px;height:20px;
+  stroke:currentColor;fill:none;stroke-width:2;
+  stroke-linecap:round;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  padding:20px 32px 80px;
+  position:relative;
+  z-index:5;
+  max-width:1400px;
+  margin:0 auto;
+}
+.hero-inner{
+  background:var(--glass);
+  backdrop-filter:var(--blur-2);
+  -webkit-backdrop-filter:var(--blur-2);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-xl);
+  padding:72px 60px;
+  text-align:center;
+  box-shadow:
+    0 20px 60px var(--glass-shadow),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;
+  overflow:hidden;
+}
+.hero-inner::before{
+  content:'';
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:conic-gradient(from 0deg,
+    transparent 0deg,
+    rgba(91,108,255,.08) 60deg,
+    transparent 120deg,
+    rgba(255,93,162,.06) 180deg,
+    transparent 240deg,
+    rgba(77,208,225,.08) 300deg,
+    transparent 360deg);
+  animation:rotateHue 20s linear infinite;
+  pointer-events:none;
+}
+@keyframes rotateHue{
+  to{transform:rotate(360deg)}
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 18px;
+  background:rgba(255,255,255,.7);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:100px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  margin-bottom:32px;
+  position:relative;
+  z-index:1;
+  box-shadow:0 4px 16px rgba(91,108,255,.15);
+}
+.hero-badge-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 10px var(--accent);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.4);opacity:.6}
+}
+
+.hero-title{
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(48px, 7.5vw, 120px);
+  font-weight:300;
+  line-height:1;
+  letter-spacing:-.045em;
+  color:var(--ink);
+  margin-bottom:32px;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .hero-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+  line-height:1.08;
+  letter-spacing:-.035em;
+  font-size:clamp(42px, 6.5vw, 104px);
+}
+.hero-title .accent{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2),var(--accent-3));
+  background-size:200% 200%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-weight:700;
+  animation:gradientMove 5s ease infinite;
+}
+html[dir="rtl"] .hero-title .accent{font-weight:800}
+@keyframes gradientMove{
+  0%,100%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+}
+
+.hero-desc{
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink-2);
+  font-weight:400;
+  max-width:680px;
+  margin:0 auto 40px;
+  position:relative;
+  z-index:1;
+}
+
+.hero-actions{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+
+.btn{
+  padding:15px 32px;
+  border-radius:100px;
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border:none;
+  position:relative;
+  overflow:hidden;
+}
+.btn.primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;
+  box-shadow:
+    0 8px 24px rgba(91,108,255,.4),
+    inset 0 1px 0 rgba(255,255,255,.3);
+}
+.btn.primary:hover{
+  transform:translateY(-3px);
+  box-shadow:
+    0 16px 40px rgba(91,108,255,.5),
+    inset 0 1px 0 rgba(255,255,255,.4);
+}
+.btn.secondary{
+  background:rgba(255,255,255,.75);
+  color:var(--ink);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:
+    0 4px 16px rgba(80,100,140,.1),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+.btn.secondary:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,.9);
+  box-shadow:
+    0 12px 32px rgba(80,100,140,.15),
+    inset 0 1px 0 rgba(255,255,255,1);
+}
+.btn svg{
+  width:16px;height:16px;
+  stroke:currentColor;fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{
+  padding:60px 32px;
+  position:relative;
+  z-index:5;
+  max-width:1400px;
+  margin:0 auto;
+}
+.section-inner{max-width:1300px;margin:0 auto}
+
+.section-head{
+  text-align:center;
+  margin-bottom:56px;
+}
+.section-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 16px;
+  background:var(--glass-3);
+  backdrop-filter:var(--blur-1);
+  -webkit-backdrop-filter:var(--blur-1);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:100px;
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--accent);
+  margin-bottom:20px;
+  text-transform:uppercase;
+  box-shadow:0 4px 16px rgba(91,108,255,.1);
+}
+.section-label-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;height:20px;
+  background:var(--accent);
+  color:#fff;
+  border-radius:50%;
+  font-size:10px;
+  font-weight:800;
+}
+
+.section-title{
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(34px, 4.5vw, 64px);
+  font-weight:300;
+  line-height:1.1;
+  letter-spacing:-.03em;
+  color:var(--ink);
+  margin-bottom:18px;
+}
+html[dir="rtl"] .section-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+  line-height:1.2;
+  letter-spacing:-.025em;
+  font-size:clamp(28px, 3.8vw, 52px);
+}
+.section-title .accent{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-weight:700;
+}
+
+.section-desc{
+  font-size:16px;
+  line-height:1.85;
+  color:var(--ink-2);
+  font-weight:400;
+  max-width:640px;
+  margin:0 auto;
+}
+
+/* ============================================================
+   GLASS CARD
+   ============================================================ */
+.glass-card{
+  background:var(--glass);
+  backdrop-filter:var(--blur-2);
+  -webkit-backdrop-filter:var(--blur-2);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  box-shadow:
+    0 12px 40px var(--glass-shadow),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;
+  overflow:hidden;
+  transition:all .5s cubic-bezier(.16,1,.3,1);
+}
+.glass-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,1) 20%,
+    rgba(255,255,255,1) 80%,
+    transparent);
+  pointer-events:none;
+}
+
+/* ============================================================
+   STORY
+   ============================================================ */
+.story-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:24px;
+  align-items:start;
+}
+.story-main{
+  padding:48px 44px;
+}
+.story-main p{
+  font-size:16px;
+  line-height:1.95;
+  color:var(--ink-2);
+  margin-bottom:22px;
+  font-weight:400;
+}
+.story-main p:first-of-type::first-letter{
+  font-family:'Manrope',sans-serif;
+  font-size:72px;
+  font-weight:200;
+  float:right;
+  line-height:.9;
+  margin-left:16px;
+  margin-top:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+html[dir="ltr"] .story-main p:first-of-type::first-letter{
+  float:left;
+  margin-right:16px;
+  margin-left:0;
+}
+.story-main p strong{
+  color:var(--ink);
+  font-weight:600;
+}
+
+.story-quote{
+  margin-top:36px;
+  padding:32px 36px;
+  background:linear-gradient(135deg,
+    rgba(91,108,255,.08),
+    rgba(124,77,255,.05));
+  border-radius:var(--radius-md);
+  border:1px solid rgba(91,108,255,.15);
+  position:relative;
+}
+.story-quote p{
+  font-size:19px;
+  line-height:1.6;
+  color:var(--ink);
+  font-weight:500;
+  margin:0;
+  position:relative;
+  padding-inline-start:24px;
+}
+.story-quote p::before{
+  content:'"';
+  position:absolute;
+  top:-16px;
+  inset-inline-start:0;
+  font-size:64px;
+  font-weight:800;
+  color:var(--accent);
+  line-height:1;
+  opacity:.4;
+}
+.story-quote-author{
+  display:block;
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid rgba(91,108,255,.15);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .story-quote-author{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+
+.story-side{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.side-card{
+  padding:28px;
+  position:relative;
+  overflow:hidden;
+}
+.side-card-icon{
+  width:44px;height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:18px;
+  box-shadow:0 6px 20px rgba(91,108,255,.3);
+}
+.side-card:nth-child(2) .side-card-icon{
+  background:linear-gradient(135deg,var(--accent-3),var(--accent-5));
+  box-shadow:0 6px 20px rgba(255,93,162,.3);
+}
+.side-card:nth-child(3) .side-card-icon{
+  background:linear-gradient(135deg,var(--accent-4),var(--accent));
+  box-shadow:0 6px 20px rgba(77,208,225,.3);
+}
+.side-card-label{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  color:var(--ink-3);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+html[dir="rtl"] .side-card-label{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.side-card-value{
+  font-family:'Manrope',sans-serif;
+  font-size:44px;
+  font-weight:200;
+  line-height:1;
+  letter-spacing:-.03em;
+  color:var(--ink);
+  margin-bottom:6px;
+}
+html[dir="rtl"] .side-card-value{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+}
+.side-card-text{
+  font-size:13.5px;
+  line-height:1.6;
+  color:var(--ink-3);
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.stat{
+  padding:36px 28px;
+  text-align:center;
+  position:relative;
+}
+.stat-value{
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(40px, 4.5vw, 64px);
+  font-weight:200;
+  line-height:1;
+  letter-spacing:-.04em;
+  margin-bottom:12px;
+  background:linear-gradient(135deg,var(--ink),var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+html[dir="rtl"] .stat-value{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+}
+.stat:nth-child(2) .stat-value{
+  background:linear-gradient(135deg,var(--ink),var(--accent-2));
+  -webkit-background-clip:text;background-clip:text;
+}
+.stat:nth-child(3) .stat-value{
+  background:linear-gradient(135deg,var(--ink),var(--accent-3));
+  -webkit-background-clip:text;background-clip:text;
+}
+.stat:nth-child(4) .stat-value{
+  background:linear-gradient(135deg,var(--ink),var(--accent-4));
+  -webkit-background-clip:text;background-clip:text;
+}
+.stat-value .unit{
+  font-size:.5em;
+  vertical-align:super;
+  margin-inline-start:2px;
+}
+.stat-label{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  line-height:1.5;
+}
+html[dir="rtl"] .stat-label{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+
+/* ============================================================
+   VALUES
+   ============================================================ */
+.values-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.value-card{
+  padding:36px 30px;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.value-card:hover{
+  transform:translateY(-6px);
+}
+.value-icon{
+  width:52px;height:52px;
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(91,108,255,.15),rgba(124,77,255,.08));
+  border:1px solid rgba(91,108,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:22px;
+  transition:all .5s cubic-bezier(.16,1,.3,1);
+}
+.value-card:hover .value-icon{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  border-color:transparent;
+  transform:rotate(-8deg) scale(1.08);
+  box-shadow:0 8px 24px rgba(91,108,255,.35);
+}
+.value-icon svg{
+  width:24px;height:24px;
+  stroke:var(--accent);
+  fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .4s ease;
+}
+.value-card:hover .value-icon svg{stroke:#fff}
+
+.value-card:nth-child(2) .value-icon{
+  background:linear-gradient(135deg,rgba(255,93,162,.15),rgba(255,184,77,.08));
+  border-color:rgba(255,93,162,.2);
+}
+.value-card:nth-child(2) .value-icon svg{stroke:var(--accent-3)}
+.value-card:nth-child(2):hover .value-icon{
+  background:linear-gradient(135deg,var(--accent-3),var(--accent-5));
+}
+.value-card:nth-child(2):hover .value-icon svg{stroke:#fff}
+
+.value-card:nth-child(3) .value-icon{
+  background:linear-gradient(135deg,rgba(77,208,225,.15),rgba(91,108,255,.08));
+  border-color:rgba(77,208,225,.2);
+}
+.value-card:nth-child(3) .value-icon svg{stroke:var(--accent-4)}
+.value-card:nth-child(3):hover .value-icon{
+  background:linear-gradient(135deg,var(--accent-4),var(--accent));
+}
+.value-card:nth-child(3):hover .value-icon svg{stroke:#fff}
+
+.value-num{
+  position:absolute;
+  top:22px;
+  inset-inline-end:24px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:600;
+  color:var(--ink-4);
+  letter-spacing:1px;
+}
+.value-card{position:relative}
+
+.value-title{
+  font-family:'Manrope',sans-serif;
+  font-size:21px;
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+html[dir="rtl"] .value-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:19px;
+}
+.value-desc{
+  font-size:14.5px;
+  line-height:1.75;
+  color:var(--ink-3);
+}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline-wrap{
+  padding:20px 0;
+}
+.tl-item{
+  display:grid;
+  grid-template-columns:1fr 80px 1fr;
+  align-items:center;
+  margin-bottom:20px;
+}
+.tl-item:last-child{margin-bottom:0}
+
+.tl-content{
+  padding:28px 32px;
+  background:var(--glass);
+  backdrop-filter:var(--blur-1);
+  -webkit-backdrop-filter:var(--blur-1);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-md);
+  box-shadow:
+    0 8px 24px var(--glass-shadow),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.tl-content:hover{
+  transform:scale(1.02);
+  box-shadow:
+    0 16px 40px rgba(80,100,140,.15),
+    inset 0 1px 0 rgba(255,255,255,1);
+}
+.tl-item:nth-child(odd) .tl-content{grid-column:1}
+.tl-item:nth-child(even) .tl-content{grid-column:3}
+
+.tl-marker{
+  grid-column:2;
+  display:flex;
+  justify-content:center;
+  position:relative;
+}
+.tl-marker::before{
+  content:'';
+  position:absolute;
+  top:-20px;bottom:-20px;
+  left:50%;
+  width:2px;
+  background:linear-gradient(180deg,transparent,rgba(91,108,255,.3),transparent);
+  transform:translateX(-50%);
+}
+.tl-dot{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  position:relative;
+  z-index:1;
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,.7),
+    0 8px 24px rgba(91,108,255,.4);
+  transition:all .4s ease;
+}
+.tl-item:hover .tl-dot{
+  transform:scale(1.15);
+  box-shadow:
+    0 0 0 8px rgba(255,255,255,.9),
+    0 12px 32px rgba(91,108,255,.5);
+}
+
+.tl-year{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:2px;
+  color:var(--accent);
+  margin-bottom:10px;
+}
+.tl-title{
+  font-family:'Manrope',sans-serif;
+  font-size:20px;
+  font-weight:600;
+  line-height:1.25;
+  color:var(--ink);
+  margin-bottom:8px;
+}
+html[dir="rtl"] .tl-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:18px;
+}
+.tl-desc{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--ink-3);
+}
+
+/* ============================================================
+   TEAM
+   ============================================================ */
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.member{
+  padding:32px 24px;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.member:hover{transform:translateY(-6px)}
+
+.member-avatar{
+  width:96px;height:96px;
+  border-radius:50%;
+  margin:0 auto 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Manrope',sans-serif;
+  font-size:40px;
+  font-weight:300;
+  color:#fff;
+  position:relative;
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.7),
+    0 12px 32px rgba(91,108,255,.3);
+  transition:all .5s cubic-bezier(.16,1,.3,1);
+}
+.member:nth-child(1) .member-avatar{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+.member:nth-child(2) .member-avatar{background:linear-gradient(135deg,var(--accent-3),var(--accent-5))}
+.member:nth-child(3) .member-avatar{background:linear-gradient(135deg,var(--accent-4),var(--accent))}
+.member:nth-child(4) .member-avatar{background:linear-gradient(135deg,var(--accent-2),var(--accent-3))}
+.member:hover .member-avatar{
+  transform:rotate(-10deg) scale(1.08);
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,.9),
+    0 20px 48px rgba(91,108,255,.4);
+}
+
+.member-name{
+  font-family:'Manrope',sans-serif;
+  font-size:17px;
+  font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--ink);
+  margin-bottom:6px;
+  line-height:1.3;
+}
+html[dir="rtl"] .member-name{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+}
+.member-role{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  text-transform:uppercase;
+}
+html[dir="rtl"] .member-role{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+
+/* ============================================================
+   AWARDS
+   ============================================================ */
+.awards-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+.award{
+  padding:28px 32px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:22px;
+  align-items:center;
+  cursor:pointer;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.award:hover{transform:translateY(-4px)}
+
+.award-year{
+  font-family:'Manrope',sans-serif;
+  font-size:34px;
+  font-weight:200;
+  line-height:1;
+  letter-spacing:-.03em;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+html[dir="rtl"] .award-year{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+}
+
+.award-title{
+  font-family:'Manrope',sans-serif;
+  font-size:16px;
+  font-weight:600;
+  color:var(--ink);
+  margin-bottom:6px;
+  line-height:1.35;
+}
+html[dir="rtl"] .award-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:15px;
+}
+.award-issuer{
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  color:var(--ink-3);
+  letter-spacing:.5px;
+}
+html[dir="rtl"] .award-issuer{
+  font-family:'Vazirmatn',sans-serif;
+  font-size:12px;
+}
+
+.award-badge{
+  width:48px;height:48px;
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(91,108,255,.15),rgba(124,77,255,.08));
+  border:1px solid rgba(91,108,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.award:hover .award-badge{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  border-color:transparent;
+  transform:rotate(-10deg) scale(1.1);
+  box-shadow:0 8px 24px rgba(91,108,255,.4);
+}
+
+/* ============================================================
+   OFFICES
+   ============================================================ */
+.offices-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+.office{
+  padding:32px 26px;
+  cursor:pointer;
+  text-align:center;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.office:hover{transform:translateY(-6px)}
+
+.office-flag{
+  font-size:44px;
+  display:block;
+  margin-bottom:18px;
+  filter:drop-shadow(0 8px 16px rgba(80,100,140,.2));
+  transition:transform .4s ease;
+}
+.office:hover .office-flag{transform:scale(1.15) rotate(-5deg)}
+
+.office-num{
+  display:inline-block;
+  padding:3px 10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;
+  border-radius:100px;
+  font-family:var(--font-mono);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-bottom:14px;
+  box-shadow:0 4px 12px rgba(91,108,255,.3);
+}
+
+.office-city{
+  font-family:'Manrope',sans-serif;
+  font-size:20px;
+  font-weight:600;
+  color:var(--ink);
+  line-height:1.2;
+  margin-bottom:6px;
+}
+html[dir="rtl"] .office-city{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:700;
+  font-size:18px;
+}
+.office-country{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:1.5px;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(91,108,255,.15);
+}
+html[dir="rtl"] .office-country{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12px;
+}
+.office-address{
+  font-size:13px;
+  line-height:1.7;
+  color:var(--ink-3);
+}
+
+/* ============================================================
+   CTA
+   ============================================================ */
+.cta-wrap{
+  padding:60px 32px 80px;
+  position:relative;
+  z-index:5;
+  max-width:1400px;
+  margin:0 auto;
+}
+.cta-inner{
+  background:linear-gradient(135deg,
+    rgba(91,108,255,.95),
+    rgba(124,77,255,.95));
+  backdrop-filter:var(--blur-2);
+  -webkit-backdrop-filter:var(--blur-2);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--radius-xl);
+  padding:72px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  box-shadow:
+    0 24px 60px rgba(91,108,255,.4),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+.cta-inner::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:conic-gradient(from 0deg,
+    transparent,
+    rgba(255,255,255,.15) 60deg,
+    transparent 120deg,
+    rgba(255,255,255,.1) 240deg,
+    transparent 300deg);
+  animation:rotateHue 30s linear infinite;
+  pointer-events:none;
+}
+.cta-label{
+  display:inline-block;
+  padding:7px 18px;
+  background:rgba(255,255,255,.2);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:100px;
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:#fff;
+  margin-bottom:24px;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .cta-label{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.cta-title{
+  font-family:'Manrope',sans-serif;
+  font-size:clamp(36px, 5vw, 68px);
+  font-weight:300;
+  line-height:1.05;
+  letter-spacing:-.03em;
+  color:#fff;
+  margin-bottom:24px;
+  position:relative;
+  z-index:1;
+}
+html[dir="rtl"] .cta-title{
+  font-family:'Vazirmatn',sans-serif;
+  font-weight:200;
+  line-height:1.15;
+  font-size:clamp(30px, 4.2vw, 56px);
+}
+.cta-title .accent{
+  font-weight:700;
+  background:linear-gradient(135deg,#fff,#ffd6e8);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.cta-desc{
+  font-size:16px;
+  line-height:1.8;
+  color:rgba(255,255,255,.85);
+  max-width:560px;
+  margin:0 auto 36px;
+  position:relative;
+  z-index:1;
+}
+.cta-buttons{
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+  position:relative;
+  z-index:1;
+}
+.cta-btn{
+  padding:15px 32px;
+  border-radius:100px;
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  border:none;
+}
+.cta-btn.primary{
+  background:#fff;
+  color:var(--accent);
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+.cta-btn.primary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(0,0,0,.25);
+}
+.cta-btn.secondary{
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.3);
+}
+.cta-btn.secondary:hover{
+  background:rgba(255,255,255,.25);
+  transform:translateY(-3px);
+}
+.cta-btn svg{
+  width:16px;height:16px;
+  stroke:currentColor;fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  padding:40px 32px 32px;
+  position:relative;
+  z-index:5;
+}
+.footer-inner{
+  max-width:1400px;
+  margin:0 auto;
+  background:var(--glass);
+  backdrop-filter:var(--blur-2);
+  -webkit-backdrop-filter:var(--blur-2);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-xl);
+  padding:56px 48px 32px;
+  box-shadow:
+    0 12px 40px var(--glass-shadow),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+.footer-top{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;
+  padding-bottom:48px;
+  border-bottom:1px solid rgba(91,108,255,.12);
+  margin-bottom:28px;
+}
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+}
+.footer-logo{
+  width:44px;height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:22px;
+  font-weight:800;
+  box-shadow:0 6px 20px rgba(91,108,255,.4);
+}
+.footer-brand-name{
+  font-family:'Manrope',sans-serif;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+.footer-desc{
+  font-size:14px;
+  line-height:1.8;
+  color:var(--ink-3);
+  max-width:340px;
+}
+.footer-col-title{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:20px;
+}
+html[dir="rtl"] .footer-col-title{
+  font-family:'Vazirmatn',sans-serif;
+  letter-spacing:0;
+  text-transform:none;
+  font-size:12.5px;
+}
+.footer-links{display:flex;flex-direction:column;gap:12px}
+.footer-link{
+  background:none;border:none;
+  color:var(--ink-2);
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:400;
+  cursor:pointer;
+  text-align:inherit;
+  padding:0;
+  transition:all .3s ease;
+  width:fit-content;
+}
+.footer-link:hover{color:var(--accent)}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+  padding-top:24px;
+  border-top:1px solid rgba(91,108,255,.12);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:500;
+  color:var(--ink-3);
+}
+html[dir="rtl"] .footer-bottom{
+  font-family:'Vazirmatn',sans-serif;
+  font-size:12.5px;
+}
+.footer-bottom-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-bottom-link{
+  background:none;border:none;
+  color:var(--ink-3);
+  font-family:inherit;
+  font-size:inherit;
+  cursor:pointer;
+  transition:color .3s ease;
+  padding:0;
+}
+.footer-bottom-link:hover{color:var(--accent)}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1);
+}
+.reveal.in-view{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+.mobile-menu{
+  position:fixed;
+  inset:88px 24px auto 24px;
+  background:var(--glass-3);
+  backdrop-filter:var(--blur-2);
+  -webkit-backdrop-filter:var(--blur-2);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-lg);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  z-index:99;
+  transform:translateY(-120%);
+  opacity:0;
+  pointer-events:none;
+  transition:all .45s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 20px 60px var(--glass-shadow);
+}
+.mobile-menu.on{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.mobile-link{
+  background:rgba(255,255,255,.4);
+  border:1px solid rgba(255,255,255,.6);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  font-weight:500;
+  padding:16px 20px;
+  border-radius:16px;
+  text-align:inherit;
+  cursor:pointer;
+  transition:all .3s ease;
+}
+.mobile-link:hover{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;
+  border-color:transparent;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%) translateY(200px);
+  padding:14px 24px;
+  background:var(--glass-3);
+  backdrop-filter:var(--blur-2);
+  -webkit-backdrop-filter:var(--blur-2);
+  border:1px solid var(--glass-border);
+  border-radius:100px;
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:14px;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  transition:all .5s cubic-bezier(.68,-.55,.265,1.55);
+  z-index:1000;
+  pointer-events:none;
+  max-width:90vw;
+  box-shadow:
+    0 20px 50px rgba(80,100,140,.25),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+.toast.on{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+.toast-icon{
+  width:24px;height:24px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.toast-icon svg{
+  width:13px;height:13px;
+  stroke:#fff;fill:none;stroke-width:3;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1100px){
+  .story-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .values-grid{grid-template-columns:repeat(2,1fr)}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .offices-grid{grid-template-columns:repeat(2,1fr)}
+  .awards-list{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+
+@media(max-width:768px){
+  .nav{top:12px;padding:0 16px;margin-bottom:20px}
+  .nav-inner{padding:10px 10px 10px 16px;gap:16px}
+  .nav-links{display:none}
+  .nav-lang{display:none}
+  .nav-cta{padding:10px 16px;font-size:12px}
+  .nav-cta span{display:none}
+  .nav-cta::after{content:'→';font-size:14px}
+  .menu-btn{display:flex}
+  .mobile-menu{inset:76px 16px auto 16px}
+
+  .hero{padding:20px 16px 60px}
+  .hero-inner{padding:48px 24px;border-radius:32px}
+  .hero-title{font-size:38px}
+  .hero-desc{font-size:14.5px;margin-bottom:32px}
+  .btn{padding:13px 24px;font-size:13px}
+
+  .section{padding:40px 16px}
+  .section-head{margin-bottom:36px}
+  .section-title{font-size:28px}
+  .section-desc{font-size:14.5px}
+
+  .story-main{padding:28px 22px}
+  .story-main p{font-size:14.5px}
+  .story-main p:first-of-type::first-letter{font-size:52px}
+  .story-quote{padding:24px}
+  .story-quote p{font-size:16px}
+  .story-quote-author{font-size:11.5px}
+  .side-card{padding:22px}
+  .side-card-value{font-size:34px}
+
+  .stats-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .stat{padding:26px 16px}
+  .stat-value{font-size:34px}
+
+  .values-grid{grid-template-columns:1fr;gap:12px}
+  .value-card{padding:28px 22px}
+
+  .tl-item{grid-template-columns:50px 1fr !important;gap:16px;margin-bottom:16px}
+  .tl-item .tl-content{grid-column:2 !important;padding:22px 20px !important;text-align:right !important}
+  html[dir="ltr"] .tl-item .tl-content{text-align:left !important}
+  .tl-marker{grid-column:1;justify-content:center}
+  .tl-marker::before{display:none}
+  .tl-dot{width:32px;height:32px;font-size:10px}
+  .tl-title{font-size:16px}
+  .tl-desc{font-size:13px}
+
+  .team-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .member{padding:24px 16px}
+  .member-avatar{width:72px;height:72px;font-size:30px;margin-bottom:16px}
+  .member-name{font-size:15px}
+
+  .awards-list{grid-template-columns:1fr;gap:12px}
+  .award{padding:22px 20px;gap:16px}
+  .award-year{font-size:26px}
+  .award-title{font-size:14.5px}
+  .award-badge{width:40px;height:40px;font-size:18px}
+
+  .offices-grid{grid-template-columns:1fr;gap:12px}
+  .office{padding:26px 22px}
+
+  .cta-wrap{padding:40px 16px 60px}
+  .cta-inner{padding:48px 24px;border-radius:32px}
+  .cta-title{font-size:28px}
+  .cta-desc{font-size:14.5px}
+
+  .footer{padding:20px 16px 24px}
+  .footer-inner{padding:36px 24px 24px;border-radius:32px}
+  .footer-top{grid-template-columns:1fr;gap:28px;padding-bottom:32px}
+  .footer-bottom{flex-direction:column;gap:14px;text-align:center}
+  .footer-bottom-links{justify-content:center}
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:30px}
+  .section-title{font-size:22px}
+  .stats-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr}
+  .cta-title{font-size:24px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <!-- ============ AURORA BACKGROUND ============ -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+    <div class="blob b5"></div>
+  </div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <div class="logo" onclick="scrollToTop()">
+        <div class="logo-mark">Æ</div>
+        <div class="logo-text">
+          <span class="logo-title">Æther</span>
+          <span class="logo-sub">Studio</span>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-link active" onclick="scrollToId('story')" data-fa="داستان" data-en="Story">داستان</button>
+        <button class="nav-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+        <button class="nav-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="Timeline">تاریخچه</button>
+        <button class="nav-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+        <button class="nav-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="nav-lang" onclick="toggleLang()"><span id="langBtn">EN</span></button>
+        <button class="nav-cta" onclick="contactUs()">
+          <span data-fa="تماس" data-en="Contact">تماس</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MOBILE MENU ============ -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="scrollToId('story')" data-fa="داستان ما" data-en="Our Story">داستان ما</button>
+    <button class="mobile-link" onclick="scrollToId('values')" data-fa="ارزش‌ها" data-en="Values">ارزش‌ها</button>
+    <button class="mobile-link" onclick="scrollToId('timeline')" data-fa="تاریخچه" data-en="Timeline">تاریخچه</button>
+    <button class="mobile-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+    <button class="mobile-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+    <button class="mobile-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="Offices">دفاتر</button>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span data-fa="استودیو فعال · ۲۰۲۵" data-en="Studio Active · 2025">استودیو فعال · ۲۰۲۵</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span data-fa="ما در" data-en="We build with">ما در</span>
+        <span class="accent" data-fa="شفافیت" data-en="clarity">شفافیت</span>
+        <br>
+        <span data-fa="می‌سازیم" data-en="we create">می‌سازیم</span>
+      </h1>
+
+      <p class="hero-desc" data-fa="Æther یک استودیوی طراحی و مهندسی است که در سال ۱۳۹۷ تأسیس شد. ما با ترکیب زیبایی‌شناسی مینیمال، فناوری پیشرفته، و وسواس بی‌نقص، محصولات دیجیتالی می‌سازیم که برای بیش از ۱.۲ میلیون کاربر در سراسر جهان الهام‌بخش هستند." data-en="Æther is a design and engineering studio founded in 2018. We combine minimal aesthetics, advanced technology, and relentless obsession to build digital products that inspire over 1.2 million users worldwide.">
+        Æther یک استودیوی طراحی و مهندسی است که در سال ۱۳۹۷ تأسیس شد. ما با ترکیب زیبایی‌شناسی مینیمال، فناوری پیشرفته، و وسواس بی‌نقص، محصولات دیجیتالی می‌سازیم که برای بیش از ۱.۲ میلیون کاربر در سراسر جهان الهام‌بخش هستند.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn primary" onclick="scrollToId('story')">
+          <span data-fa="داستان ما" data-en="Our Story">داستان ما</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn secondary" onclick="contactUs()">
+          <span data-fa="شروع همکاری" data-en="Start Partnership">شروع همکاری</span>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STORY ============ -->
+  <section class="section" id="story">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div class="section-label">
+          <span class="section-label-num">01</span>
+          <span data-fa="داستان ما" data-en="Our Story">داستان ما</span>
+        </div>
+        <h2 class="section-title" data-fa="از یک <span class='accent'>اتاق ساده</span> تا جهانی شفاف" data-en="From a <span class='accent'>simple room</span> to a transparent world">از یک <span class="accent">اتاق ساده</span> تا جهانی شفاف</h2>
+        <p class="section-desc" data-fa="داستان Æther، داستان چهار دوست است که باور داشتند زیبایی و کارکرد می‌توانند در یک محصول هم‌نشین شوند." data-en="The Æther story is the story of four friends who believed beauty and function could coexist in one product.">
+          داستان Æther، داستان چهار دوست است که باور داشتند زیبایی و کارکرد می‌توانند در یک محصول هم‌نشین شوند.
+        </p>
+      </div>
+
+      <div class="story-grid">
+        <div class="story-main glass-card reveal">
+          <p data-fa="سال ۱۳۹۷، چهار متخصص از شرکت‌های برتر فناوری جهان، در یک آپارتمان کوچک تهران گرد هم آمدند. هر کدام از جای متفاوتی آمده بودند، اما همه یک چیز مشترک داشتند: <strong>وسواس نسبت به جزئیات.</strong>" data-en="In 2018, four specialists from the world's top tech companies gathered in a small Tehran apartment. Each came from a different place, but all shared one thing: <strong>an obsession with detail.</strong>">
+            سال ۱۳۹۷، چهار متخصص از شرکت‌های برتر فناوری جهان، در یک آپارتمان کوچک تهران گرد هم آمدند. هر کدام از جای متفاوتی آمده بودند، اما همه یک چیز مشترک داشتند: <strong>وسواس نسبت به جزئیات.</strong>
+          </p>
+
+          <p data-fa="نام Æther را از اساطیر یونان گرفتیم — لایه‌ی شفاف و نامرئی که همه چیز را در بر می‌گیرد. برای ما، این استعاره‌ای بود از چیزی که می‌خواستیم بسازیم: محصولاتی که آن‌قدر شفاف و طبیعی باشند که کاربر متوجه وجودشان نشود." data-en="We took the name Æther from Greek mythology — the transparent, invisible layer that surrounds everything. For us, it was a metaphor for what we wanted to build: products so transparent and natural that users don't notice their existence.">
+            نام Æther را از اساطیر یونان گرفتیم — لایه‌ی شفاف و نامرئی که همه چیز را در بر می‌گیرد. برای ما، این استعاره‌ای بود از چیزی که می‌خواستیم بسازیم: محصولاتی که آن‌قدر شفاف و طبیعی باشند که کاربر متوجه وجودشان نشود.
+          </p>
+
+          <p data-fa="امروز، پس از هفت سال، بیش از ۱.۲ میلیون کاربر در ۴۵ کشور جهان به Æther اعتماد می‌کنند. تیم ۲۴۷ نفره ما در چهار قاره پراکنده است. و ما هنوز هم در روز اول هستیم — کنجکاو، دقیق، و مشتاق." data-en="Today, after seven years, more than 1.2 million users in 45 countries trust Æther. Our 247-person team is spread across four continents. And we're still on day one — curious, precise, and eager.">
+            امروز، پس از هفت سال، بیش از ۱.۲ میلیون کاربر در ۴۵ کشور جهان به Æther اعتماد می‌کنند. تیم ۲۴۷ نفره ما در چهار قاره پراکنده است. و ما هنوز هم در روز اول هستیم — کنجکاو، دقیق، و مشتاق.
+          </p>
+
+          <div class="story-quote">
+            <p data-fa="ما به شفافیت باور داریم — در طراحی، در فناوری، و در روابط انسانی." data-en="We believe in transparency — in design, in technology, and in human relationships.">
+              ما به شفافیت باور داریم — در طراحی، در فناوری، و در روابط انسانی.
+            </p>
+            <span class="story-quote-author" data-fa="— علی رضایی · بنیان‌گذار" data-en="— Ali Rezaei · Founder">— علی رضایی · بنیان‌گذار</span>
+          </div>
+        </div>
+
+        <aside class="story-side reveal">
+          <div class="side-card glass-card">
+            <div class="side-card-icon">4</div>
+            <div class="side-card-label" data-fa="روز اول" data-en="Day One">روز اول</div>
+            <div class="side-card-value">4</div>
+            <div class="side-card-text" data-fa="بنیان‌گذار با یک رویا" data-en="founders with one dream">بنیان‌گذار با یک رویا</div>
+          </div>
+          <div class="side-card glass-card">
+            <div class="side-card-icon">247</div>
+            <div class="side-card-label" data-fa="امروز" data-en="Today">امروز</div>
+            <div class="side-card-value">247</div>
+            <div class="side-card-text" data-fa="عضو تیم در سراسر جهان" data-en="team members worldwide">عضو تیم در سراسر جهان</div>
+          </div>
+          <div class="side-card glass-card">
+            <div class="side-card-icon">99</div>
+            <div class="side-card-label" data-fa="رضایت" data-en="Satisfaction">رضایت</div>
+            <div class="side-card-value">99%</div>
+            <div class="side-card-text" data-fa="از کاربران ما را توصیه می‌کنند" data-en="of users recommend us">از کاربران ما را توصیه می‌کنند</div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="stats-grid reveal">
+        <div class="stat glass-card">
+          <div class="stat-value" data-counter="1250000">0</div>
+          <div class="stat-label" data-fa="کاربر فعال" data-en="Active Users">کاربر فعال</div>
+        </div>
+        <div class="stat glass-card">
+          <div class="stat-value" data-counter="45">0</div>
+          <div class="stat-label" data-fa="کشور" data-en="Countries">کشور</div>
+        </div>
+        <div class="stat glass-card">
+          <div class="stat-value" data-counter="247">0</div>
+          <div class="stat-label" data-fa="عضو تیم" data-en="Team Members">عضو تیم</div>
+        </div>
+        <div class="stat glass-card">
+          <div class="stat-value"><span data-counter="99">0</span><span class="unit">%</span></div>
+          <div class="stat-label" data-fa="رضایت مشتری" data-en="Satisfaction">رضایت مشتری</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VALUES ============ -->
+  <section class="section" id="values">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div class="section-label">
+          <span class="section-label-num">02</span>
+          <span data-fa="ارزش‌های ما" data-en="Our Values">ارزش‌های ما</span>
+        </div>
+        <h2 class="section-title" data-fa="اصولی که <span class='accent'>تغییر نمی‌کنند</span>" data-en="Principles that <span class='accent'>never change</span>">اصولی که <span class="accent">تغییر نمی‌کنند</span></h2>
+        <p class="section-desc" data-fa="شش اصل بنیادین که در تمام جنبه‌های Æther جاری هستند." data-en="Six fundamental principles running through every aspect of Æther.">
+          شش اصل بنیادین که در تمام جنبه‌های Æther جاری هستند.
+        </p>
+      </div>
+
+      <div class="values-grid reveal">
+        <div class="value-card glass-card">
+          <span class="value-num">01</span>
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4z"/><polyline points="9 12 12 15 16 10"/></svg>
+          </div>
+          <h3 class="value-title" data-fa="امنیت مطلق" data-en="Absolute Security">امنیت مطلق</h3>
+          <p class="value-desc" data-fa="امنیت کاربران، خط سرخ ماست. از رمزنگاری AES-256 گرفته تا زیرساخت Zero-Trust." data-en="User security is our red line. From AES-256 encryption to Zero-Trust infrastructure.">امنیت کاربران، خط سرخ ماست. از رمزنگاری AES-256 گرفته تا زیرساخت Zero-Trust.</p>
+        </div>
+
+        <div class="value-card glass-card">
+          <span class="value-num">02</span>
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>
+          </div>
+          <h3 class="value-title" data-fa="نوآوری مداوم" data-en="Continuous Innovation">نوآوری مداوم</h3>
+          <p class="value-desc" data-fa="هر سه ماه یک قابلیت جدید. هر سال یک بازآفرینی کامل." data-en="A new feature every three months. A complete reinvention every year.">هر سه ماه یک قابلیت جدید. هر سال یک بازآفرینی کامل.</p>
+        </div>
+
+        <div class="value-card glass-card">
+          <span class="value-num">03</span>
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16.5 5.5 20.5l2-7L2 9h7z"/></svg>
+          </div>
+          <h3 class="value-title" data-fa="کیفیت بی‌نقص" data-en="Flawless Quality">کیفیت بی‌نقص</h3>
+          <p class="value-desc" data-fa="هر خط کد، هر پیکسل، هر میلی‌ثانیه به دقت اندازه‌گیری می‌شود." data-en="Every line of code, every pixel, every millisecond is carefully measured.">هر خط کد، هر پیکسل، هر میلی‌ثانیه به دقت اندازه‌گیری می‌شود.</p>
+        </div>
+
+        <div class="value-card glass-card">
+          <span class="value-num">04</span>
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3 class="value-title" data-fa="شفافیت کامل" data-en="Radical Transparency">شفافیت کامل</h3>
+          <p class="value-desc" data-fa="تمام داده‌ها متعلق به کاربران است و ما فقط امانت‌داریم." data-en="All data belongs to users and we are only its guardians.">تمام داده‌ها متعلق به کاربران است و ما فقط امانت‌داریم.</p>
+        </div>
+
+        <div class="value-card glass-card">
+          <span class="value-num">05</span>
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+          </div>
+          <h3 class="value-title" data-fa="تیم محور" data-en="Team First">تیم محور</h3>
+          <p class="value-desc" data-fa="به رشد و رفاه اعضای تیم خود متعهد هستیم." data-en="We are committed to the growth and wellbeing of our team members.">به رشد و رفاه اعضای تیم خود متعهد هستیم.</p>
+        </div>
+
+        <div class="value-card glass-card">
+          <span class="value-num">06</span>
+          <div class="value-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="value-title" data-fa="تفکر بلندمدت" data-en="Long-Term Thinking">تفکر بلندمدت</h3>
+          <p class="value-desc" data-fa="ما برای ده سال آینده برنامه‌ریزی می‌کنیم، نه سه ماه." data-en="We plan for the next ten years, not three months.">ما برای ده سال آینده برنامه‌ریزی می‌کنیم، نه سه ماه.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section" id="timeline">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div class="section-label">
+          <span class="section-label-num">03</span>
+          <span data-fa="تاریخچه" data-en="Timeline">تاریخچه</span>
+        </div>
+        <h2 class="section-title" data-fa="سفر <span class='accent'>هفت‌ساله</span> ما" data-en="Our <span class='accent'>seven-year</span> journey">سفر <span class="accent">هفت‌ساله</span> ما</h2>
+        <p class="section-desc" data-fa="نقاط عطف کلیدی که ما را از یک ایده به یک شرکت جهانی تبدیل کردند." data-en="Key milestones that transformed us from an idea into a global company.">
+          نقاط عطف کلیدی که ما را از یک ایده به یک شرکت جهانی تبدیل کردند.
+        </p>
+      </div>
+
+      <div class="timeline-wrap reveal">
+        <div class="tl-item">
+          <div class="tl-content">
+            <span class="tl-year">2018</span>
+            <h3 class="tl-title" data-fa="تأسیس Æther" data-en="Æther Founded">تأسیس Æther</h3>
+            <p class="tl-desc" data-fa="چهار بنیان‌گذار، یک آپارتمان کوچک در تهران، و یک رویای مشترک." data-en="Four founders, a small Tehran apartment, and a shared dream.">چهار بنیان‌گذار، یک آپارتمان کوچک در تهران، و یک رویای مشترک.</p>
+          </div>
+          <div class="tl-marker"><div class="tl-dot">18</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-content">
+            <span class="tl-year">2019</span>
+            <h3 class="tl-title" data-fa="اولین ۱۰۰۰ کاربر" data-en="First 1,000 Users">اولین ۱۰۰۰ کاربر</h3>
+            <p class="tl-desc" data-fa="محصول امنیتی ما به ۱۰۰۰ کاربر اولیه رسید و بازخوردها شروع به سرازیر شدن کردند." data-en="Our security product reached its first 1,000 users and feedback started pouring in.">محصول امنیتی ما به ۱۰۰۰ کاربر اولیه رسید و بازخوردها شروع به سرازیر شدن کردند.</p>
+          </div>
+          <div class="tl-marker"><div class="tl-dot">19</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-content">
+            <span class="tl-year">2020</span>
+            <h3 class="tl-title" data-fa="جهانی شدن" data-en="Going Global">جهانی شدن</h3>
+            <p class="tl-desc" data-fa="اولین دفتر بین‌المللی در دبی افتتاح شد و Æther به ۱۰ کشور راه یافت." data-en="First international office opened in Dubai and Æther expanded to 10 countries.">اولین دفتر بین‌المللی در دبی افتتاح شد و Æther به ۱۰ کشور راه یافت.</p>
+          </div>
+          <div class="tl-marker"><div class="tl-dot">20</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-content">
+            <span class="tl-year">2021</span>
+            <h3 class="tl-title" data-fa="هوش مصنوعی Æther" data-en="Æther AI">هوش مصنوعی Æther</h3>
+            <p class="tl-desc" data-fa="موتور هوش مصنوعی اختصاصی ما رونمایی شد و تحولی در محصولات ایجاد کرد." data-en="Our proprietary AI engine was unveiled, revolutionizing our products.">موتور هوش مصنوعی اختصاصی ما رونمایی شد و تحولی در محصولات ایجاد کرد.</p>
+          </div>
+          <div class="tl-marker"><div class="tl-dot">21</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-content">
+            <span class="tl-year">2023</span>
+            <h3 class="tl-title" data-fa="مرز یک میلیون" data-en="One Million Milestone">مرز یک میلیون</h3>
+            <p class="tl-desc" data-fa="بیش از یک میلیون کاربر فعال در ۴۵ کشور جهان به Æther اعتماد کردند." data-en="Over one million active users in 45 countries trusted Æther.">بیش از یک میلیون کاربر فعال در ۴۵ کشور جهان به Æther اعتماد کردند.</p>
+          </div>
+          <div class="tl-marker"><div class="tl-dot">23</div></div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-content">
+            <span class="tl-year">2025</span>
+            <h3 class="tl-title" data-fa="آینده امروز" data-en="The Future Today">آینده امروز</h3>
+            <p class="tl-desc" data-fa="با ۲۴۷ متخصص در چهار قاره، در حال ساختن نسل بعدی محصولات شفاف هستیم." data-en="With 247 experts across four continents, we are building the next generation of transparent products.">با ۲۴۷ متخصص در چهار قاره، در حال ساختن نسل بعدی محصولات شفاف هستیم.</p>
+          </div>
+          <div class="tl-marker"><div class="tl-dot">25</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section class="section" id="team">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div class="section-label">
+          <span class="section-label-num">04</span>
+          <span data-fa="تیم رهبری" data-en="Leadership Team">تیم رهبری</span>
+        </div>
+        <h2 class="section-title" data-fa="ذهن‌های <span class='accent'>پشت</span> Æther" data-en="The <span class='accent'>minds</span> behind Æther">ذهن‌های <span class="accent">پشت</span> Æther</h2>
+        <p class="section-desc" data-fa="تیم رهبری ما متشکل از متخصصانی است که از شرکت‌های برتر فناوری جهان آمده‌اند." data-en="Our leadership team consists of experts who have come from the world's top technology companies.">
+          تیم رهبری ما متشکل از متخصصانی است که از شرکت‌های برتر فناوری جهان آمده‌اند.
+        </p>
+      </div>
+
+      <div class="team-grid reveal">
+        <div class="member glass-card">
+          <div class="member-avatar">A</div>
+          <div class="member-name" data-fa="علی رضایی" data-en="Ali Rezaei">علی رضایی</div>
+          <div class="member-role" data-fa="بنیان‌گذار · مدیرعامل" data-en="Founder · CEO">بنیان‌گذار · مدیرعامل</div>
+        </div>
+
+        <div class="member glass-card">
+          <div class="member-avatar">S</div>
+          <div class="member-name" data-fa="سارا محمدی" data-en="Sara Mohammadi">سارا محمدی</div>
+          <div class="member-role" data-fa="مدیر ارشد فناوری" data-en="Chief Technology Officer">مدیر ارشد فناوری</div>
+        </div>
+
+        <div class="member glass-card">
+          <div class="member-avatar">R</div>
+          <div class="member-name" data-fa="رضا کریمی" data-en="Reza Karimi">رضا کریمی</div>
+          <div class="member-role" data-fa="مدیر طراحی" data-en="Head of Design">مدیر طراحی</div>
+        </div>
+
+        <div class="member glass-card">
+          <div class="member-avatar">M</div>
+          <div class="member-name" data-fa="مریم حسینی" data-en="Maryam Hosseini">مریم حسینی</div>
+          <div class="member-role" data-fa="مدیر محصول" data-en="Head of Product">مدیر محصول</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AWARDS ============ -->
+  <section class="section" id="awards">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div class="section-label">
+          <span class="section-label-num">05</span>
+          <span data-fa="جوایز" data-en="Awards">جوایز</span>
+        </div>
+        <h2 class="section-title" data-fa="افتخارات <span class='accent'>جهانی</span> ما" data-en="Our <span class='accent'>global</span> honors">افتخارات <span class="accent">جهانی</span> ما</h2>
+        <p class="section-desc" data-fa="جوایز و افتخاراتی که در طول مسیر دریافت کرده‌ایم." data-en="Awards and honors we have received along the way.">
+          جوایز و افتخاراتی که در طول مسیر دریافت کرده‌ایم.
+        </p>
+      </div>
+
+      <div class="awards-list reveal">
+        <div class="award glass-card">
+          <div class="award-year">2023</div>
+          <div>
+            <div class="award-title" data-fa="بهترین استودیوی فناوری خاورمیانه" data-en="Best Tech Studio in the Middle East">بهترین استودیوی فناوری خاورمیانه</div>
+            <div class="award-issuer" data-fa="Middle East Tech Awards" data-en="Middle East Tech Awards">Middle East Tech Awards</div>
+          </div>
+          <div class="award-badge">🏆</div>
+        </div>
+
+        <div class="award glass-card">
+          <div class="award-year">2022</div>
+          <div>
+            <div class="award-title" data-fa="نوآوری برتر در هوش مصنوعی" data-en="Top Innovation in AI">نوآوری برتر در هوش مصنوعی</div>
+            <div class="award-issuer" data-fa="Global AI Summit" data-en="Global AI Summit">Global AI Summit</div>
+          </div>
+          <div class="award-badge">🥇</div>
+        </div>
+
+        <div class="award glass-card">
+          <div class="award-year">2021</div>
+          <div>
+            <div class="award-title" data-fa="طراحی تجربه کاربری برتر" data-en="Best UX Design">طراحی تجربه کاربری برتر</div>
+            <div class="award-issuer" data-fa="UX Design Awards" data-en="UX Design Awards">UX Design Awards</div>
+          </div>
+          <div class="award-badge">🎨</div>
+        </div>
+
+        <div class="award glass-card">
+          <div class="award-year">2020</div>
+          <div>
+            <div class="award-title" data-fa="استارتاپ برتر امنیتی" data-en="Top Security Startup">استارتاپ برتر امنیتی</div>
+            <div class="award-issuer" data-fa="CyberSec Global" data-en="CyberSec Global">CyberSec Global</div>
+          </div>
+          <div class="award-badge">🛡️</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFICES ============ -->
+  <section class="section" id="offices">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <div class="section-label">
+          <span class="section-label-num">06</span>
+          <span data-fa="دفاتر" data-en="Offices">دفاتر</span>
+        </div>
+        <h2 class="section-title" data-fa="حضور <span class='accent'>جهانی</span> ما" data-en="Our <span class='accent'>global</span> presence">حضور <span class="accent">جهانی</span> ما</h2>
+        <p class="section-desc" data-fa="چهار دفتر در چهار قاره، یک هدف مشترک." data-en="Four offices on four continents, one shared goal.">
+          چهار دفتر در چهار قاره، یک هدف مشترک.
+        </p>
+      </div>
+
+      <div class="offices-grid reveal">
+        <div class="office glass-card">
+          <span class="office-flag">🇮🇷</span>
+          <span class="office-num">01</span>
+          <div class="office-city" data-fa="تهران" data-en="Tehran">تهران</div>
+          <div class="office-country" data-fa="ایران · مرکز اصلی" data-en="Iran · Headquarters">ایران · مرکز اصلی</div>
+          <div class="office-address" data-fa="خیابان ولیعصر، برج فناوری، طبقه ۱۸" data-en="Valiasr St, Tech Tower, 18th Floor">خیابان ولیعصر، برج فناوری، طبقه ۱۸</div>
+        </div>
+
+        <div class="office glass-card">
+          <span class="office-flag">🇦🇪</span>
+          <span class="office-num">02</span>
+          <div class="office-city" data-fa="دبی" data-en="Dubai">دبی</div>
+          <div class="office-country" data-fa="امارات · خاورمیانه" data-en="UAE · Middle East">امارات · خاورمیانه</div>
+          <div class="office-address" data-fa="مرکز مالی DIFC، برج Gate، طبقه ۲۴" data-en="DIFC, Gate Tower, 24th Floor">مرکز مالی DIFC، برج Gate، طبقه ۲۴</div>
+        </div>
+
+        <div class="office glass-card">
+          <span class="office-flag">🇩🇪</span>
+          <span class="office-num">03</span>
+          <div class="office-city" data-fa="برلین" data-en="Berlin">برلین</div>
+          <div class="office-country" data-fa="آلمان · اروپا" data-en="Germany · Europe">آلمان · اروپا</div>
+          <div class="office-address" data-fa="منطقه فناوری Mitte، Torstraße ۱۲" data-en="Mitte Tech District, Torstraße 12">منطقه فناوری Mitte، Torstraße ۱۲</div>
+        </div>
+
+        <div class="office glass-card">
+          <span class="office-flag">🇺🇸</span>
+          <span class="office-num">04</span>
+          <div class="office-city" data-fa="سانفرانسیسکو" data-en="San Francisco">سانفرانسیسکو</div>
+          <div class="office-country" data-fa="آمریکا · آمریکای شمالی" data-en="USA · North America">آمریکا · آمریکای شمالی</div>
+          <div class="office-address" data-fa="Market St، برج Salesforce، طبقه ۳۰" data-en="Market St, Salesforce Tower, 30th Floor">Market St، برج Salesforce، طبقه ۳۰</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta-wrap" id="contact">
+    <div class="cta-inner reveal">
+      <div class="cta-label" data-fa="شروع همکاری" data-en="Start Partnership">شروع همکاری</div>
+      <h2 class="cta-title" data-fa="آماده‌اید <span class='accent'>آینده</span> را با ما بسازید؟" data-en="Ready to build the <span class='accent'>future</span> with us?">آماده‌اید <span class="accent">آینده</span> را با ما بسازید؟</h2>
+      <p class="cta-desc" data-fa="چه یک استارتاپ نوپا باشید و چه یک شرکت بزرگ، ما می‌توانیم با هم چیزی خارق‌العاده بسازیم." data-en="Whether you're a startup or a large enterprise, together we can build something extraordinary.">
+        چه یک استارتاپ نوپا باشید و چه یک شرکت بزرگ، ما می‌توانیم با هم چیزی خارق‌العاده بسازیم.
+      </p>
+      <div class="cta-buttons">
+        <button class="cta-btn primary" onclick="contactUs()">
+          <span data-fa="تماس با ما" data-en="Contact Us">تماس با ما</span>
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="cta-btn secondary" onclick="scrollToId('story')">
+          <span data-fa="بازگشت به بالا" data-en="Back to Top">بازگشت به بالا</span>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 17 12 12 9 9"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-brand">
+            <div class="footer-logo">Æ</div>
+            <span class="footer-brand-name">Æther</span>
+          </div>
+          <p class="footer-desc" data-fa="استودیوی طراحی و مهندسی با تمرکز بر شفافیت، زیبایی و کارکرد. از سال ۱۳۹۷ در کنار شما." data-en="Design & engineering studio focused on transparency, beauty and function. By your side since 2018.">
+            استودیوی طراحی و مهندسی با تمرکز بر شفافیت، زیبایی و کارکرد. از سال ۱۳۹۷ در کنار شما.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="محصولات" data-en="Products">محصولات</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="هوش مصنوعی" data-en="AI Engine">هوش مصنوعی</button>
+            <button class="footer-link" data-fa="امنیت" data-en="Security">امنیت</button>
+            <button class="footer-link" data-fa="طراحی" data-en="Design System">طراحی</button>
+            <button class="footer-link" data-fa="پژوهش" data-en="Research">پژوهش</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="شرکت" data-en="Company">شرکت</div>
+          <div class="footer-links">
+            <button class="footer-link" onclick="scrollToId('story')" data-fa="درباره ما" data-en="About">درباره ما</button>
+            <button class="footer-link" onclick="scrollToId('team')" data-fa="تیم" data-en="Team">تیم</button>
+            <button class="footer-link" onclick="scrollToId('awards')" data-fa="جوایز" data-en="Awards">جوایز</button>
+            <button class="footer-link" onclick="scrollToId('offices')" data-fa="دفاتر" data-en="Offices">دفاتر</button>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title" data-fa="ارتباط" data-en="Connect">ارتباط</div>
+          <div class="footer-links">
+            <button class="footer-link" data-fa="تماس" data-en="Contact">تماس</button>
+            <button class="footer-link" data-fa="همکاری" data-en="Partnership">همکاری</button>
+            <button class="footer-link" data-fa="رسانه" data-en="Press">رسانه</button>
+            <button class="footer-link" data-fa="فرصت‌های شغلی" data-en="Careers">فرصت‌های شغلی</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© ۲۰۲۵ Æther Studio · <span data-fa="تمام حقوق محفوظ است." data-en="All rights reserved.">تمام حقوق محفوظ است.</span></div>
+        <div class="footer-bottom-links">
+          <button class="footer-bottom-link" data-fa="حریم خصوصی" data-en="Privacy">حریم خصوصی</button>
+          <button class="footer-bottom-link" data-fa="شرایط" data-en="Terms">شرایط</button>
+          <button class="footer-bottom-link" data-fa="کوکی‌ها" data-en="Cookies">کوکی‌ها</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">
+  <div class="toast-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <span id="toastMsg" data-fa="انجام شد!" data-en="Done!">انجام شد!</span>
+</div>
+
+<script>
+/* ============================================================
+   PAGE / NAV
+   ============================================================ */
+const page = document.getElementById('page');
+const nav = document.getElementById('nav');
+
+page.addEventListener('scroll', () => {
+  if(page.scrollTop > 40){
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+function scrollToTop(){
+  page.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if(el){
+    const offset = 100;
+    const top = el.getBoundingClientRect().top + page.scrollTop - offset;
+    page.scrollTo({ top, behavior: 'smooth' });
+  }
+  document.getElementById('mobileMenu').classList.remove('on');
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('on');
+}
+
+/* ============================================================
+   LANGUAGE
+   ============================================================ */
+let lang = 'fa';
+
+function toggleLang(){
+  lang = lang === 'fa' ? 'en' : 'fa';
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  document.getElementById('langBtn').textContent = lang === 'fa' ? 'EN' : 'FA';
+
+  document.querySelectorAll('[data-fa]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if(val !== null && val !== undefined){
+      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA'){
+        el.placeholder = val;
+      } else {
+        el.innerHTML = val;
+      }
+    }
+  });
+
+  showToast(lang === 'fa' ? 'زبان تغییر کرد' : 'Language changed');
+}
+
+/* ============================================================
+   COUNTER
+   ============================================================ */
+function animateCounters(){
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    if(el.dataset.done) return;
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      el.dataset.done = '1';
+      const target = parseInt(el.getAttribute('data-counter'));
+      const duration = 2200;
+      const start = performance.now();
+      const isLarge = target > 10000;
+
+      function update(now){
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        let val = Math.floor(eased * target);
+        if(isLarge){
+          el.textContent = val >= 1000000
+            ? (val / 1000000).toFixed(1).replace('.0','') + 'M'
+            : val.toLocaleString('en-US');
+        } else {
+          el.textContent = val.toLocaleString('en-US');
+        }
+        if(t < 1){
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = isLarge
+            ? (target / 1000000).toFixed(1).replace('.0','') + 'M'
+            : target.toLocaleString('en-US');
+        }
+      }
+      requestAnimationFrame(update);
+    }
+  });
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================================================
+   NAV ACTIVE STATE
+   ============================================================ */
+const sections = ['story','values','timeline','team','awards'];
+const navLinks = document.querySelectorAll('.nav-link');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        const onclick = link.getAttribute('onclick') || '';
+        if(onclick.includes(id)){
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-80px 0px -60px 0px' });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) sectionObserver.observe(el);
+});
+
+/* ============================================================
+   SCROLL HANDLER
+   ============================================================ */
+page.addEventListener('scroll', () => {
+  animateCounters();
+}, { passive: true });
+
+window.addEventListener('scroll', animateCounters, { passive: true });
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer;
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toastMsg');
+  toastMsg.textContent = msg;
+  toast.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('on');
+  }, 2600);
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+function contactUs(){
+  showToast(lang === 'fa' ? 'به‌زودی با شما تماس می‌گیریم!' : 'We will contact you soon!');
+  const btn = event && event.target ? event.target.closest('.btn, .nav-cta, .cta-btn') : null;
+  if(btn){
+    btn.style.transition = 'transform .15s ease';
+    btn.style.transform = 'scale(.96)';
+    setTimeout(() => { btn.style.transform = ''; }, 150);
+  }
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('load', () => {
+  animateCounters();
+  if(lang === 'fa'){
+    document.querySelectorAll('[data-fa]').forEach(el => {
+      const val = el.getAttribute('data-fa');
+      if(val && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA'){
+        el.innerHTML = val;
+      }
+    });
+  }
+});
+
+if(!window.IntersectionObserver){
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+  document.querySelectorAll('[data-counter]').forEach(el => {
+    el.textContent = el.getAttribute('data-counter');
+  });
+}
+</script>
+</body>
+</html>
